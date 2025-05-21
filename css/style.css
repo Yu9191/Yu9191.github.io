@@ -10,6 +10,31 @@
     --glass-border: rgba(255, 255, 255, 0.2);
 }
 
+
+:root[data-theme='dark'] {
+    --primary-color: #818cf8;
+    --secondary-color: #a78bfa;
+    --accent-color: #f472b6;
+    --text-color: #f3f4f6;
+    --bg-color: #111827;
+    --card-bg: rgba(30, 41, 59, 0.8);
+    --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    --glass-bg: rgba(30, 41, 59, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+:root[data-theme='dark'] .content h1 {
+    color: #c4c9d4;
+}
+
+:root[data-theme='dark'] .link-desc {
+    color: #c4c9d4;
+}
+
+html {
+    transition: all 0.3s ease;
+}
+
 body {
     min-height: 100vh;
     display: flex;
@@ -19,6 +44,7 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     overflow: hidden;
     position: relative;
+    perspective: 1000px;
 }
 
 body::before {
@@ -28,6 +54,26 @@ body::before {
     height: 200%;
     background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
     animation: rotate 30s linear infinite;
+}
+
+body::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px);
+    background-size: 30px 30px;
+    z-index: -1;
+}
+
+:root[data-theme='dark'] body::after {
+    background-image: 
+        linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
 }
 
 @keyframes rotate {
@@ -46,6 +92,19 @@ body::before {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    opacity: 0;
+    animation: fadeIn 1.2s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .card {
@@ -55,12 +114,14 @@ body::before {
     border-radius: 24px;
     box-shadow: var(--shadow);
     padding: 35px;
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.2s ease-out;
     backdrop-filter: blur(20px);
     border: 1px solid var(--glass-border);
     margin: 0 auto;
     max-height: 80vh;
     overflow-y: auto;
+    transform-style: preserve-3d;
+    will-change: transform;
 }
 
 .card.active {
@@ -83,6 +144,7 @@ body::before {
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
     transition: all 0.3s ease;
     border: 3px solid var(--glass-border);
+    cursor: pointer;
 }
 
 .img-box:hover {
@@ -354,7 +416,127 @@ body::before {
     }
 }
 
+/* 主题切换按钮样式 */
+.theme-toggle {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 35px;
+    height: 35px;
+    background: var(--glass-bg);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--glass-border);
+    z-index: 10;
+}
+
+.theme-toggle i {
+    color: var(--primary-color);
+    font-size: 1.1em;
+    transition: 0.3s;
+}
+
+:root[data-theme='dark'] .theme-toggle i {
+    color: #f59e0b;
+    transform: rotate(45deg);
+}
+
+.theme-toggle:hover {
+    transform: scale(1.1);
+}
+
+/* 添加气泡效果样式 */
+.bubbles-container {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.bubble {
+    position: absolute;
+    bottom: -100px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.5);
+    animation: rise linear infinite;
+    opacity: 0;
+}
+
+:root[data-theme='dark'] .bubble {
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+@keyframes rise {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.8;
+    }
+    95% {
+        opacity: 0.2;
+    }
+    100% {
+        transform: translateY(-100vh) scale(0.5);
+        opacity: 0;
+    }
+}
+
+/* 增加卡片悬浮效果 */
+@keyframes cardFloat {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.laser-pointer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 2px;
+    background: linear-gradient(90deg, rgba(255, 0, 0, 0.8) 0%, rgba(255, 100, 100, 0.4) 100%);
+    transform-origin: left center;
+    opacity: 0;
+    transition: opacity 0.1s;
+    box-shadow: 0 0 10px 1px rgba(255, 0, 0, 0.7);
+    z-index: 1000;
+    pointer-events: none;
+    border-radius: 50px;
+}
+
+:root[data-theme='dark'] .laser-pointer {
+    background: linear-gradient(90deg, rgba(0, 255, 255, 0.8) 0%, rgba(100, 255, 255, 0.4) 100%);
+    box-shadow: 0 0 10px 1px rgba(0, 255, 255, 0.7);
+}
+
+.img-box.active {
+    transform: scale(1.15);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+}
+
 @media (max-width: 480px) {
+    .theme-toggle {
+        top: 10px;
+        right: 10px;
+        width: 30px;
+        height: 30px;
+    }
+    
     .container {
         padding: 10px;
         height: 100vh;
@@ -512,5 +694,11 @@ body::before {
 
     .contact {
         max-height: 200px;
+    }
+}
+
+@media (max-width: 768px) {
+    .card {
+        animation: cardFloat 6s ease-in-out infinite;
     }
 } 
