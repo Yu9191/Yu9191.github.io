@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Yu9191</title>
+        <link rel="stylesheet" href="./css/reset.css" />
+        <link rel="stylesheet" href="./css/style.css" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+            integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        />
+    </head>
+    <body>
+        <div class="container">
+            <div class="card">
+                <div class="user">
+                    <div class="img-box">
+                        <img src="https://m.360buyimg.com/i/jfs/t1/311854/8/2935/14637/682dda6eF77c789c1/9a4c5ed64ab9b33b.png" />
+                        <div class="status-dot"></div>
+                    </div>
+                    <div class="content">
+                        <h2>热爱技术，热爱生活</h2>
+                        <h1>Love Technology, Love Life</h1>
+                        <div class="tags">
+                            <span class="tag">JavaScript</span>
+                            <span class="tag">Node.js</span>
+                            <span class="tag">Pyhone</span>
+                        </div>
+                    </div>
+                    <div class="toggle">
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+                <ul class="contact">
+                    <li style="--cir: #171515; --i: 0">
+                        <a href="https://t.me/ios151" target="_blank">
+                            <div class="icon-box"><i class="fa-brands fa-telegram"></i></div>
+                            <div class="link-content">
+                                <p>个人Telegram</p>
+                                <span class="link-desc">与我私聊</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li style="--cir: #0a66c2; --i: 1">
+                        <a href="https://t.me/GithubYu9191" target="_blank">
+                            <div class="icon-box"><i class="fa-solid fa-users"></i></div>
+                            <div class="link-content">
+                                <p>交流群组</p>
+                                <span class="link-desc">技术交流与分享</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li style="--cir: #c71610; --i: 2">
+                        <a href="https://t.me/Jsforbaby" target="_blank">
+                            <div class="icon-box"><i class="fa-solid fa-bullhorn"></i></div>
+                            <div class="link-content">
+                                <p>Telegram频道</p>
+                                <span class="link-desc">最新动态与更新</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li style="--cir: #ffb300; --i: 3">
+                        <a href="https://t.me/lovebabyforeverbot" target="_blank">
+                            <div class="icon-box"><i class="fa-solid fa-comment-dots"></i></div>
+                            <div class="link-content">
+                                <p>双向 TGbot</p>
+                                <span class="link-desc">自动服务与互动</span>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="floating-elements">
+                <div class="floating-element" style="--delay: 0s">⚡</div>
+                <div class="floating-element" style="--delay: 1s">💻</div>
+                <div class="floating-element" style="--delay: 2s">🚀</div>
+                <div class="floating-element" style="--delay: 3s">🎯</div>
+            </div>
+        </div>
+        <script>
+            let toggle = document.querySelector('.toggle')
+            let card = document.querySelector('.card')
+            toggle.onclick = () => {
+                card.classList.toggle('active')
+            }
+            
+            document.addEventListener('mousemove', (e) => {
+                const elements = document.querySelectorAll('.floating-element')
+                elements.forEach(element => {
+                    const speed = element.getAttribute('data-speed') || 5
+                    const x = (window.innerWidth - e.pageX * speed) / 100
+                    const y = (window.innerHeight - e.pageY * speed) / 100
+                    element.style.transform = `translateX(${x}px) translateY(${y}px)`
+                })
+            })
+        </script>
+    </body>
+</html> 
