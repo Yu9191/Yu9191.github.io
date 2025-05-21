@@ -5,7 +5,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Yu9191</title>
         <link rel="stylesheet" href="./css/reset.css" />
+        <link rel="stylesheet" href="./css/theme.css" />
         <link rel="stylesheet" href="./css/style.css" />
+        <link rel="stylesheet" href="./css/effects.css" />
+        <link rel="stylesheet" href="./css/pixel-art.css" />
         <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
@@ -78,6 +81,42 @@
                         </a>
                     </li>
                 </ul>
+                
+                <div class="pixel-art-container">
+                    <div class="pixel-art-header">
+                        <h3>像素风格转换器</h3>
+                    </div>
+                    <div class="pixel-art-upload">
+                        <label for="imageUpload" class="upload-btn">
+                            <i class="fa-solid fa-upload"></i> 上传图片
+                        </label>
+                        <input type="file" id="imageUpload" accept="image/*" />
+                    </div>
+                    <div class="pixel-art-controls">
+                        <div class="slider-container">
+                            <label for="pixelSize">像素大小:</label>
+                            <input type="range" id="pixelSize" min="2" max="20" value="8" />
+                            <span id="pixelSizeValue">8</span>
+                        </div>
+                    </div>
+                    <div class="pixel-art-preview">
+                        <div class="preview-container">
+                            <div class="preview-original">
+                                <h4>原图</h4>
+                                <canvas id="originalCanvas"></canvas>
+                            </div>
+                            <div class="preview-pixel">
+                                <h4>像素风格</h4>
+                                <canvas id="pixelCanvas"></canvas>
+                            </div>
+                        </div>
+                        <div class="pixel-art-actions">
+                            <button id="downloadBtn" disabled>
+                                <i class="fa-solid fa-download"></i> 下载
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="floating-elements">
                 <div class="floating-element" style="--delay: 0s">⚡</div>
@@ -105,7 +144,7 @@
 
             const themeToggle = document.getElementById('themeToggle');
             const root = document.documentElement;
-            
+
             const savedTheme = localStorage.getItem('theme');
             if (savedTheme) {
                 root.setAttribute('data-theme', savedTheme);
@@ -122,6 +161,7 @@
                 root.setAttribute('data-theme', newTheme);
                 localStorage.setItem('theme', newTheme);
                 
+
                 const icon = themeToggle.querySelector('i');
                 if (newTheme === 'dark') {
                     icon.classList.remove('fa-moon');
@@ -162,6 +202,7 @@
             
             createBubbles();
             
+            // 添加3D倾斜效果
             const card3D = document.querySelector('.card');
             
             document.addEventListener('mousemove', function(e) {
@@ -234,6 +275,100 @@
                 isPressed = false;
                 laser.style.opacity = '0';
                 document.removeEventListener('touchmove', updateLaserPosition);
+            });
+
+            const imageUpload = document.getElementById('imageUpload');
+            const pixelSize = document.getElementById('pixelSize');
+            const pixelSizeValue = document.getElementById('pixelSizeValue');
+            const originalCanvas = document.getElementById('originalCanvas');
+            const pixelCanvas = document.getElementById('pixelCanvas');
+            const downloadBtn = document.getElementById('downloadBtn');
+            
+            let originalCtx = originalCanvas.getContext('2d');
+            let pixelCtx = pixelCanvas.getContext('2d');
+            let originalImage = null;
+
+            pixelSize.addEventListener('input', function() {
+                pixelSizeValue.textContent = this.value;
+                if (originalImage) {
+                    pixelateImage(originalImage, parseInt(this.value));
+                }
+            });
+            
+            imageUpload.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (!file) return;
+                
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    originalImage = new Image();
+                    originalImage.onload = function() {
+                        drawOriginalImage();
+                        pixelateImage(originalImage, parseInt(pixelSize.value));
+                        downloadBtn.disabled = false;
+                    };
+                    originalImage.src = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            });
+            
+            function drawOriginalImage() {
+                const maxWidth = 300;
+                const maxHeight = 300;
+                let width = originalImage.width;
+                let height = originalImage.height;
+                if (width > height) {
+                    if (width > maxWidth) {
+                        height = height * (maxWidth / width);
+                        width = maxWidth;
+                    }
+                } else {
+                    if (height > maxHeight) {
+                        width = width * (maxHeight / height);
+                        height = maxHeight;
+                    }
+                }
+                
+                originalCanvas.width = width;
+                originalCanvas.height = height;
+                pixelCanvas.width = width;
+                pixelCanvas.height = height;
+                
+                originalCtx.clearRect(0, 0, width, height);
+                originalCtx.drawImage(originalImage, 0, 0, width, height);
+            }
+
+            function pixelateImage(image, pixelSize) {
+                const width = originalCanvas.width;
+                const height = originalCanvas.height;
+                
+                pixelCtx.clearRect(0, 0, width, height);
+                pixelCtx.drawImage(originalCanvas, 0, 0, width / pixelSize, height / pixelSize);
+                pixelCtx.imageSmoothingEnabled = false;
+                pixelCtx.drawImage(pixelCanvas, 0, 0, width / pixelSize, height / pixelSize, 0, 0, width, height);
+            
+                enhancePixelArt();
+            }
+            
+            function enhancePixelArt() {
+                const width = pixelCanvas.width;
+                const height = pixelCanvas.height;
+                const imageData = pixelCtx.getImageData(0, 0, width, height);
+                const data = imageData.data;
+                for (let i = 0; i < data.length; i += 4) {
+                    data[i] = Math.round(data[i] / 32) * 32;     // R
+                    data[i + 1] = Math.round(data[i + 1] / 32) * 32; // G
+                    data[i + 2] = Math.round(data[i + 2] / 32) * 32; // B
+                }
+                
+                pixelCtx.putImageData(imageData, 0, 0);
+            }
+            
+            downloadBtn.addEventListener('click', function() {
+                const link = document.createElement('a');
+                link.download = 'pixel-art.png';
+                link.href = pixelCanvas.toDataURL('image/png');
+                link.click();
             });
         </script>
     </body>
