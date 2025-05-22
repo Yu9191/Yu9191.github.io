@@ -1,0 +1,181 @@
+@media (max-width: 768px) {
+    .card {
+        animation: cardFloat 6s ease-in-out infinite;
+    }
+    
+    .preview-container {
+        flex-direction: column;
+    }
+    
+    canvas {
+        max-height: 200px;
+    }
+}
+
+@media (max-width: 480px) {
+    .theme-toggle {
+        top: 10px;
+        right: 10px;
+        width: 30px;
+        height: 30px;
+    }
+    
+    .container {
+        padding: 10px;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .card {
+        width: 95%;
+        margin: 0;
+        padding: 20px;
+        border-radius: 20px;
+        max-height: 85vh;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .user {
+        gap: 15px;
+    }
+
+    .img-box {
+        width: 65px;
+        height: 65px;
+    }
+
+    .content {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .content h2 {
+        font-size: 1.1em;
+    }
+
+    .content h1 {
+        font-size: 0.85em;
+    }
+
+    .tags {
+        gap: 8px;
+        margin-top: 10px;
+    }
+
+    .tag {
+        padding: 4px 10px;
+        font-size: 0.8em;
+    }
+
+    .toggle {
+        width: 30px;
+        height: 30px;
+    }
+
+    .toggle span {
+        width: 16px;
+    }
+
+    .contact {
+        gap: 12px;
+    }
+    
+    .card.active .contact {
+        max-height: 1000px;
+    }
+
+    .contact li {
+        padding: 15px;
+        gap: 12px;
+    }
+
+    .icon-box {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2em;
+    }
+
+    .link-content p {
+        font-size: 0.9em;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .link-desc {
+        font-size: 0.8em;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .contact li,
+    .tag,
+    .toggle {
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .card.active {
+        transform: translateY(-5px) scale(1.01);
+    }
+
+    .contact li:hover {
+        transform: translateX(5px) scale(1.01);
+    }
+
+    .floating-elements {
+        display: none;
+    }
+}
+
+@media (max-width: 360px) {
+    .card {
+        padding: 15px;
+        width: 95%;
+    }
+
+    .img-box {
+        width: 55px;
+        height: 55px;
+    }
+
+    .content h2 {
+        font-size: 1em;
+    }
+
+    .content h1 {
+        font-size: 0.8em;
+    }
+
+    .contact li {
+        padding: 12px;
+    }
+}
+
+@media (max-height: 480px) and (orientation: landscape) {
+    .container {
+        padding: 10px;
+    }
+
+    .card {
+        padding: 15px;
+        max-height: 75vh;
+    }
+
+    .user {
+        gap: 10px;
+    }
+
+    .img-box {
+        width: 50px;
+        height: 50px;
+    }
+
+    .contact {
+        max-height: 200px;
+    }
+} 
