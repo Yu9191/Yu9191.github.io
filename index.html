@@ -1543,6 +1543,11 @@
                 }
             });
         </script>
-        <audio src="xt.mgg" autoplay loop></audio>
+        <audio id="bgMusic" src="xt.mp3" loop></audio>
+        <script>
+            document.addEventListener('click', function() {
+                document.getElementById('bgMusic').play();
+            }, { once: true });
+        </script>
     </body>
 </html>
