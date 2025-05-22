@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>工具集 - Yu9191</title>
+        <link rel="stylesheet" href="./css/reset.css" />
+        <link rel="stylesheet" href="./css/theme.css" />
+        <link rel="stylesheet" href="./css/style.css" />
+        <link rel="stylesheet" href="./css/effects.css" />
+        <link rel="stylesheet" href="./css/futuristic.css" />
+        <link rel="stylesheet" href="./css/subscription.css" />
+        <link rel="stylesheet" href="./css/toolbox.css" />
+        <link rel="stylesheet" href="./css/pixel-art.css" />
+        <link rel="stylesheet" href="./css/responsive.css" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+            integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        />
+    </head>
+    <body>
+        <div class="loading">
+            <div class="loading-spinner"></div>
+        </div>
+
+        <div class="global-toggles">
+            <div class="theme-toggle" id="themeToggleGlobal">
+                <i class="fa-solid fa-moon"></i>
+            </div>
+            <div class="ui-toggle" id="uiToggle">
+                <i class="fa-solid fa-atom"></i>
+            </div>
+            <a href="index.html" class="home-btn">
+                <i class="fa-solid fa-house"></i>
+            </a>
+        </div>
+
+        <div id="futuristic-ui-container">
+            <div class="futuristic-body">
+                <div class="futuristic-tools-grid">
+                    <div class="tool-card" data-tool="pixel-art">
+                        <i class="fa-solid fa-palette"></i>
+                        <h3>像素艺术转换器</h3>
+                        <p>将图片转换为像素风格</p>
+                    </div>
+                    <div class="tool-card" data-tool="m3u8">
+                        <i class="fa-solid fa-video"></i>
+                        <h3>M3U8下载器</h3>
+                        <p>下载并转换M3U8视频</p>
+                    </div>
+                    <div class="tool-card" data-tool="subscription">
+                        <i class="fa-solid fa-exchange-alt"></i>
+                        <h3>订阅转换器</h3>
+                        <p>转换各种订阅格式</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 像素艺术转换器 -->
+            <div class="pixel-art-container">
+                <div class="pixel-art-header">
+                    <h3>像素风格转换器</h3>
+                    <div class="pixel-art-close">
+                        <i class="fa-solid fa-xmark"></i>
+                    </div>
+                </div>
+                <div class="pixel-art-upload">
+                    <label for="imageUpload" class="upload-btn">
+                        <i class="fa-solid fa-upload"></i> 上传图片
+                    </label>
+                    <input type="file" id="imageUpload" accept="image/*" />
+                </div>
+                <div class="pixel-art-controls">
+                    <div class="slider-container">
+                        <label for="pixelSize">像素大小:</label>
+                        <input type="range" id="pixelSize" min="2" max="20" value="8" />
+                        <span id="pixelSizeValue">8</span>
+                    </div>
+                </div>
+                <div class="pixel-art-preview">
+                    <div class="preview-container">
+                        <div class="preview-original">
+                            <h4>原图</h4>
+                            <canvas id="originalCanvas"></canvas>
+                        </div>
+                        <div class="preview-pixel">
+                            <h4>像素风格</h4>
+                            <canvas id="pixelCanvas"></canvas>
+                        </div>
+                    </div>
+                    <div class="pixel-art-actions">
+                        <button id="downloadBtn" disabled>
+                            <i class="fa-solid fa-download"></i> 下载
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- m3u8下载器 -->
+            <div class="futuristic-m3u8-downloader">
+                <div class="m3u8-header">
+                    <div class="m3u8-title">M3U8 下载器</div>
+                    <div class="m3u8-close">
+                        <i class="fa-solid fa-xmark"></i>
+                    </div>
+                </div>
+                <input type="text" class="m3u8-input" placeholder="请输入m3u8地址..." />
+                <div class="m3u8-controls">
+                    <button class="m3u8-btn" id="downloadBtn">下载</button>
+                    <button class="m3u8-btn" id="convertBtn">转换为MP4</button>
+                </div>
+                <div class="m3u8-progress">
+                    <div class="m3u8-progress-bar"></div>
+                </div>
+                <div class="m3u8-status">准备就绪</div>
+                <div class="m3u8-segments"></div>
+            </div>
+
+            <!-- 订阅转换器 -->
+            <div class="subscription-converter">
+                <div class="subscription-header">
+                    <div class="subscription-title">订阅转换器</div>
+                    <div class="subscription-close">
+                        <i class="fa-solid fa-xmark"></i>
+                    </div>
+                </div>
+                <textarea class="subscription-input" placeholder="请输入订阅内容..."></textarea>
+                <div class="subscription-controls">
+                    <button class="subscription-btn">转换</button>
+                </div>
+                <textarea class="subscription-output" readonly placeholder="转换结果将显示在这里..."></textarea>
+                <div class="subscription-status"></div>
+            </div>
+        </div>
+
+        <script src="./js/subscription.js"></script>
+        <script src="./js/m3u8-downloader.js"></script>
+        <script>
+            // 添加加载动画控制
+            window.addEventListener('load', function() {
+                const loading = document.querySelector('.loading');
+                setTimeout(() => {
+                    loading.classList.add('hidden');
+                }, 500);
+            });
+
+            // 工具卡片点击事件
+            const toolCards = document.querySelectorAll('.tool-card');
+            toolCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const tool = card.dataset.tool;
+                    switch(tool) {
+                        case 'pixel-art':
+                            document.querySelector('.pixel-art-container').style.display = 'block';
+                            break;
+                        case 'm3u8':
+                            window.m3u8Downloader.show();
+                            break;
+                        case 'subscription':
+                            window.subscriptionConverter.show();
+                            break;
+                    }
+                });
+            });
+
+            // 关闭按钮事件
+            document.querySelectorAll('.pixel-art-close, .m3u8-close, .subscription-close').forEach(closeBtn => {
+                closeBtn.addEventListener('click', () => {
+                    const container = closeBtn.closest('.pixel-art-container, .futuristic-m3u8-downloader, .subscription-converter');
+                    container.style.display = 'none';
+                });
+            });
+
+            // 主题切换
+            const root = document.documentElement;
+            const themeToggleGlobal = document.getElementById('themeToggleGlobal');
+            
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                root.setAttribute('data-theme', savedTheme);
+                updateThemeToggleIcon(themeToggleGlobal, savedTheme);
+            }
+
+            function updateThemeToggleIcon(button, theme) {
+                const icon = button.querySelector('i');
+                if (theme === 'dark') {
+                    icon.classList.remove('fa-moon');
+                    icon.classList.add('fa-sun');
+                } else {
+                    icon.classList.remove('fa-sun');
+                    icon.classList.add('fa-moon');
+                }
+            }
+
+            themeToggleGlobal.addEventListener('click', function() {
+                const currentTheme = root.getAttribute('data-theme') || 'light';
+                const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+                root.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                updateThemeToggleIcon(this, newTheme);
+            });
+
+            // UI切换
+            const uiToggle = document.getElementById('uiToggle');
+            const futuristicUIContainer = document.getElementById('futuristic-ui-container');
+            
+            const savedUI = localStorage.getItem('ui');
+            if (savedUI === 'futuristic') {
+                uiToggle.classList.add('active');
+            }
+            
+            uiToggle.addEventListener('click', function() {
+                const isFuturistic = futuristicUIContainer.style.display !== 'none';
+                if (isFuturistic) {
+                    localStorage.setItem('ui', 'original');
+                    this.classList.remove('active');
+                } else {
+                    localStorage.setItem('ui', 'futuristic');
+                    this.classList.add('active');
+                }
+            });
+        </script>
+    </body>
+</html> 
