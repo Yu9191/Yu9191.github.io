@@ -1395,8 +1395,6 @@
                 <div class="tool-content active" id="about-tool">
                     <div class="about-section">
                         <p>你又在哭泣 我给不了安慰</p>
-                        <p>我又在摇头 有那么点后悔</p>
-                        <p>爱情的发展已难以回头 却无法往前走</p>
                     </div>
                 </div>
                 
@@ -1654,14 +1652,14 @@
                             <p>查询您的订阅信息、流量使用和到期时间</p>
                         </div>
                         
-                        <form id="subscriptionForm">
+                        <form id="subscriptionForm" onsubmit="return false;">
                             <div class="sub-input-wrapper">
                                 <div class="sub-input-icon">
                                     <i class="fa-solid fa-link"></i>
                                 </div>
                                 <input type="text" id="subUrl" placeholder="请输入订阅链接..." required>
                             </div>
-                            <button type="submit" id="subSubmitBtn">
+                            <button type="button" id="subSubmitBtn">
                                 查询订阅信息
                             </button>
                         </form>
@@ -1672,75 +1670,6 @@
                                 <button id="clearSubHistoryBtn" class="sub-clear-history-btn">清除</button>
                             </div>
                             <div class="sub-history-container" id="subHistoryContainer"></div>
-                        </div>
-                        
-                        <!-- Mac风格对话框 - 订阅结果 -->
-                        <div class="mac-dialog-overlay" id="subDialogOverlay" style="display: none;"></div>
-                        <div class="mac-dialog" id="subDialog" style="display: none;">
-                            <div class="mac-dialog-header">
-                                <div class="mac-window-controls">
-                                    <div class="mac-control mac-close" id="subCloseBtn"></div>
-                                    <div class="mac-control mac-minimize"></div>
-                                    <div class="mac-control mac-maximize" id="subMaximizeBtn"></div>
-                                </div>
-                                <span>订阅信息</span>
-                                <div class="mac-drag-handle" id="subDragHandle"></div>
-                            </div>
-                            <div class="mac-resize-handle" id="subResizeHandle"></div>
-                            
-                            <div class="mac-dialog-content">
-                                <div class="mac-preview" style="flex: 0.4;">
-                                    <div class="mac-preview-container">
-                                        <div class="sub-data-cards" id="subDataCards" style="display: none; width: 100%;">
-                                            <div class="sub-data-card">
-                                                <div class="sub-data-value" id="subUploadValue">--</div>
-                                                <div class="sub-data-label">上传流量</div>
-                                            </div>
-                                            <div class="sub-data-card">
-                                                <div class="sub-data-value" id="subDownloadValue">--</div>
-                                                <div class="sub-data-label">下载流量</div>
-                                            </div>
-                                            <div class="sub-data-card">
-                                                <div class="sub-data-value" id="subRemainingValue">--</div>
-                                                <div class="sub-data-label">剩余流量</div>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="sub-progress-container" id="subProgressContainer" style="display: none; margin-top: 30px; width: 100%;">
-                                            <div class="sub-progress-header">
-                                                <div class="sub-progress-title">流量使用情况</div>
-                                                <div class="sub-progress-percent" id="subProgressPercent">0%</div>
-                                            </div>
-                                            <div class="sub-progress-bar">
-                                                <div class="sub-progress-fill" id="subProgressFill" style="width: 0%"></div>
-                                            </div>
-                                        </div>
-                                        
-                                        <div id="subImagePreview" class="sub-image-preview" style="width: 100%; margin-top: 20px;"></div>
-                                    </div>
-                                </div>
-                                
-                                <div class="mac-controls" style="max-width: 60%;">
-                                    <div id="subLoadingIndicator" style="display: flex; justify-content: center; align-items: center; height: 100%;">
-                                        <div class="sub-loading-spinner"></div>
-                                    </div>
-                                    
-                                    <div id="subResultContent" style="display: none; height: 100%;">
-                                        <div class="mac-file-info">
-                                            <div class="sub-result-grid" id="subResultGrid"></div>
-                                        </div>
-                                        
-                                        <div class="mac-dialog-buttons">
-                                            <button id="subCopyBtn" class="mac-btn mac-btn-cancel">
-                                                <i class="fa-solid fa-copy"></i> 复制
-                                            </button>
-                                            <button id="subDownloadImageBtn" class="mac-btn mac-btn-apply">
-                                                <i class="fa-solid fa-download"></i> 生成图片
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                         
                         <!-- Mac风格对话框 - 订阅结果 -->
@@ -2373,7 +2302,7 @@
                         `;
                         historyItem.addEventListener('click', () => {
                             document.getElementById('subUrl').value = item.url;
-                            document.getElementById('subscriptionForm').dispatchEvent(new Event('submit'));
+                            document.getElementById('subSubmitBtn').click();
                         });
                         historyContainer.appendChild(historyItem);
                     });
@@ -2396,6 +2325,14 @@
                     subQueryHistory = [];
                     localStorage.removeItem('subscriptionQueryHistory');
                     updateSubHistoryUI();
+                });
+                
+                // 支持点击回车提交查询
+                document.getElementById('subUrl').addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        document.getElementById('subSubmitBtn').click();
+                    }
                 });
                 
                 updateSubHistoryUI();
@@ -2621,8 +2558,8 @@
                     });
                 }
                 
-                subscriptionForm.addEventListener('submit', async (e) => {
-                    e.preventDefault();
+                // 修改为点击事件而不是表单提交事件
+                document.getElementById('subSubmitBtn').addEventListener('click', async () => {
                     const url = document.getElementById('subUrl').value;
                     
                     if (!url) return;
