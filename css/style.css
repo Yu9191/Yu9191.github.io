@@ -8,10 +8,13 @@ body {
     overflow: hidden;
     position: relative;
     perspective: 1000px;
+<<<<<<< HEAD
 }
 
 body[data-theme='dark'] {
     background: linear-gradient(135deg, #181c2a, #232946);
+=======
+>>>>>>> 63eb12e22c69d285fe92fcee92a0b82cca492d11
 }
 
 body::before {
@@ -100,6 +103,7 @@ body::after {
     to {
         transform: rotate(360deg);
     }
+<<<<<<< HEAD
 }
 
 .card, .img-box, .tag, .toggle, .contact li, .icon-box {
@@ -107,6 +111,8 @@ body::after {
     color: var(--text-color);
     border: 1px solid var(--glass-border);
     transition: background-color var(--transition-duration), color var(--transition-duration), border-color var(--transition-duration);
+=======
+>>>>>>> 63eb12e22c69d285fe92fcee92a0b82cca492d11
 }
 
 .card {
@@ -115,7 +121,11 @@ body::after {
     border-radius: 24px;
     box-shadow: var(--shadow);
     padding: 35px;
+<<<<<<< HEAD
     transition: transform 0.2s ease-out, background-color var(--transition-duration), color var(--transition-duration), border-color var(--transition-duration);
+=======
+    transition: transform 0.2s ease-out;
+>>>>>>> 63eb12e22c69d285fe92fcee92a0b82cca492d11
     backdrop-filter: blur(20px);
     margin: 0 auto;
     max-height: 80vh;
@@ -146,6 +156,11 @@ body::after {
     border-radius: 50%;
     overflow: hidden;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+<<<<<<< HEAD
+=======
+    transition: all 0.3s ease;
+    border: 3px solid var(--glass-border);
+>>>>>>> 63eb12e22c69d285fe92fcee92a0b82cca492d11
     cursor: pointer;
 }
 
@@ -309,6 +324,7 @@ body::after {
     color: #6b7280;
 }
 
+<<<<<<< HEAD
 :root[data-theme='dark'] .card, 
 :root[data-theme='dark'] .img-box, 
 :root[data-theme='dark'] .tag, 
@@ -323,3 +339,8 @@ body::after {
 html {
     scroll-behavior: smooth;
 } 
+=======
+html {
+    transition: all 0.3s ease;
+} 
+>>>>>>> 63eb12e22c69d285fe92fcee92a0b82cca492d11

@@ -1,4 +1,5 @@
 .subscription-converter {
+<<<<<<< HEAD
     /* Basic container styles are now in futuristic.css */
 }
 
@@ -15,6 +16,63 @@
 }
 
 /* Input and Output textarea styles are now in futuristic.css under .m3u8-input (shared style) */
+=======
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--glass-bg);
+    border-radius: 20px;
+    padding: 20px;
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    width: 500px;
+    display: none;
+    z-index: 1001;
+}
+
+.subscription-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.subscription-title {
+    font-size: 1.2em;
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+.subscription-close {
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.subscription-close:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.subscription-input {
+    width: 100%;
+    background: var(--bg-color);
+    border: 1px solid var(--glass-border);
+    border-radius: 10px;
+    padding: 12px;
+    margin-bottom: 15px;
+    color: var(--text-color);
+    font-size: 14px;
+    min-height: 100px;
+    resize: vertical;
+}
+
+.subscription-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+>>>>>>> 63eb12e22c69d285fe92fcee92a0b82cca492d11
 
 .subscription-controls {
     display: flex;
@@ -22,6 +80,7 @@
     margin-bottom: 20px;
 }
 
+<<<<<<< HEAD
 /* Convert button styles are now in futuristic.css under .m3u8-btn (shared style) */
 
 .subscription-status {
@@ -40,3 +99,54 @@
 @media (max-width: 768px) {
     /* Responsive container width is handled in futuristic.css */
 } 
+=======
+.subscription-btn {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    background: var(--primary-color);
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.subscription-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(var(--primary-color-rgb), 0.3);
+}
+
+.subscription-btn:disabled {
+    background: var(--glass-border);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.subscription-output {
+    width: 100%;
+    background: var(--bg-color);
+    border: 1px solid var(--glass-border);
+    border-radius: 10px;
+    padding: 12px;
+    color: var(--text-color);
+    font-size: 14px;
+    min-height: 100px;
+    margin-top: 15px;
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+.subscription-status {
+    font-size: 14px;
+    color: var(--text-color);
+    text-align: center;
+    margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+    .subscription-converter {
+        width: calc(100% - 40px);
+    }
+} 
+>>>>>>> 63eb12e22c69d285fe92fcee92a0b82cca492d11

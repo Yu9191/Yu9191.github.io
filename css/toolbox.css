@@ -9,6 +9,7 @@
     backdrop-filter: blur(10px);
     border: 1px solid var(--glass-border);
     z-index: 1000;
+<<<<<<< HEAD
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -17,15 +18,30 @@
 .tool-item {
     width: 45px;
     height: 45px;
+=======
+}
+
+.tool-item {
+    width: 50px;
+    height: 50px;
+>>>>>>> 63eb12e22c69d285fe92fcee92a0b82cca492d11
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 12px;
+<<<<<<< HEAD
     cursor: pointer;
     transition: all 0.3s ease;
     background: var(--glass-bg);
     color: var(--text-color);
     border: 1px solid var(--glass-border);
+=======
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: var(--bg-color);
+    color: var(--text-color);
+>>>>>>> 63eb12e22c69d285fe92fcee92a0b82cca492d11
 }
 
 .tool-item:last-child {
@@ -33,7 +49,11 @@
 }
 
 .tool-item:hover {
+<<<<<<< HEAD
     transform: scale(1.1) translateX(3px);
+=======
+    transform: translateX(5px);
+>>>>>>> 63eb12e22c69d285fe92fcee92a0b82cca492d11
     background: var(--primary-color);
     color: white;
 }
@@ -41,6 +61,7 @@
 .tool-item.active {
     background: var(--primary-color);
     color: white;
+<<<<<<< HEAD
     box-shadow: 0 0 15px rgba(var(--primary-color-rgb), 0.5);
 }
 
@@ -69,10 +90,17 @@
     background: var(--primary-color);
     color: white;
     box-shadow: 0 0 15px rgba(var(--primary-color-rgb), 0.5);
+=======
+}
+
+.tool-item i {
+    font-size: 1.5em;
+>>>>>>> 63eb12e22c69d285fe92fcee92a0b82cca492d11
 }
 
 @media (max-width: 768px) {
     .futuristic-toolbox {
+<<<<<<< HEAD
         left: 50%;
         transform: translateX(-50%);
         bottom: 15px;
@@ -80,15 +108,26 @@
         flex-direction: row;
         padding: 10px;
         width: auto;
+=======
+        left: 10px;
+        padding: 10px;
+>>>>>>> 63eb12e22c69d285fe92fcee92a0b82cca492d11
     }
     
     .tool-item {
         width: 40px;
         height: 40px;
+<<<<<<< HEAD
         margin-bottom: 0;
+=======
+>>>>>>> 63eb12e22c69d285fe92fcee92a0b82cca492d11
     }
     
     .tool-item i {
         font-size: 1.2em;
     }
+<<<<<<< HEAD
 } 
+=======
+} 
+>>>>>>> 63eb12e22c69d285fe92fcee92a0b82cca492d11
