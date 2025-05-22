@@ -1,0 +1,712 @@
+.futuristic-body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, var(--bg-color), var(--card-bg));
+    position: relative;
+    overflow: hidden;
+}
+
+.futuristic-body::before {
+    content: '';
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    background: 
+        radial-gradient(circle at 50% 50%, 
+            rgba(var(--primary-color-rgb), 0.1) 0%,
+            transparent 50%),
+        linear-gradient(45deg, 
+            rgba(var(--primary-color-rgb), 0.05) 25%, 
+            transparent 25%, 
+            transparent 50%, 
+            rgba(var(--primary-color-rgb), 0.05) 50%, 
+            rgba(var(--primary-color-rgb), 0.05) 75%, 
+            transparent 75%, 
+            transparent);
+    background-size: 100% 100%, 60px 60px;
+    animation: futuristicBg 20s linear infinite;
+    opacity: 0.5;
+}
+
+@keyframes futuristicBg {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.futuristic-center-orb {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 40px;
+    animation: orbFloat 6s ease-in-out infinite;
+}
+
+@keyframes orbFloat {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+.futuristic-avatar-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border: 2px solid var(--glass-border);
+    overflow: hidden;
+    box-shadow: 0 0 30px rgba(var(--primary-color-rgb), 0.3);
+}
+
+.futuristic-avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.futuristic-status-dot {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 15px;
+    height: 15px;
+    background: #4ade80;
+    border-radius: 50%;
+    border: 2px solid var(--bg-color);
+    box-shadow: 0 0 10px rgba(74, 222, 128, 0.5);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(74, 222, 128, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(74, 222, 128, 0);
+    }
+}
+
+.futuristic-rings-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 300px;
+}
+
+.futuristic-ring {
+    position: absolute;
+    border: 2px solid var(--glass-border);
+    border-radius: 50%;
+    animation: ringRotate 10s linear infinite;
+}
+
+.futuristic-ring:nth-child(1) {
+    width: 100%;
+    height: 100%;
+    border-color: rgba(var(--primary-color-rgb), 0.3);
+    animation-duration: 20s;
+}
+
+.futuristic-ring:nth-child(2) {
+    width: 80%;
+    height: 80%;
+    border-color: rgba(var(--secondary-color-rgb), 0.3);
+    animation-duration: 15s;
+    animation-direction: reverse;
+}
+
+.futuristic-ring:nth-child(3) {
+    width: 60%;
+    height: 60%;
+    border-color: rgba(var(--accent-color-rgb), 0.3);
+    animation-duration: 10s;
+}
+
+@keyframes ringRotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.futuristic-user-info {
+    text-align: center;
+    margin-bottom: 40px;
+    color: var(--text-color);
+}
+
+.futuristic-user-info h2 {
+    font-size: 2em;
+    margin-bottom: 10px;
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: textGlow 2s ease-in-out infinite;
+}
+
+.futuristic-user-info h1 {
+    font-size: 1.2em;
+    opacity: 0.8;
+}
+
+@keyframes textGlow {
+    0%, 100% {
+        text-shadow: 0 0 10px rgba(var(--primary-color-rgb), 0.5);
+    }
+    50% {
+        text-shadow: 0 0 20px rgba(var(--primary-color-rgb), 0.8);
+    }
+}
+
+.futuristic-contact-nodes {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.futuristic-node {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    background: var(--glass-bg);
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: var(--text-color);
+    transition: all 0.3s ease;
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(10px);
+}
+
+.futuristic-node:hover {
+    transform: translateY(-10px) scale(1.05);
+    box-shadow: 0 10px 30px rgba(var(--primary-color-rgb), 0.2);
+}
+
+.futuristic-node i {
+    font-size: 2em;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+    transition: transform 0.3s ease;
+}
+
+.futuristic-node:hover i {
+    transform: scale(1.2) rotate(10deg);
+}
+
+.futuristic-node p {
+    font-size: 0.9em;
+    font-weight: 500;
+    margin: 0;
+}
+
+.futuristic-node span {
+    font-size: 0.8em;
+    opacity: 0.8;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .futuristic-center-orb {
+        width: 150px;
+        height: 150px;
+    }
+
+    .futuristic-rings-container {
+        width: 250px;
+        height: 250px;
+    }
+
+    .futuristic-user-info h2 {
+        font-size: 1.5em;
+    }
+
+    .futuristic-user-info h1 {
+        font-size: 1em;
+    }
+
+    .futuristic-contact-nodes {
+        gap: 15px;
+    }
+
+    .futuristic-node {
+        width: 100px;
+        height: 100px;
+    }
+}
+
+@media (max-width: 480px) {
+    .futuristic-center-orb {
+        width: 120px;
+        height: 120px;
+    }
+
+    .futuristic-rings-container {
+        width: 200px;
+        height: 200px;
+    }
+
+    .futuristic-contact-nodes {
+        gap: 10px;
+    }
+
+    .futuristic-node {
+        width: 90px;
+        height: 90px;
+    }
+
+    .futuristic-node i {
+        font-size: 1.5em;
+    }
+
+    .futuristic-node p {
+        font-size: 0.8em;
+    }
+
+    .futuristic-node span {
+        font-size: 0.7em;
+    }
+}
+
+/* 音乐播放器样式 */
+.futuristic-music-player {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 300px;
+    background: var(--glass-bg);
+    border-radius: 15px;
+    padding: 15px;
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    transform: translateY(120%);
+    transition: transform 0.3s ease;
+    z-index: 1000;
+}
+
+.futuristic-music-player.active {
+    transform: translateY(0);
+}
+
+.music-player-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.music-player-title {
+    font-size: 1.1em;
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+.music-player-controls {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin: 15px 0;
+}
+
+.music-control-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.music-control-btn:hover {
+    transform: scale(1.1);
+    background: var(--primary-color);
+    color: white;
+}
+
+.music-control-btn.play {
+    width: 50px;
+    height: 50px;
+}
+
+.music-progress {
+    width: 100%;
+    height: 4px;
+    background: var(--glass-border);
+    border-radius: 2px;
+    margin: 15px 0;
+    position: relative;
+    cursor: pointer;
+}
+
+.music-progress-bar {
+    position: absolute;
+    height: 100%;
+    background: var(--primary-color);
+    border-radius: 2px;
+    width: 0%;
+    transition: width 0.1s linear;
+}
+
+.music-time {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8em;
+    color: var(--text-color);
+    opacity: 0.8;
+}
+
+/* 工具箱样式 */
+.futuristic-toolbox {
+    position: fixed;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--glass-bg);
+    border-radius: 15px;
+    padding: 15px;
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    z-index: 1000;
+}
+
+.tool-item {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--text-color);
+}
+
+.tool-item:hover {
+    transform: scale(1.1);
+    background: var(--primary-color);
+    color: white;
+}
+
+.tool-item.active {
+    background: var(--primary-color);
+    color: white;
+}
+
+/* 计算器样式 */
+.futuristic-calculator {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--glass-bg);
+    border-radius: 20px;
+    padding: 20px;
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    width: 300px;
+    display: none;
+    z-index: 1001;
+}
+
+.calculator-display {
+    background: var(--bg-color);
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+    text-align: right;
+    font-size: 1.5em;
+    color: var(--text-color);
+    min-height: 40px;
+}
+
+.calculator-buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.calc-btn {
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    background: var(--glass-bg);
+    color: var(--text-color);
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.calc-btn:hover {
+    background: var(--primary-color);
+    color: white;
+}
+
+.calc-btn.operator {
+    background: var(--accent-color);
+    color: white;
+}
+
+/* 便签样式 */
+.futuristic-notes {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--glass-bg);
+    border-radius: 20px;
+    padding: 20px;
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    width: 400px;
+    display: none;
+    z-index: 1001;
+}
+
+.notes-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.notes-content {
+    background: var(--bg-color);
+    border-radius: 10px;
+    padding: 15px;
+    min-height: 200px;
+    margin-bottom: 15px;
+}
+
+.notes-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.notes-btn {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 8px;
+    background: var(--primary-color);
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.notes-btn:hover {
+    transform: scale(1.05);
+    background: var(--accent-color);
+}
+
+@media (max-width: 768px) {
+    .futuristic-toolbox {
+        bottom: 20px;
+        top: auto;
+        left: 50%;
+        transform: translateX(-50%);
+        flex-direction: row;
+        padding: 10px;
+    }
+
+    .futuristic-music-player {
+        width: calc(100% - 40px);
+        bottom: 80px;
+    }
+
+    .futuristic-calculator,
+    .futuristic-notes {
+        width: calc(100% - 40px);
+    }
+}
+
+/* m3u8下载器样式 */
+.futuristic-m3u8-downloader {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--glass-bg);
+    border-radius: 20px;
+    padding: 20px;
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    width: 500px;
+    display: none;
+    z-index: 1001;
+}
+
+.m3u8-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.m3u8-title {
+    font-size: 1.2em;
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+.m3u8-close {
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.m3u8-close:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.m3u8-input {
+    width: 100%;
+    background: var(--bg-color);
+    border: 1px solid var(--glass-border);
+    border-radius: 10px;
+    padding: 12px;
+    margin-bottom: 15px;
+    color: var(--text-color);
+    font-size: 14px;
+}
+
+.m3u8-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.m3u8-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.m3u8-btn {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    background: var(--primary-color);
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.m3u8-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(var(--primary-color-rgb), 0.3);
+}
+
+.m3u8-btn:disabled {
+    background: var(--glass-border);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.m3u8-progress {
+    width: 100%;
+    height: 4px;
+    background: var(--glass-border);
+    border-radius: 2px;
+    margin: 15px 0;
+    overflow: hidden;
+}
+
+.m3u8-progress-bar {
+    height: 100%;
+    background: var(--primary-color);
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+.m3u8-status {
+    font-size: 14px;
+    color: var(--text-color);
+    text-align: center;
+    margin-top: 10px;
+}
+
+.m3u8-segments {
+    margin-top: 20px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.m3u8-segment {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    background: var(--bg-color);
+    border-radius: 8px;
+    margin-bottom: 8px;
+}
+
+.m3u8-segment-status {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.m3u8-segment-status.pending {
+    background: var(--glass-border);
+}
+
+.m3u8-segment-status.downloading {
+    background: var(--primary-color);
+    animation: pulse 1s infinite;
+}
+
+.m3u8-segment-status.completed {
+    background: var(--success-color);
+}
+
+.m3u8-segment-status.error {
+    background: var(--danger-color);
+}
+
+.m3u8-segment-info {
+    flex: 1;
+    font-size: 12px;
+    color: var(--text-color);
+}
+
+@media (max-width: 768px) {
+    .futuristic-m3u8-downloader {
+        width: calc(100% - 40px);
+    }
+} 
