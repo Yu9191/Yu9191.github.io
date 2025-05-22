@@ -551,7 +551,7 @@
                 }
             }
             
-            /* 图片尺寸调整工具样式 */
+            /* 专业图像调整工具样式 */
             .resize-image-container {
                 padding: 20px;
             }
@@ -572,137 +572,406 @@
                 font-size: 0.9rem;
             }
             
-            .resize-input-group {
+            /* 新版专业UI样式 */
+            .resize-pro-ui {
+                max-width: 1000px;
+                margin: 0 auto;
+            }
+            
+            .resize-pro-upload-container {
+                text-align: center;
+                padding: 40px 20px;
                 background: var(--card-bg-light);
                 border-radius: 10px;
-                padding: 20px;
+                border: 2px dashed var(--border-color);
                 margin-bottom: 20px;
-                border: 1px solid var(--border-color);
+                transition: all 0.3s;
             }
             
-            .resize-dimensions {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 15px;
-                margin-bottom: 15px;
-                align-items: center;
+            .resize-pro-upload-container:hover {
+                border-color: var(--primary-color);
             }
             
-            .dimension-input {
-                display: flex;
-                flex-direction: column;
-            }
-            
-            .dimension-input label {
-                font-size: 14px;
-                color: var(--text-color-light);
-                margin-bottom: 5px;
-            }
-            
-            .dimension-input input {
-                width: 100px;
-                background: var(--card-bg);
-                border: 1px solid var(--border-color);
-                border-radius: 6px;
-                padding: 8px 10px;
-                color: var(--text-color);
-            }
-            
-            .dimension-checkbox {
-                display: flex;
-                align-items: center;
-                gap: 8px;
-            }
-            
-            .dimension-checkbox label {
-                font-size: 14px;
-                color: var(--text-color);
-            }
-            
-            .resize-tg-option {
-                display: flex;
-                align-items: center;
-                gap: 8px;
-                margin-bottom: 15px;
-            }
-            
-            .resize-tg-option label {
-                font-size: 14px;
-                color: var(--text-color);
-            }
-            
-            .resize-enhance-options {
-                margin: 15px 0;
-                padding-top: 10px;
-                border-top: 1px solid var(--border-color);
-            }
-            
-            .enhance-checkbox {
-                display: flex;
-                align-items: center;
-                gap: 8px;
-                margin-bottom: 10px;
-            }
-            
-            .enhance-checkbox label {
-                font-size: 14px;
-                color: var(--text-color);
-            }
-            
-            .enhance-slider {
-                display: flex;
-                align-items: center;
-                gap: 10px;
-                padding-left: 25px;
-            }
-            
-            .enhance-slider label {
-                font-size: 13px;
-                color: var(--text-color-light);
-                min-width: 70px;
-            }
-            
-            .enhance-slider input[type="range"] {
-                flex: 1;
-                max-width: 150px;
-            }
-            
-            .enhance-slider span {
-                font-size: 13px;
-                color: var(--text-color);
-                min-width: 15px;
-                text-align: center;
-            }
-            
-            .resize-upload {
-                margin-top: 15px;
-            }
-            
-            .resize-upload .upload-btn {
+            .resize-pro-upload-btn {
                 display: inline-flex;
                 align-items: center;
-                gap: 8px;
+                justify-content: center;
+                gap: 10px;
                 background: var(--primary-color);
                 color: white;
                 border: none;
                 border-radius: 8px;
-                padding: 10px 15px;
-                font-size: 14px;
+                padding: 12px 25px;
+                font-size: 16px;
                 cursor: pointer;
                 transition: all 0.3s;
+                box-shadow: 0 4px 15px rgba(var(--primary-color-rgb), 0.3);
             }
             
-            .resize-upload .upload-btn:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            .resize-pro-upload-btn:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 6px 20px rgba(var(--primary-color-rgb), 0.4);
             }
             
-            .resize-upload input[type="file"] {
+            .resize-pro-upload-btn i {
+                font-size: 20px;
+            }
+            
+            .resize-pro-upload-hint {
+                margin-top: 15px;
+                color: var(--text-color-light);
+                font-size: 14px;
+            }
+            
+            input[type="file"] {
                 display: none;
             }
             
+            /* 对话框样式 */
+            .resize-pro-dialog {
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 90%;
+                max-width: 800px;
+                background: var(--card-bg);
+                border-radius: 12px;
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+                z-index: 1000;
+                overflow: hidden;
+            }
+            
+            .resize-pro-dialog-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 15px 20px;
+                background: var(--card-bg-light);
+                border-bottom: 1px solid var(--border-color);
+            }
+            
+            .resize-pro-dialog-header span {
+                font-size: 18px;
+                font-weight: 600;
+                color: var(--text-color);
+            }
+            
+            .resize-pro-close-btn {
+                background: none;
+                border: none;
+                color: var(--text-color-light);
+                font-size: 24px;
+                cursor: pointer;
+                width: 30px;
+                height: 30px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 50%;
+                transition: all 0.2s;
+            }
+            
+            .resize-pro-close-btn:hover {
+                background: rgba(0, 0, 0, 0.1);
+                color: var(--text-color);
+            }
+            
+            .resize-pro-dialog-content {
+                display: flex;
+                flex-direction: row;
+                max-height: 80vh;
+                overflow: hidden;
+            }
+            
+            /* 预览区域 */
+            .resize-pro-preview {
+                flex: 1;
+                padding: 20px;
+                background: rgba(0, 0, 0, 0.05);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                overflow: hidden;
+                border-right: 1px solid var(--border-color);
+            }
+            
+            .resize-pro-preview-container {
+                width: 100%;
+                height: 100%;
+                min-height: 300px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                overflow: hidden;
+            }
+            
+            .resize-pro-preview-placeholder {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+                height: 100%;
+                color: var(--text-color-light);
+            }
+            
+            .resize-pro-preview-placeholder i {
+                font-size: 48px;
+                opacity: 0.3;
+            }
+            
+            .resize-pro-preview-img {
+                max-width: 100%;
+                max-height: 100%;
+                object-fit: contain;
+                border: 1px solid var(--border-color);
+                background: transparent url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAOwgAADsIBFShKgAAAABl0RVh0U29mdHdhcmUAcGFpbnQubmV0IDQuMC4xOdTWsmQAAAAbSURBVDhPYwCB/2jYbzqY8Z8YDDWAYsCgwQwMAF6P6VWv5ig0AAAAAElFTkSuQmCC');
+            }
+            
+            /* 控制区域 */
+            .resize-pro-controls {
+                width: 50%;
+                max-width: 400px;
+                padding: 20px;
+                overflow-y: auto;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+            }
+            
+            .resize-pro-file-info {
+                flex: 1;
+            }
+            
+            .resize-pro-info-row {
+                display: flex;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+            
+            .resize-pro-info-label {
+                width: 100px;
+                color: var(--text-color-light);
+                font-size: 14px;
+            }
+            
+            .resize-pro-info-value {
+                font-weight: 500;
+                color: var(--text-color);
+            }
+            
+            .resize-pro-dimensions-input {
+                display: flex;
+                align-items: center;
+                flex: 1;
+            }
+            
+            .resize-pro-dimension-with-unit {
+                display: flex;
+                align-items: center;
+            }
+            
+            .resize-pro-dimension-with-unit input {
+                width: 70px;
+                background: var(--card-bg-light);
+                border: 1px solid var(--border-color);
+                border-radius: 4px;
+                padding: 6px 8px;
+                color: var(--text-color);
+                font-size: 14px;
+                text-align: right;
+            }
+            
+            .resize-pro-dimension-with-unit span {
+                font-size: 12px;
+                color: var(--text-color-light);
+                margin-left: 5px;
+            }
+            
+            .resize-pro-dimension-separator {
+                margin: 0 10px;
+                color: var(--text-color-light);
+            }
+            
+            .resize-pro-lock-aspect {
+                margin-left: 10px;
+            }
+            
+            .resize-pro-lock-aspect label {
+                cursor: pointer;
+                color: var(--text-color-light);
+                transition: all 0.2s;
+            }
+            
+            .resize-pro-lock-aspect input:checked + label {
+                color: var(--primary-color);
+            }
+            
+            .resize-pro-select-wrapper {
+                position: relative;
+                flex: 1;
+            }
+            
+            .resize-pro-select-wrapper select {
+                width: 100%;
+                appearance: none;
+                background: var(--card-bg-light);
+                border: 1px solid var(--border-color);
+                border-radius: 4px;
+                padding: 6px 30px 6px 10px;
+                color: var(--text-color);
+                font-size: 14px;
+                cursor: pointer;
+            }
+            
+            .resize-pro-select-wrapper::after {
+                content: "▼";
+                position: absolute;
+                right: 10px;
+                top: 50%;
+                transform: translateY(-50%);
+                color: var(--text-color-light);
+                pointer-events: none;
+                font-size: 10px;
+            }
+            
+            .resize-pro-resolution-input {
+                display: flex;
+                align-items: center;
+                flex: 1;
+                gap: 10px;
+            }
+            
+            .resize-pro-resolution-input input {
+                width: 60px;
+                background: var(--card-bg-light);
+                border: 1px solid var(--border-color);
+                border-radius: 4px;
+                padding: 6px 8px;
+                color: var(--text-color);
+                font-size: 14px;
+                text-align: right;
+            }
+            
+            .resize-pro-dpi-unit {
+                width: 120px;
+            }
+            
+            .resize-pro-separator {
+                height: 1px;
+                background: var(--border-color);
+                margin: 15px 0;
+            }
+            
+            /* 增强选项 */
+            .resize-pro-enhance-options {
+                margin-top: 10px;
+            }
+            
+            .resize-pro-checkbox-row {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                margin-bottom: 12px;
+            }
+            
+            .resize-pro-checkbox {
+                margin: 0;
+            }
+            
+            .resize-pro-enhance-sliders {
+                margin: 10px 0 15px 25px;
+            }
+            
+            .resize-pro-slider-row {
+                display: flex;
+                align-items: center;
+                margin-bottom: 10px;
+            }
+            
+            .resize-pro-slider-row label {
+                width: 80px;
+                font-size: 13px;
+                color: var(--text-color-light);
+            }
+            
+            .resize-pro-slider-control {
+                display: flex;
+                align-items: center;
+                flex: 1;
+                gap: 10px;
+            }
+            
+            .resize-pro-slider-control input {
+                flex: 1;
+            }
+            
+            .resize-pro-slider-control span {
+                width: 20px;
+                text-align: center;
+                font-size: 13px;
+                color: var(--text-color);
+            }
+            
+            /* 对话框按钮 */
+            .resize-pro-dialog-buttons {
+                display: flex;
+                justify-content: flex-end;
+                gap: 10px;
+                margin-top: 20px;
+            }
+            
+            .resize-pro-btn {
+                padding: 8px 15px;
+                border-radius: 4px;
+                font-size: 14px;
+                cursor: pointer;
+                transition: all 0.2s;
+                border: none;
+            }
+            
+            .resize-pro-btn-cancel {
+                background: var(--card-bg-light);
+                color: var(--text-color);
+                border: 1px solid var(--border-color);
+            }
+            
+            .resize-pro-btn-cancel:hover {
+                background: var(--card-bg-hover);
+            }
+            
+            .resize-pro-btn-apply {
+                background: var(--primary-color);
+                color: white;
+            }
+            
+            .resize-pro-btn-apply:hover {
+                background: rgba(var(--primary-color-rgb), 0.85);
+                box-shadow: 0 2px 8px rgba(var(--primary-color-rgb), 0.3);
+            }
+            
+            .resize-pro-btn-download {
+                background: var(--primary-color);
+                color: white;
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                padding: 8px 15px;
+                font-size: 14px;
+            }
+            
+            .resize-pro-btn-download:hover {
+                background: rgba(var(--primary-color-rgb), 0.85);
+                box-shadow: 0 2px 8px rgba(var(--primary-color-rgb), 0.3);
+            }
+            
+            /* 处理进度条 */
             .resize-progress-container {
                 margin: 20px 0;
+                background: var(--card-bg-light);
+                border-radius: 8px;
+                padding: 15px;
+                border: 1px solid var(--border-color);
             }
             
             .resize-progress-text {
@@ -713,9 +982,9 @@
             }
             
             .resize-progress-bar {
-                height: 10px;
-                background: var(--card-bg-light);
-                border-radius: 5px;
+                height: 8px;
+                background: rgba(0, 0, 0, 0.05);
+                border-radius: 4px;
                 overflow: hidden;
             }
             
@@ -725,46 +994,68 @@
                 transition: width 0.3s;
             }
             
-            .resize-preview-container {
-                margin-top: 20px;
+            /* 结果区域 */
+            .resize-pro-results {
+                margin-top: 30px;
+            }
+            
+            .resize-pro-results-header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 20px;
+            }
+            
+            .resize-pro-results-header h4 {
+                font-size: 18px;
+                color: var(--text-color);
+                margin: 0;
             }
             
             .resize-images-grid {
                 display: grid;
-                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-                gap: 15px;
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+                gap: 20px;
             }
             
             .resize-image-item {
                 position: relative;
-                border-radius: 8px;
+                border-radius: 10px;
                 overflow: hidden;
                 background: var(--card-bg-light);
-                padding: 10px;
+                padding: 12px;
                 border: 1px solid var(--border-color);
+                transition: all 0.3s;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            }
+            
+            .resize-image-item:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+                border-color: var(--primary-color);
             }
             
             .resize-image-preview {
                 width: 100%;
                 aspect-ratio: 1;
                 object-fit: contain;
-                border-radius: 5px;
-                background: var(--card-bg);
+                border-radius: 8px;
+                background: transparent url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAOwgAADsIBFShKgAAAABl0RVh0U29mdHdhcmUAcGFpbnQubmV0IDQuMC4xOdTWsmQAAAAbSURBVDhPYwCB/2jYbzqY8Z8YDDWAYsCgwQwMAF6P6VWv5ig0AAAAAElFTkSuQmCC');
             }
             
             .resize-image-info {
-                margin-top: 10px;
-                font-size: 12px;
+                margin-top: 12px;
+                font-size: 13px;
                 color: var(--text-color-light);
                 text-align: center;
             }
             
             .resize-image-download {
                 position: absolute;
-                top: 10px;
-                right: 10px;
-                width: 28px;
-                height: 28px;
+                top: 12px;
+                right: 12px;
+                width: 32px;
+                height: 32px;
                 background: var(--card-bg);
                 border-radius: 50%;
                 display: flex;
@@ -774,37 +1065,35 @@
                 color: var(--text-color);
                 transition: all 0.2s;
                 z-index: 1;
+                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
             }
             
             .resize-image-download:hover {
                 transform: scale(1.1);
                 background: var(--primary-color);
                 color: white;
+                box-shadow: 0 3px 8px rgba(var(--primary-color-rgb), 0.3);
             }
             
-            .resize-actions {
-                margin-top: 30px;
-                text-align: center;
-            }
-            
-            .resize-actions button {
-                display: inline-flex;
-                align-items: center;
-                gap: 8px;
-                background: var(--primary-color);
-                color: white;
-                border: none;
-                border-radius: 8px;
-                padding: 12px 20px;
-                font-size: 15px;
-                font-weight: 500;
-                cursor: pointer;
-                transition: all 0.3s;
-            }
-            
-            .resize-actions button:hover {
-                transform: translateY(-3px);
-                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            /* 响应式调整 */
+            @media (max-width: 768px) {
+                .resize-pro-dialog-content {
+                    flex-direction: column;
+                }
+                
+                .resize-pro-preview {
+                    border-right: none;
+                    border-bottom: 1px solid var(--border-color);
+                }
+                
+                .resize-pro-controls {
+                    width: 100%;
+                    max-width: none;
+                }
+                
+                .resize-images-grid {
+                    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+                }
             }
             
             @media (max-width: 600px) {
@@ -953,66 +1242,147 @@
                 <div class="tool-content" id="resize-image-tool">
                     <div class="resize-image-container">
                         <div class="resize-image-header">
-                            <h3>图片尺寸调整工具</h3>
-                            <p>批量调整PNG图片尺寸，支持自定义宽高</p>
+                            <h3>专业图像调整工具</h3>
+                            <p>高级图像尺寸与清晰度调整</p>
                         </div>
                         
-                        <div class="resize-input-group">
-                            <div class="resize-dimensions">
-                                <div class="dimension-input">
-                                    <label for="resizeWidth">宽度 (px)</label>
-                                    <input type="number" id="resizeWidth" min="1" max="4000" value="512">
-                                </div>
-                                <div class="dimension-input">
-                                    <label for="resizeHeight">高度 (px)</label>
-                                    <input type="number" id="resizeHeight" min="1" max="4000" value="512">
-                                </div>
-                                <div class="dimension-checkbox">
-                                    <input type="checkbox" id="maintainAspect" checked>
-                                    <label for="maintainAspect">保持比例</label>
-                                </div>
-                            </div>
-                            
-                            <div class="resize-tg-option">
-                                <input type="checkbox" id="makeTgSticker">
-                                <label for="makeTgSticker">适配Telegram贴纸 (512x512)</label>
-                            </div>
-                            
-                            <div class="resize-enhance-options">
-                                <div class="enhance-checkbox">
-                                    <input type="checkbox" id="enhanceResolution">
-                                    <label for="enhanceResolution">增强清晰度</label>
-                                </div>
-                                <div class="enhance-slider" id="enhanceSliderContainer" style="display: none;">
-                                    <label for="enhanceLevel">增强强度:</label>
-                                    <input type="range" id="enhanceLevel" min="1" max="10" value="5">
-                                    <span id="enhanceLevelValue">5</span>
-                                </div>
-                            </div>
-                            
-                            <div class="resize-upload">
-                                <label for="resizeImageUpload" class="upload-btn">
-                                    <i class="fa-solid fa-upload"></i> 选择图片文件 (PNG)
+                        <div class="resize-pro-ui">
+                            <div class="resize-pro-upload-container">
+                                <label for="resizeImageUpload" class="resize-pro-upload-btn">
+                                    <i class="fa-solid fa-image"></i> 选择图片
                                 </label>
                                 <input type="file" id="resizeImageUpload" accept="image/png" multiple>
+                                <p class="resize-pro-upload-hint">支持PNG格式，可多选</p>
                             </div>
-                        </div>
-                        
-                        <div class="resize-progress-container" style="display:none;">
-                            <div class="resize-progress-text">处理中 (<span id="resizeProgressCount">0</span>/<span id="resizeTotalCount">0</span>)</div>
-                            <div class="resize-progress-bar">
-                                <div class="resize-progress-fill" style="width: 0%"></div>
+                            
+                            <!-- 图片编辑对话框 -->
+                            <div class="resize-pro-dialog" id="resizeProDialog" style="display: none;">
+                                <div class="resize-pro-dialog-header">
+                                    <span>图像大小</span>
+                                    <button class="resize-pro-close-btn" id="resizeProCloseBtn">×</button>
+                                </div>
+                                
+                                <div class="resize-pro-dialog-content">
+                                    <div class="resize-pro-preview">
+                                        <div class="resize-pro-preview-container" id="resizeProPreviewContainer">
+                                            <div class="resize-pro-preview-placeholder">
+                                                <i class="fa-solid fa-image"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="resize-pro-controls">
+                                        <div class="resize-pro-file-info">
+                                            <div class="resize-pro-info-row">
+                                                <span class="resize-pro-info-label">图像大小:</span>
+                                                <span class="resize-pro-info-value" id="resizeProFileSize">--</span>
+                                            </div>
+                                            
+                                            <div class="resize-pro-info-row">
+                                                <span class="resize-pro-info-label">尺寸:</span>
+                                                <div class="resize-pro-dimensions-input">
+                                                    <div class="resize-pro-dimension-with-unit">
+                                                        <input type="number" id="resizeWidth" min="1" max="4000" value="512">
+                                                        <span>像素</span>
+                                                    </div>
+                                                    <span class="resize-pro-dimension-separator">×</span>
+                                                    <div class="resize-pro-dimension-with-unit">
+                                                        <input type="number" id="resizeHeight" min="1" max="4000" value="512">
+                                                        <span>像素</span>
+                                                    </div>
+                                                    <div class="resize-pro-lock-aspect">
+                                                        <input type="checkbox" id="maintainAspect" checked>
+                                                        <label for="maintainAspect"><i class="fa-solid fa-link"></i></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="resize-pro-info-row">
+                                                <span class="resize-pro-info-label">调整为:</span>
+                                                <div class="resize-pro-select-wrapper">
+                                                    <select id="resizePreset">
+                                                        <option value="custom">自定义尺寸</option>
+                                                        <option value="tg-sticker">Telegram贴纸 (512×512)</option>
+                                                        <option value="ig-post">Instagram方形 (1080×1080)</option>
+                                                        <option value="discord">Discord表情 (128×128)</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="resize-pro-info-row">
+                                                <span class="resize-pro-info-label">分辨率(R):</span>
+                                                <div class="resize-pro-resolution-input">
+                                                    <input type="number" id="resizeDpi" min="1" max="600" value="72">
+                                                    <div class="resize-pro-select-wrapper resize-pro-dpi-unit">
+                                                        <select id="resizeDpiUnit">
+                                                            <option value="ppi">像素/英寸</option>
+                                                            <option value="ppc">像素/厘米</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="resize-pro-info-row">
+                                                <span class="resize-pro-info-label">重新采样(S):</span>
+                                                <div class="resize-pro-select-wrapper">
+                                                    <select id="resizeSampling">
+                                                        <option value="auto">自动</option>
+                                                        <option value="bicubic">双三次</option>
+                                                        <option value="bilinear">双线性</option>
+                                                        <option value="lanczos">Lanczos</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="resize-pro-separator"></div>
+                                            
+                                            <div class="resize-pro-enhance-options">
+                                                <div class="resize-pro-checkbox-row">
+                                                    <input type="checkbox" id="enhanceResolution" class="resize-pro-checkbox">
+                                                    <label for="enhanceResolution">增强清晰度</label>
+                                                </div>
+                                                
+                                                <div class="resize-pro-enhance-sliders" id="enhanceSliderContainer" style="display: none;">
+                                                    <div class="resize-pro-slider-row">
+                                                        <label for="enhanceLevel">增强强度:</label>
+                                                        <div class="resize-pro-slider-control">
+                                                            <input type="range" id="enhanceLevel" min="1" max="10" value="5">
+                                                            <span id="enhanceLevelValue">5</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="resize-pro-checkbox-row">
+                                                    <input type="checkbox" id="makeTgSticker" class="resize-pro-checkbox">
+                                                    <label for="makeTgSticker">优化为Telegram贴纸</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="resize-pro-dialog-buttons">
+                                            <button id="resizeProCancelBtn" class="resize-pro-btn resize-pro-btn-cancel">取消</button>
+                                            <button id="resizeProApplyBtn" class="resize-pro-btn resize-pro-btn-apply">确定</button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        
-                        <div class="resize-preview-container">
-                            <div class="resize-images-grid" id="resizeImagesGrid"></div>
-                        </div>
-                        
-                        <div class="resize-actions" style="display:none;">
-                            <button id="downloadAllResizedBtn">
-                                <i class="fa-solid fa-download"></i> 下载所有调整后的图片
-                            </button>
+                            
+                            <div class="resize-progress-container" style="display:none;">
+                                <div class="resize-progress-text">处理中 (<span id="resizeProgressCount">0</span>/<span id="resizeTotalCount">0</span>)</div>
+                                <div class="resize-progress-bar">
+                                    <div class="resize-progress-fill" style="width: 0%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="resize-pro-results">
+                                <div class="resize-pro-results-header">
+                                    <h4>已处理的图像</h4>
+                                    <button id="downloadAllResizedBtn" class="resize-pro-btn resize-pro-btn-download" style="display:none;">
+                                        <i class="fa-solid fa-download"></i> 下载全部
+                                    </button>
+                                </div>
+                                <div class="resize-images-grid" id="resizeImagesGrid"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1864,6 +2234,9 @@
                  const resizeHeight = document.getElementById('resizeHeight');
                  const maintainAspect = document.getElementById('maintainAspect');
                  const makeTgSticker = document.getElementById('makeTgSticker');
+                 const resizePreset = document.getElementById('resizePreset');
+                 const resizeDpi = document.getElementById('resizeDpi');
+                 const resizeSampling = document.getElementById('resizeSampling');
                  const enhanceResolution = document.getElementById('enhanceResolution');
                  const enhanceLevel = document.getElementById('enhanceLevel');
                  const enhanceLevelValue = document.getElementById('enhanceLevelValue');
@@ -1875,12 +2248,29 @@
                  const resizeProgressCount = document.getElementById('resizeProgressCount');
                  const resizeTotalCount = document.getElementById('resizeTotalCount');
                  const downloadAllResizedBtn = document.getElementById('downloadAllResizedBtn');
-                 const resizeActions = document.querySelector('.resize-actions');
+                 
+                 // 新的专业UI元素
+                 const resizeProDialog = document.getElementById('resizeProDialog');
+                 const resizeProCloseBtn = document.getElementById('resizeProCloseBtn');
+                 const resizeProCancelBtn = document.getElementById('resizeProCancelBtn');
+                 const resizeProApplyBtn = document.getElementById('resizeProApplyBtn');
+                 const resizeProFileSize = document.getElementById('resizeProFileSize');
+                 const resizeProPreviewContainer = document.getElementById('resizeProPreviewContainer');
                 
-                let originalAspectRatio = 1;
-                let processedImages = [];
-                
-                                 // 当选择了TG贴纸选项时自动设置为512x512
+                                 let originalAspectRatio = 1;
+                 let processedImages = [];
+                 let currentFiles = [];
+                 let currentFileIndex = 0;
+                 
+                 // 预设尺寸
+                 const presets = {
+                    'custom': null,
+                    'tg-sticker': { width: 512, height: 512, optimize: true },
+                    'ig-post': { width: 1080, height: 1080 },
+                    'discord': { width: 128, height: 128 }
+                 };
+                 
+                 // 当选择了TG贴纸选项时自动设置为512x512
                  makeTgSticker.addEventListener('change', function() {
                      if (this.checked) {
                          resizeWidth.value = 512;
@@ -1898,70 +2288,210 @@
                  enhanceLevel.addEventListener('input', function() {
                      enhanceLevelValue.textContent = this.value;
                  });
+                 
+                 // 预设尺寸选择
+                 resizePreset.addEventListener('change', function() {
+                     const preset = presets[this.value];
+                     if (preset) {
+                         resizeWidth.value = preset.width;
+                         resizeHeight.value = preset.height;
+                         
+                         if (preset.optimize) {
+                             makeTgSticker.checked = true;
+                         }
+                     }
+                 });
                 
-                // 保持宽高比
-                resizeWidth.addEventListener('input', function() {
-                    if (maintainAspect.checked) {
-                        resizeHeight.value = Math.round(parseInt(this.value) / originalAspectRatio);
-                    }
-                });
-                
-                resizeHeight.addEventListener('input', function() {
-                    if (maintainAspect.checked) {
-                        resizeWidth.value = Math.round(parseInt(this.value) * originalAspectRatio);
-                    }
-                });
-                
-                // 上传并处理图片
-                resizeImageUpload.addEventListener('change', async function(e) {
-                    const files = e.target.files;
-                    if (!files || files.length === 0) return;
+                 // 保持宽高比
+                 resizeWidth.addEventListener('input', function() {
+                     if (maintainAspect.checked) {
+                         resizeHeight.value = Math.round(parseInt(this.value) / originalAspectRatio);
+                     }
+                     // 自动切换到自定义尺寸
+                     resizePreset.value = 'custom';
+                 });
+                 
+                 resizeHeight.addEventListener('input', function() {
+                     if (maintainAspect.checked) {
+                         resizeWidth.value = Math.round(parseInt(this.value) * originalAspectRatio);
+                     }
+                     // 自动切换到自定义尺寸
+                     resizePreset.value = 'custom';
+                 });
+                 
+                 // 显示对话框
+                 function showResizeDialog(file) {
+                     // 清除旧预览
+                     resizeProPreviewContainer.innerHTML = '';
+                     
+                     // 读取文件获取预览
+                     const reader = new FileReader();
+                     reader.onload = function(e) {
+                         const img = new Image();
+                         img.onload = function() {
+                             // 计算文件大小
+                             const fileSizeKB = file.size / 1024;
+                             let fileSizeStr = '';
+                             
+                             if (fileSizeKB > 1024) {
+                                 fileSizeStr = (fileSizeKB / 1024).toFixed(2) + ' MB';
+                             } else {
+                                 fileSizeStr = fileSizeKB.toFixed(2) + ' KB';
+                             }
+                             
+                             resizeProFileSize.textContent = fileSizeStr;
+                             
+                             // 设置原始宽高比
+                             originalAspectRatio = img.width / img.height;
+                             
+                             // 创建预览图
+                             const previewImg = document.createElement('img');
+                             previewImg.src = e.target.result;
+                             previewImg.className = 'resize-pro-preview-img';
+                             previewImg.alt = file.name;
+                             
+                             resizeProPreviewContainer.innerHTML = '';
+                             resizeProPreviewContainer.appendChild(previewImg);
+                             
+                             // 显示对话框
+                             resizeProDialog.style.display = 'block';
+                         };
+                         img.src = e.target.result;
+                     };
+                     reader.readAsDataURL(file);
+                 }
+                 
+                 // 关闭对话框
+                 function closeResizeDialog() {
+                     resizeProDialog.style.display = 'none';
+                 }
+                 
+                 // 处理当前文件并进入下一个
+                 function processCurrentFile() {
+                     if (currentFileIndex < currentFiles.length) {
+                         const file = currentFiles[currentFileIndex];
+                         
+                         // 如果只有一个文件，显示对话框让用户编辑
+                         if (currentFiles.length === 1) {
+                             showResizeDialog(file);
+                         } else {
+                             // 如果有多个文件，直接处理
+                             processImageFile(file)
+                                 .then(result => {
+                                     // 更新进度
+                                     currentFileIndex++;
+                                     resizeProgressCount.textContent = currentFileIndex;
+                                     resizeProgressFill.style.width = `${(currentFileIndex / currentFiles.length) * 100}%`;
+                                     
+                                     // 添加到处理结果
+                                     processedImages.push(result);
+                                     
+                                     // 创建预览
+                                     createImagePreview(result);
+                                     
+                                     // 处理下一个
+                                     processCurrentFile();
+                                 })
+                                 .catch(error => {
+                                     console.error('处理图片时出错:', error);
+                                     
+                                     // 继续处理下一个
+                                     currentFileIndex++;
+                                     processCurrentFile();
+                                 });
+                         }
+                     } else {
+                         // 所有文件处理完成
+                         if (processedImages.length > 0) {
+                             downloadAllResizedBtn.style.display = 'block';
+                         }
+                         
+                         // 隐藏进度条
+                         setTimeout(() => {
+                             resizeProgressContainer.style.display = 'none';
+                         }, 1000);
+                     }
+                 }
+                 
+                 // 上传并处理图片
+                 resizeImageUpload.addEventListener('change', function(e) {
+                     const files = e.target.files;
+                     if (!files || files.length === 0) return;
                     
-                    processedImages = [];
-                    resizeImagesGrid.innerHTML = '';
-                    resizeProgressContainer.style.display = 'block';
-                    resizeActions.style.display = 'none';
-                    
-                    resizeTotalCount.textContent = files.length;
-                    resizeProgressCount.textContent = 0;
-                    resizeProgressFill.style.width = '0%';
-                    
-                    for (let i = 0; i < files.length; i++) {
-                        const file = files[i];
-                        if (!file.type.includes('image/png')) continue;
-                        
-                        try {
-                            const result = await resizeImage(file);
-                            processedImages.push(result);
-                            
-                            resizeProgressCount.textContent = processedImages.length;
-                            resizeProgressFill.style.width = `${(processedImages.length / files.length) * 100}%`;
-                            
-                            // 创建预览
-                            createImagePreview(result);
-                        } catch (error) {
-                            console.error('处理图片时出错:', error);
-                        }
-                    }
-                    
-                    if (processedImages.length > 0) {
-                        resizeActions.style.display = 'block';
-                    }
-                    
-                    setTimeout(() => {
-                        resizeProgressContainer.style.display = 'none';
-                    }, 1000);
-                });
-                
-                // 调整图片尺寸
-                async function resizeImage(file) {
-                    return new Promise((resolve, reject) => {
+                                         // 重置数据
+                     processedImages = [];
+                     currentFiles = Array.from(files).filter(file => file.type.includes('image/png'));
+                     currentFileIndex = 0;
+                     
+                     // 重置UI
+                     resizeImagesGrid.innerHTML = '';
+                     downloadAllResizedBtn.style.display = 'none';
+                     
+                     if (currentFiles.length === 0) return;
+                     
+                     // 如果只有一个文件，直接显示对话框
+                     if (currentFiles.length === 1) {
+                         showResizeDialog(currentFiles[0]);
+                     } else {
+                         // 如果有多个文件，显示进度条并开始处理
+                         resizeProgressContainer.style.display = 'block';
+                         resizeTotalCount.textContent = currentFiles.length;
+                         resizeProgressCount.textContent = 0;
+                         resizeProgressFill.style.width = '0%';
+                         
+                         // 开始批量处理
+                         processCurrentFile();
+                     }
+                 });
+                 
+                 // 绑定对话框按钮事件
+                 resizeProCloseBtn.addEventListener('click', closeResizeDialog);
+                 resizeProCancelBtn.addEventListener('click', closeResizeDialog);
+                 
+                 resizeProApplyBtn.addEventListener('click', async function() {
+                     // 隐藏对话框
+                     closeResizeDialog();
+                     
+                     // 显示进度条
+                     resizeProgressContainer.style.display = 'block';
+                     resizeTotalCount.textContent = currentFiles.length;
+                     resizeProgressCount.textContent = 0;
+                     resizeProgressFill.style.width = '0%';
+                     
+                     // 处理文件
+                     try {
+                         const result = await processImageFile(currentFiles[currentFileIndex]);
+                         processedImages.push(result);
+                         
+                         // 创建预览
+                         createImagePreview(result);
+                         
+                         // 更新进度
+                         currentFileIndex++;
+                         resizeProgressCount.textContent = currentFileIndex;
+                         resizeProgressFill.style.width = '100%';
+                         
+                         // 处理完成
+                         downloadAllResizedBtn.style.display = 'block';
+                         
+                         // 隐藏进度条
+                         setTimeout(() => {
+                             resizeProgressContainer.style.display = 'none';
+                         }, 1000);
+                     } catch (error) {
+                         console.error('处理图片时出错:', error);
+                     }
+                 });
+                 
+                 // 调整图片尺寸（处理单个文件）
+                 async function processImageFile(file) {
+                     return new Promise((resolve, reject) => {
                         const reader = new FileReader();
                         reader.onload = function(event) {
                             const img = new Image();
                             img.onload = function() {
-                                // 第一次加载图片时设置默认宽高比
-                                if (processedImages.length === 0) {
+                                // 设置宽高比（如果还没有设置过）
+                                if (originalAspectRatio === 1) {
                                     originalAspectRatio = img.width / img.height;
                                     if (maintainAspect.checked) {
                                         resizeHeight.value = Math.round(parseInt(resizeWidth.value) / originalAspectRatio);
