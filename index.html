@@ -1395,6 +1395,8 @@
                 <div class="tool-content active" id="about-tool">
                     <div class="about-section">
                         <p>你又在哭泣 我给不了安慰</p>
+                        <p>我又在摇头 有那么点后悔</p>
+                        <p>爱情的发展已难以回头 却无法往前走</p>
                     </div>
                 </div>
                 
@@ -1940,6 +1942,10 @@
                 // 把对话框移到body直接子元素位置
                 document.body.appendChild(pixelDialogOverlay);
                 document.body.appendChild(pixelDialog);
+                
+                // 确保对话框显示在最顶层
+                pixelDialog.style.zIndex = '9999';
+                pixelDialogOverlay.style.zIndex = '9998';
             }
             
             // 关闭像素编辑对话框
@@ -1964,14 +1970,25 @@
             // 初始化拖拽和缩放功能
             document.addEventListener('DOMContentLoaded', function() {
                 // 初始化拖拽
-                makeDraggable(pixelDialog, pixelDragHandle);
+                const pixelDialog = document.getElementById('pixelDialog');
+                const pixelDragHandle = document.getElementById('pixelDragHandle');
+                const pixelResizeHandle = document.getElementById('pixelResizeHandle');
+                const pixelCloseBtn = document.getElementById('pixelCloseBtn');
+                const pixelCancelBtn = document.getElementById('pixelCancelBtn');
+                const pixelMaximizeBtn = document.getElementById('pixelMaximizeBtn');
+                
+                if (pixelDialog && pixelDragHandle) {
+                    makeDraggable(pixelDialog, pixelDragHandle);
+                }
                 // 初始化调整大小
-                makeResizable(pixelDialog, pixelResizeHandle);
+                if (pixelDialog && pixelResizeHandle) {
+                    makeResizable(pixelDialog, pixelResizeHandle);
+                }
                 
                 // 绑定按钮事件
-                pixelCloseBtn.addEventListener('click', closePixelDialog);
-                pixelCancelBtn.addEventListener('click', closePixelDialog);
-                pixelMaximizeBtn.addEventListener('click', togglePixelFullScreen);
+                if (pixelCloseBtn) pixelCloseBtn.addEventListener('click', closePixelDialog);
+                if (pixelCancelBtn) pixelCancelBtn.addEventListener('click', closePixelDialog);
+                if (pixelMaximizeBtn) pixelMaximizeBtn.addEventListener('click', togglePixelFullScreen);
             });
 
             pixelSize.addEventListener('input', function() {
@@ -2184,7 +2201,7 @@
                 });
             });
             
-                            document.addEventListener('DOMContentLoaded', () => {
+            document.addEventListener('DOMContentLoaded', () => {
                 const subscriptionForm = document.getElementById('subscriptionForm');
                 const subResultContent = document.getElementById('subResultContent');
                 const subResultGrid = document.getElementById('subResultGrid');
@@ -2210,8 +2227,14 @@
                 function showSubDialog() {
                     subDialogOverlay.style.display = 'block';
                     subDialog.style.display = 'block';
+                    
+                    // 确保对话框显示在最顶层
                     document.body.appendChild(subDialogOverlay);
                     document.body.appendChild(subDialog);
+                    subDialog.style.zIndex = '9999';
+                    subDialogOverlay.style.zIndex = '9998';
+                    
+                    console.log('订阅查询对话框已显示');
                 }
                 
                 // 关闭订阅查询对话框
@@ -2220,6 +2243,8 @@
                     subDialog.style.display = 'none';
                     subDialog.classList.remove('fullscreen');
                     document.body.style.overflow = '';
+                    
+                    console.log('订阅查询对话框已关闭');
                 }
                 
                 // 切换全屏
@@ -2558,141 +2583,150 @@
                     });
                 }
                 
-                // 修改为点击事件而不是表单提交事件
-                document.getElementById('subSubmitBtn').addEventListener('click', async () => {
-                    const url = document.getElementById('subUrl').value;
-                    
-                    if (!url) return;
-                    
-                    // 显示对话框
-                    showSubDialog();
-                    
-                    // 重置UI状态
-                    subLoadingIndicator.style.display = 'flex';
-                    subResultContent.style.display = 'none';
-                    subResultGrid.innerHTML = '';
-                    subProgressContainer.style.display = 'none';
-                    subDataCards.style.display = 'none';
-                    subImagePreview.innerHTML = '';
-                    
-                    try {
-                        const data = await processSubscription(url);
+                // 修改为点击事件而不是表单提交事件 - 在DOMContentLoaded中处理
+                const submitBtn = document.getElementById('subSubmitBtn');
+                if (submitBtn) {
+                    submitBtn.addEventListener('click', async () => {
+                        console.log('订阅查询按钮被点击');
+                        const url = document.getElementById('subUrl').value;
                         
-                        addToSubHistory(url, data);
+                        if (!url) {
+                            console.log('订阅URL为空，不进行查询');
+                            return;
+                        }
                         
-                        subLoadingIndicator.style.display = 'none';
-                        subResultContent.style.display = 'block';
+                        // 显示对话框
+                        showSubDialog();
                         
-                        const lines = data.split('\n');
-                        let uploadGB = 0;
-                        let downloadGB = 0;
-                        let totalGB = 0;
-                        let remainingGB = 0;
-                        let isExpired = false;
+                        // 重置UI状态
+                        subLoadingIndicator.style.display = 'flex';
+                        subResultContent.style.display = 'none';
+                        subResultGrid.innerHTML = '';
+                        subProgressContainer.style.display = 'none';
+                        subDataCards.style.display = 'none';
+                        subImagePreview.innerHTML = '';
                         
-                        lines.forEach(line => {
-                            if (!line.trim()) return;
+                        try {
+                            const data = await processSubscription(url);
                             
-                            const [label, ...valueParts] = line.split(':');
-                            let value = valueParts.join(':').trim();
+                            addToSubHistory(url, data);
                             
-                            if (label === '上传流量') {
-                                const match = value.match(/([\d.]+) GB/);
-                                if (match) uploadGB = parseFloat(match[1]);
-                            } else if (label === '下载流量') {
-                                const match = value.match(/([\d.]+) GB/);
-                                if (match) downloadGB = parseFloat(match[1]);
-                            } else if (label === '总计流量') {
-                                const match = value.match(/([\d.]+) GB/);
-                                if (match) totalGB = parseFloat(match[1]);
-                            } else if (label === '剩余流量') {
-                                const match = value.match(/([\d.]+) GB/);
-                                if (match) remainingGB = parseFloat(match[1]);
-                            } else if (label === '剩余时间' && value.includes('已过期')) {
-                                isExpired = true;
-                            }
+                            subLoadingIndicator.style.display = 'none';
+                            subResultContent.style.display = 'block';
                             
-                            if (label === '剩余流量') {
-                                const match = value.match(/([\d.]+) GB/);
-                                if (match) {
-                                    const gb = parseFloat(match[1]);
-                                    if (gb < 1) {
-                                        value += ' <span class="sub-status-tag sub-tag-danger">紧急</span>';
-                                    } else if (gb < 20) {
-                                        value += ' <span class="sub-status-tag sub-tag-warning">偏低</span>';
-                                    } else {
-                                        value += ' <span class="sub-status-tag sub-tag-success">充足</span>';
-                                    }
+                            const lines = data.split('\n');
+                            let uploadGB = 0;
+                            let downloadGB = 0;
+                            let totalGB = 0;
+                            let remainingGB = 0;
+                            let isExpired = false;
+                            
+                            lines.forEach(line => {
+                                if (!line.trim()) return;
+                                
+                                const [label, ...valueParts] = line.split(':');
+                                let value = valueParts.join(':').trim();
+                                
+                                if (label === '上传流量') {
+                                    const match = value.match(/([\d.]+) GB/);
+                                    if (match) uploadGB = parseFloat(match[1]);
+                                } else if (label === '下载流量') {
+                                    const match = value.match(/([\d.]+) GB/);
+                                    if (match) downloadGB = parseFloat(match[1]);
+                                } else if (label === '总计流量') {
+                                    const match = value.match(/([\d.]+) GB/);
+                                    if (match) totalGB = parseFloat(match[1]);
+                                } else if (label === '剩余流量') {
+                                    const match = value.match(/([\d.]+) GB/);
+                                    if (match) remainingGB = parseFloat(match[1]);
+                                } else if (label === '剩余时间' && value.includes('已过期')) {
+                                    isExpired = true;
                                 }
-                            } else if (label === '剩余时间') {
-                                if (value.includes('永久')) {
-                                    value += ' <span class="sub-status-tag sub-tag-success">永久</span>';
-                                } else if (value.includes('已过期')) {
-                                    value += ' <span class="sub-status-tag sub-tag-danger">已过期</span>';
-                                } else {
-                                    const match = value.match(/(\d+)天/);
+                                
+                                if (label === '剩余流量') {
+                                    const match = value.match(/([\d.]+) GB/);
                                     if (match) {
-                                        const days = parseInt(match[1]);
-                                        if (days < 7) {
-                                            value += ' <span class="sub-status-tag sub-tag-danger">即将到期</span>';
-                                        } else if (days < 30) {
-                                            value += ' <span class="sub-status-tag sub-tag-warning">请注意</span>';
+                                        const gb = parseFloat(match[1]);
+                                        if (gb < 1) {
+                                            value += ' <span class="sub-status-tag sub-tag-danger">紧急</span>';
+                                        } else if (gb < 20) {
+                                            value += ' <span class="sub-status-tag sub-tag-warning">偏低</span>';
                                         } else {
                                             value += ' <span class="sub-status-tag sub-tag-success">充足</span>';
                                         }
                                     }
+                                } else if (label === '剩余时间') {
+                                    if (value.includes('永久')) {
+                                        value += ' <span class="sub-status-tag sub-tag-success">永久</span>';
+                                    } else if (value.includes('已过期')) {
+                                        value += ' <span class="sub-status-tag sub-tag-danger">已过期</span>';
+                                    } else {
+                                        const match = value.match(/(\d+)天/);
+                                        if (match) {
+                                            const days = parseInt(match[1]);
+                                            if (days < 7) {
+                                                value += ' <span class="sub-status-tag sub-tag-danger">即将到期</span>';
+                                            } else if (days < 30) {
+                                                value += ' <span class="sub-status-tag sub-tag-warning">请注意</span>';
+                                            } else {
+                                                value += ' <span class="sub-status-tag sub-tag-success">充足</span>';
+                                            }
+                                        }
+                                    }
                                 }
+                                
+                                const resultItem = document.createElement('div');
+                                resultItem.className = 'sub-result-item';
+                                resultItem.innerHTML = `
+                                    <div class="sub-result-label">${label}</div>
+                                    <div class="sub-result-value">${value}</div>
+                                `;
+                                subResultGrid.appendChild(resultItem);
+                            });
+                            
+                            if (totalGB > 0) {
+                                const usedPercent = ((totalGB - remainingGB) / totalGB) * 100;
+                                
+                                subProgressContainer.style.display = 'block';
+                                subProgressFill.style.width = `${Math.min(100, usedPercent)}%`;
+                                subProgressPercent.textContent = `${Math.round(usedPercent)}%`;
+                                
+                                if (usedPercent > 90) {
+                                    subProgressFill.style.background = '#ff4757';
+                                } else if (usedPercent > 70) {
+                                    subProgressFill.style.background = '#ffa502';
+                                }
+                                
+                                subUploadValue.textContent = `${uploadGB.toFixed(2)} GB`;
+                                subDownloadValue.textContent = `${downloadGB.toFixed(2)} GB`;
+                                subRemainingValue.textContent = `${remainingGB.toFixed(2)} GB`;
+                                
+                                if (remainingGB < 1) {
+                                    subRemainingValue.style.color = '#ff4757';
+                                } else if (remainingGB < 20) {
+                                    subRemainingValue.style.color = '#ffa502';
+                                } else {
+                                    subRemainingValue.style.color = '#2ed573';
+                                }
+                                
+                                subDataCards.style.display = 'grid';
                             }
                             
-                            const resultItem = document.createElement('div');
-                            resultItem.className = 'sub-result-item';
-                            resultItem.innerHTML = `
-                                <div class="sub-result-label">${label}</div>
-                                <div class="sub-result-value">${value}</div>
+                        } catch (error) {
+                            subLoadingIndicator.style.display = 'none';
+                            subResultContent.style.display = 'block';
+                            
+                            subResultGrid.innerHTML = `
+                                <div class="sub-result-item" style="grid-column: span 2;">
+                                    <div class="sub-result-label">错误信息</div>
+                                    <div class="sub-result-value" style="color: #ff4757;">${error.message}</div>
+                                </div>
                             `;
-                            subResultGrid.appendChild(resultItem);
-                        });
-                        
-                        if (totalGB > 0) {
-                            const usedPercent = ((totalGB - remainingGB) / totalGB) * 100;
-                            
-                            subProgressContainer.style.display = 'block';
-                            subProgressFill.style.width = `${Math.min(100, usedPercent)}%`;
-                            subProgressPercent.textContent = `${Math.round(usedPercent)}%`;
-                            
-                            if (usedPercent > 90) {
-                                subProgressFill.style.background = '#ff4757';
-                            } else if (usedPercent > 70) {
-                                subProgressFill.style.background = '#ffa502';
-                            }
-                            
-                            subUploadValue.textContent = `${uploadGB.toFixed(2)} GB`;
-                            subDownloadValue.textContent = `${downloadGB.toFixed(2)} GB`;
-                            subRemainingValue.textContent = `${remainingGB.toFixed(2)} GB`;
-                            
-                            if (remainingGB < 1) {
-                                subRemainingValue.style.color = '#ff4757';
-                            } else if (remainingGB < 20) {
-                                subRemainingValue.style.color = '#ffa502';
-                            } else {
-                                subRemainingValue.style.color = '#2ed573';
-                            }
-                            
-                            subDataCards.style.display = 'grid';
                         }
-                        
-                    } catch (error) {
-                        subLoadingIndicator.style.display = 'none';
-                        subResultContent.style.display = 'block';
-                        
-                        subResultGrid.innerHTML = `
-                            <div class="sub-result-item" style="grid-column: span 2;">
-                                <div class="sub-result-label">错误信息</div>
-                                <div class="sub-result-value" style="color: #ff4757;">${error.message}</div>
-                            </div>
-                        `;
-                    }
-                });
+                    });
+                } else {
+                    console.error('订阅查询按钮未找到');
+                }
             });
             
             document.addEventListener('mousemove', (e) => {
