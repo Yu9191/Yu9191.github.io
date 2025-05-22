@@ -551,6 +551,230 @@
                 }
             }
             
+            /* 图片尺寸调整工具样式 */
+            .resize-image-container {
+                padding: 20px;
+            }
+            
+            .resize-image-header {
+                text-align: center;
+                margin-bottom: 20px;
+            }
+            
+            .resize-image-header h3 {
+                font-size: 1.5rem;
+                margin-bottom: 8px;
+                color: var(--text-color);
+            }
+            
+            .resize-image-header p {
+                color: var(--text-color-light);
+                font-size: 0.9rem;
+            }
+            
+            .resize-input-group {
+                background: var(--card-bg-light);
+                border-radius: 10px;
+                padding: 20px;
+                margin-bottom: 20px;
+                border: 1px solid var(--border-color);
+            }
+            
+            .resize-dimensions {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 15px;
+                margin-bottom: 15px;
+                align-items: center;
+            }
+            
+            .dimension-input {
+                display: flex;
+                flex-direction: column;
+            }
+            
+            .dimension-input label {
+                font-size: 14px;
+                color: var(--text-color-light);
+                margin-bottom: 5px;
+            }
+            
+            .dimension-input input {
+                width: 100px;
+                background: var(--card-bg);
+                border: 1px solid var(--border-color);
+                border-radius: 6px;
+                padding: 8px 10px;
+                color: var(--text-color);
+            }
+            
+            .dimension-checkbox {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+            
+            .dimension-checkbox label {
+                font-size: 14px;
+                color: var(--text-color);
+            }
+            
+            .resize-tg-option {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                margin-bottom: 15px;
+            }
+            
+            .resize-tg-option label {
+                font-size: 14px;
+                color: var(--text-color);
+            }
+            
+            .resize-upload {
+                margin-top: 15px;
+            }
+            
+            .resize-upload .upload-btn {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                background: var(--primary-color);
+                color: white;
+                border: none;
+                border-radius: 8px;
+                padding: 10px 15px;
+                font-size: 14px;
+                cursor: pointer;
+                transition: all 0.3s;
+            }
+            
+            .resize-upload .upload-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            }
+            
+            .resize-upload input[type="file"] {
+                display: none;
+            }
+            
+            .resize-progress-container {
+                margin: 20px 0;
+            }
+            
+            .resize-progress-text {
+                text-align: center;
+                margin-bottom: 10px;
+                font-size: 14px;
+                color: var(--text-color);
+            }
+            
+            .resize-progress-bar {
+                height: 10px;
+                background: var(--card-bg-light);
+                border-radius: 5px;
+                overflow: hidden;
+            }
+            
+            .resize-progress-fill {
+                height: 100%;
+                background: var(--primary-color);
+                transition: width 0.3s;
+            }
+            
+            .resize-preview-container {
+                margin-top: 20px;
+            }
+            
+            .resize-images-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 15px;
+            }
+            
+            .resize-image-item {
+                position: relative;
+                border-radius: 8px;
+                overflow: hidden;
+                background: var(--card-bg-light);
+                padding: 10px;
+                border: 1px solid var(--border-color);
+            }
+            
+            .resize-image-preview {
+                width: 100%;
+                aspect-ratio: 1;
+                object-fit: contain;
+                border-radius: 5px;
+                background: var(--card-bg);
+            }
+            
+            .resize-image-info {
+                margin-top: 10px;
+                font-size: 12px;
+                color: var(--text-color-light);
+                text-align: center;
+            }
+            
+            .resize-image-download {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                width: 28px;
+                height: 28px;
+                background: var(--card-bg);
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                color: var(--text-color);
+                transition: all 0.2s;
+                z-index: 1;
+            }
+            
+            .resize-image-download:hover {
+                transform: scale(1.1);
+                background: var(--primary-color);
+                color: white;
+            }
+            
+            .resize-actions {
+                margin-top: 30px;
+                text-align: center;
+            }
+            
+            .resize-actions button {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                background: var(--primary-color);
+                color: white;
+                border: none;
+                border-radius: 8px;
+                padding: 12px 20px;
+                font-size: 15px;
+                font-weight: 500;
+                cursor: pointer;
+                transition: all 0.3s;
+            }
+            
+            .resize-actions button:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            }
+            
+            @media (max-width: 600px) {
+                .resize-dimensions {
+                    flex-direction: column;
+                    align-items: flex-start;
+                }
+                
+                .resize-images-grid {
+                    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+                }
+            }
+            
             /* 代码运行工具样式（已移除，不再生效） */
         </style>
     </head>
@@ -626,6 +850,9 @@
                     <button class="tool-btn" data-tool="pixel-art">
                         <i class="fa-solid fa-image"></i> 像素转换器
                     </button>
+                    <button class="tool-btn" data-tool="resize-image">
+                        <i class="fa-solid fa-crop"></i> 图片调整
+                    </button>
                     <button class="tool-btn" data-tool="subscription">
                         <i class="fa-solid fa-globe"></i> 订阅查询
                     </button>
@@ -676,6 +903,61 @@
                                     <i class="fa-solid fa-download"></i> 下载
                                 </button>
                             </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tool-content" id="resize-image-tool">
+                    <div class="resize-image-container">
+                        <div class="resize-image-header">
+                            <h3>图片尺寸调整工具</h3>
+                            <p>批量调整PNG图片尺寸，支持自定义宽高</p>
+                        </div>
+                        
+                        <div class="resize-input-group">
+                            <div class="resize-dimensions">
+                                <div class="dimension-input">
+                                    <label for="resizeWidth">宽度 (px)</label>
+                                    <input type="number" id="resizeWidth" min="1" max="4000" value="512">
+                                </div>
+                                <div class="dimension-input">
+                                    <label for="resizeHeight">高度 (px)</label>
+                                    <input type="number" id="resizeHeight" min="1" max="4000" value="512">
+                                </div>
+                                <div class="dimension-checkbox">
+                                    <input type="checkbox" id="maintainAspect" checked>
+                                    <label for="maintainAspect">保持比例</label>
+                                </div>
+                            </div>
+                            
+                            <div class="resize-tg-option">
+                                <input type="checkbox" id="makeTgSticker">
+                                <label for="makeTgSticker">适配Telegram贴纸 (512x512)</label>
+                            </div>
+                            
+                            <div class="resize-upload">
+                                <label for="resizeImageUpload" class="upload-btn">
+                                    <i class="fa-solid fa-upload"></i> 选择图片文件 (PNG)
+                                </label>
+                                <input type="file" id="resizeImageUpload" accept="image/png" multiple>
+                            </div>
+                        </div>
+                        
+                        <div class="resize-progress-container" style="display:none;">
+                            <div class="resize-progress-text">处理中 (<span id="resizeProgressCount">0</span>/<span id="resizeTotalCount">0</span>)</div>
+                            <div class="resize-progress-bar">
+                                <div class="resize-progress-fill" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="resize-preview-container">
+                            <div class="resize-images-grid" id="resizeImagesGrid"></div>
+                        </div>
+                        
+                        <div class="resize-actions" style="display:none;">
+                            <button id="downloadAllResizedBtn">
+                                <i class="fa-solid fa-download"></i> 下载所有调整后的图片
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -1519,6 +1801,255 @@
                 laser.style.opacity = '1';
                 
                 document.addEventListener('mousemove', updateLaserPosition);
+            });
+            
+            // 图片尺寸调整工具代码
+            document.addEventListener('DOMContentLoaded', () => {
+                const resizeWidth = document.getElementById('resizeWidth');
+                const resizeHeight = document.getElementById('resizeHeight');
+                const maintainAspect = document.getElementById('maintainAspect');
+                const makeTgSticker = document.getElementById('makeTgSticker');
+                const resizeImageUpload = document.getElementById('resizeImageUpload');
+                const resizeImagesGrid = document.getElementById('resizeImagesGrid');
+                const resizeProgressContainer = document.querySelector('.resize-progress-container');
+                const resizeProgressFill = document.querySelector('.resize-progress-fill');
+                const resizeProgressCount = document.getElementById('resizeProgressCount');
+                const resizeTotalCount = document.getElementById('resizeTotalCount');
+                const downloadAllResizedBtn = document.getElementById('downloadAllResizedBtn');
+                const resizeActions = document.querySelector('.resize-actions');
+                
+                let originalAspectRatio = 1;
+                let processedImages = [];
+                
+                // 当选择了TG贴纸选项时自动设置为512x512
+                makeTgSticker.addEventListener('change', function() {
+                    if (this.checked) {
+                        resizeWidth.value = 512;
+                        resizeHeight.value = 512;
+                        maintainAspect.checked = true;
+                    }
+                });
+                
+                // 保持宽高比
+                resizeWidth.addEventListener('input', function() {
+                    if (maintainAspect.checked) {
+                        resizeHeight.value = Math.round(parseInt(this.value) / originalAspectRatio);
+                    }
+                });
+                
+                resizeHeight.addEventListener('input', function() {
+                    if (maintainAspect.checked) {
+                        resizeWidth.value = Math.round(parseInt(this.value) * originalAspectRatio);
+                    }
+                });
+                
+                // 上传并处理图片
+                resizeImageUpload.addEventListener('change', async function(e) {
+                    const files = e.target.files;
+                    if (!files || files.length === 0) return;
+                    
+                    processedImages = [];
+                    resizeImagesGrid.innerHTML = '';
+                    resizeProgressContainer.style.display = 'block';
+                    resizeActions.style.display = 'none';
+                    
+                    resizeTotalCount.textContent = files.length;
+                    resizeProgressCount.textContent = 0;
+                    resizeProgressFill.style.width = '0%';
+                    
+                    for (let i = 0; i < files.length; i++) {
+                        const file = files[i];
+                        if (!file.type.includes('image/png')) continue;
+                        
+                        try {
+                            const result = await resizeImage(file);
+                            processedImages.push(result);
+                            
+                            resizeProgressCount.textContent = processedImages.length;
+                            resizeProgressFill.style.width = `${(processedImages.length / files.length) * 100}%`;
+                            
+                            // 创建预览
+                            createImagePreview(result);
+                        } catch (error) {
+                            console.error('处理图片时出错:', error);
+                        }
+                    }
+                    
+                    if (processedImages.length > 0) {
+                        resizeActions.style.display = 'block';
+                    }
+                    
+                    setTimeout(() => {
+                        resizeProgressContainer.style.display = 'none';
+                    }, 1000);
+                });
+                
+                // 调整图片尺寸
+                async function resizeImage(file) {
+                    return new Promise((resolve, reject) => {
+                        const reader = new FileReader();
+                        reader.onload = function(event) {
+                            const img = new Image();
+                            img.onload = function() {
+                                // 第一次加载图片时设置默认宽高比
+                                if (processedImages.length === 0) {
+                                    originalAspectRatio = img.width / img.height;
+                                    if (maintainAspect.checked) {
+                                        resizeHeight.value = Math.round(parseInt(resizeWidth.value) / originalAspectRatio);
+                                    }
+                                }
+                                
+                                const targetWidth = parseInt(resizeWidth.value) || 512;
+                                const targetHeight = parseInt(resizeHeight.value) || 512;
+                                
+                                const canvas = document.createElement('canvas');
+                                canvas.width = targetWidth;
+                                canvas.height = targetHeight;
+                                
+                                const ctx = canvas.getContext('2d');
+                                
+                                // 如果是TG贴纸，需要透明背景
+                                if (makeTgSticker.checked) {
+                                    ctx.clearRect(0, 0, targetWidth, targetHeight);
+                                } else {
+                                    ctx.fillStyle = 'white';
+                                    ctx.fillRect(0, 0, targetWidth, targetHeight);
+                                }
+                                
+                                // 保持比例并居中图片
+                                let dWidth, dHeight, dx, dy;
+                                
+                                if (maintainAspect.checked) {
+                                    const aspectRatio = img.width / img.height;
+                                    
+                                    if (aspectRatio > 1) {
+                                        dWidth = targetWidth;
+                                        dHeight = targetWidth / aspectRatio;
+                                        dx = 0;
+                                        dy = (targetHeight - dHeight) / 2;
+                                    } else {
+                                        dHeight = targetHeight;
+                                        dWidth = targetHeight * aspectRatio;
+                                        dx = (targetWidth - dWidth) / 2;
+                                        dy = 0;
+                                    }
+                                } else {
+                                    dWidth = targetWidth;
+                                    dHeight = targetHeight;
+                                    dx = 0;
+                                    dy = 0;
+                                }
+                                
+                                ctx.drawImage(img, dx, dy, dWidth, dHeight);
+                                
+                                const dataUrl = canvas.toDataURL('image/png');
+                                
+                                resolve({
+                                    originalName: file.name,
+                                    dataUrl: dataUrl,
+                                    width: targetWidth,
+                                    height: targetHeight
+                                });
+                            };
+                            img.onerror = reject;
+                            img.src = event.target.result;
+                        };
+                        reader.onerror = reject;
+                        reader.readAsDataURL(file);
+                    });
+                }
+                
+                // 创建图片预览
+                function createImagePreview(imageData) {
+                    const imageItem = document.createElement('div');
+                    imageItem.className = 'resize-image-item';
+                    
+                    const imgElement = document.createElement('img');
+                    imgElement.className = 'resize-image-preview';
+                    imgElement.src = imageData.dataUrl;
+                    imgElement.alt = imageData.originalName;
+                    
+                    const infoElement = document.createElement('div');
+                    infoElement.className = 'resize-image-info';
+                    infoElement.textContent = `${imageData.width}x${imageData.height}`;
+                    
+                    const downloadBtn = document.createElement('div');
+                    downloadBtn.className = 'resize-image-download';
+                    downloadBtn.innerHTML = '<i class="fa-solid fa-download"></i>';
+                    downloadBtn.addEventListener('click', () => {
+                        downloadImage(imageData);
+                    });
+                    
+                    imageItem.appendChild(imgElement);
+                    imageItem.appendChild(infoElement);
+                    imageItem.appendChild(downloadBtn);
+                    
+                    resizeImagesGrid.appendChild(imageItem);
+                }
+                
+                // 下载单个图片
+                function downloadImage(imageData) {
+                    const link = document.createElement('a');
+                    link.href = imageData.dataUrl;
+                    
+                    // 为文件名添加尺寸信息
+                    const fileName = imageData.originalName.replace(
+                        '.png', 
+                        `_${imageData.width}x${imageData.height}.png`
+                    );
+                    
+                    link.download = fileName;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                }
+                
+                // 下载所有图片
+                downloadAllResizedBtn.addEventListener('click', async function() {
+                    if (processedImages.length === 0) return;
+                    
+                    // 如果只有一个图片，直接下载
+                    if (processedImages.length === 1) {
+                        downloadImage(processedImages[0]);
+                        return;
+                    }
+                    
+                    // 多个图片打包下载（需要依赖JSZip库）
+                    // 检查是否已加载JSZip
+                    if (typeof JSZip === 'undefined') {
+                        // 动态加载JSZip库
+                        const script = document.createElement('script');
+                        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
+                        document.head.appendChild(script);
+                        
+                        await new Promise((resolve) => {
+                            script.onload = resolve;
+                        });
+                    }
+                    
+                    const zip = new JSZip();
+                    const folder = zip.folder('resized_images');
+                    
+                    // 将所有图片添加到zip
+                    for (const imageData of processedImages) {
+                        const base64Data = imageData.dataUrl.replace('data:image/png;base64,', '');
+                        const fileName = imageData.originalName.replace(
+                            '.png', 
+                            `_${imageData.width}x${imageData.height}.png`
+                        );
+                        folder.file(fileName, base64Data, {base64: true});
+                    }
+                    
+                    // 生成zip并下载
+                    const content = await zip.generateAsync({type: 'blob'});
+                    
+                    const link = document.createElement('a');
+                    link.href = URL.createObjectURL(content);
+                    link.download = 'resized_images.zip';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                });
             });
             
             document.addEventListener('touchstart', (e) => {
