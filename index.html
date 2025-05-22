@@ -717,6 +717,25 @@
                 font-size: 12px;
                 margin-right: 8px;
             }
+            
+            /* 全屏代码运行器 */
+            body.fullscreen-active {
+                overflow: hidden;
+            }
+
+            #code-runner-tool.fullscreen {
+                position: fixed;
+                inset: 0;
+                background: var(--card-bg);
+                overflow-y: auto;
+                z-index: 10000;
+                padding: 20px 10%;
+            }
+            #code-runner-tool.fullscreen .code-editor,
+            #code-runner-tool.fullscreen .code-output {
+                height: 40vh;
+                max-height: none;
+            }
         </style>
     </head>
     <body>
@@ -801,7 +820,9 @@
                 
                 <div class="tool-content active" id="about-tool">
                     <div class="about-section">
-                        <p>啥也不会</p>
+                        <p>欢迎来到我的个人主页！我是Yu9191，一个热爱技术与创新的开发者。</p>
+                        <p>我专注于移动应用开发和脚本编写，喜欢探索新技术和解决复杂问题。</p>
+                        <p>通过上方的联系方式可以找到我，期待与您交流！</p>
                     </div>
                 </div>
                 
@@ -932,7 +953,8 @@
                             <select id="codeLanguage">
                                 <option value="javascript" selected>JavaScript</option>
                                 <option value="html">HTML</option>
-                                <option value="qx">QX/Surge脚本</option>
+                                <option value="qx">Quantumult X 脚本</option>
+                                <option value="surge">Surge 脚本</option>
                             </select>
                         </div>
                         
@@ -1300,6 +1322,16 @@ document.body.appendChild(div);
                     // 更新内容显示
                     toolContents.forEach(content => content.classList.remove('active'));
                     document.getElementById(`${toolName}-tool`).classList.add('active');
+
+                    // 全屏处理
+                    const runner = document.getElementById('code-runner-tool');
+                    if (toolName === 'code-runner') {
+                        runner.classList.add('fullscreen');
+                        document.body.classList.add('fullscreen-active');
+                    } else {
+                        runner.classList.remove('fullscreen');
+                        document.body.classList.remove('fullscreen-active');
+                    }
                 });
             });
             
