@@ -629,12 +629,11 @@
                     <button class="tool-btn" data-tool="subscription">
                         <i class="fa-solid fa-globe"></i> 订阅查询
                     </button>
-                    <!-- 代码运行按钮已移除 -->
                 </div>
                 
                 <div class="tool-content active" id="about-tool">
                     <div class="about-section">
-                        <p>不欢迎你！</p>
+                        <p>不欢迎你。</p>
                     </div>
                 </div>
                 
@@ -695,7 +694,6 @@
                             </button>
                         </form>
                         
-                        <!-- 查询历史记录部分 -->
                         <div class="sub-history-section" id="subHistorySection">
                             <div class="sub-history-header">
                                 <h3>查询历史</h3>
@@ -742,7 +740,6 @@
                                     </div>
                                 </div>
                                 
-                                <!-- 图片生成区域 -->
                                 <div id="subDownloadImageContainer" style="text-align: center; margin-top: 20px;">
                                     <button id="subDownloadImageBtn" class="sub-download-btn">
                                         <i class="fa-solid fa-download"></i> 生成并下载图片
@@ -753,8 +750,6 @@
                         </div>
                     </div>
                 </div>
-                
-                <!-- 代码运行工具已移除 -->
             </div>
             <div class="floating-elements">
                 <div class="floating-element" style="--delay: 0s">⚡</div>
@@ -840,11 +835,10 @@
             
             createBubbles();
             
-            // 添加3D倾斜效果
             const card3D = document.querySelector('.card');
             
             document.addEventListener('mousemove', function(e) {
-                if (window.innerWidth <= 768) return; // 移动设备不应用效果
+                if (window.innerWidth <= 768) return;
                 
                 const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
                 const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
@@ -1009,7 +1003,6 @@
                 link.click();
             });
             
-            // 工具切换功能
             const toolBtns = document.querySelectorAll('.tool-btn');
             const toolContents = document.querySelectorAll('.tool-content');
             
@@ -1017,17 +1010,14 @@
                 btn.addEventListener('click', function() {
                     const toolName = this.getAttribute('data-tool');
                     
-                    // 更新按钮状态
                     toolBtns.forEach(b => b.classList.remove('active'));
                     this.classList.add('active');
                     
-                    // 更新内容显示
                     toolContents.forEach(content => content.classList.remove('active'));
                     document.getElementById(`${toolName}-tool`).classList.add('active');
                 });
             });
             
-            // 订阅查询功能
             document.addEventListener('DOMContentLoaded', () => {
                 const subscriptionForm = document.getElementById('subscriptionForm');
                 const subResultContainer = document.getElementById('subResultContainer');
@@ -1046,7 +1036,6 @@
                 const subDownloadImageBtn = document.getElementById('subDownloadImageBtn');
                 const subImagePreview = document.getElementById('subImagePreview');
                 
-                // 历史记录功能
                 let subQueryHistory = [];
                 try {
                     const storedHistory = localStorage.getItem('subscriptionQueryHistory');
@@ -1057,14 +1046,11 @@
                     console.error('加载历史记录失败:', e);
                 }
                 
-                // 添加到历史记录
                 function addToSubHistory(url, data) {
-                    // 解析基本信息用于历史记录预览
                     const lines = data.split('\n');
                     let airportName = '未知';
                     let expiry = '未知';
                     
-                    // 尝试提取机场名和到期时间
                     for (const line of lines) {
                         if (line.startsWith('机场名称:')) {
                             airportName = line.split(':')[1].trim();
@@ -1073,7 +1059,6 @@
                         }
                     }
                     
-                    // 创建历史记录项
                     const historyItem = {
                         url,
                         airportName,
@@ -1081,21 +1066,17 @@
                         timestamp: Date.now()
                     };
                     
-                    // 添加到数组开头并限制为10项
                     subQueryHistory = [historyItem, ...subQueryHistory.filter(item => item.url !== url).slice(0, 9)];
                     
-                    // 保存到localStorage
                     try {
                         localStorage.setItem('subscriptionQueryHistory', JSON.stringify(subQueryHistory));
                     } catch (e) {
                         console.error('保存历史记录失败:', e);
                     }
                     
-                    // 更新历史记录UI
                     updateSubHistoryUI();
                 }
                 
-                // 更新历史记录UI
                 function updateSubHistoryUI() {
                     const historyContainer = document.getElementById('subHistoryContainer');
                     if (!historyContainer) return;
@@ -1123,7 +1104,6 @@
                     });
                 }
                 
-                // 格式化相对时间
                 function formatSubHistoryTime(timestamp) {
                     const now = Date.now();
                     const diff = now - timestamp;
@@ -1137,28 +1117,23 @@
                     return `${date.getMonth() + 1}月${date.getDate()}日`;
                 }
                 
-                // 清除历史记录
                 document.getElementById('clearSubHistoryBtn').addEventListener('click', () => {
                     subQueryHistory = [];
                     localStorage.removeItem('subscriptionQueryHistory');
                     updateSubHistoryUI();
                 });
                 
-                // 初始化历史记录UI
                 updateSubHistoryUI();
                 
-                // 复制功能
                 subCopyBtn.addEventListener('click', () => {
-                    // 获取所有结果项的文本
                     const textToCopy = Array.from(subResultGrid.querySelectorAll('.sub-result-item'))
                         .map(item => {
                             const label = item.querySelector('.sub-result-label').textContent;
-                            const value = item.querySelector('.sub-result-value').textContent.replace(/<[^>]*>/g, ''); // 移除 HTML 标签
+                            const value = item.querySelector('.sub-result-value').textContent.replace(/<[^>]*>/g, '');
                             return `${label}: ${value}`;
                         })
                         .join('\n');
                     
-                    // 使用现代复制 API
                     const copyText = async () => {
                         try {
                             await navigator.clipboard.writeText(textToCopy);
@@ -1167,7 +1142,6 @@
                                 subCopyTooltip.classList.remove('visible');
                             }, 2000);
                         } catch (err) {
-                            // 备用复制方法
                             const textarea = document.createElement('textarea');
                             textarea.value = textToCopy;
                             textarea.style.position = 'fixed';
@@ -1187,68 +1161,55 @@
                     copyText();
                 });
                 
-                // 生成图片结果的函数
                 async function generateSubResultImage() {
-                    // 获取结果数据
                     const airportName = document.querySelector('.sub-result-item:nth-child(1) .sub-result-value')?.textContent.replace(/<[^>]*>/g, '') || '未知';
-                    const subscriptionUrl = airportName; // 使用机场名称代替URL
+                    const subscriptionUrl = airportName;
                     const uploadData = document.querySelector('.sub-result-item:nth-child(3) .sub-result-value')?.textContent.replace(/<[^>]*>/g, '') || '0 GB';
                     const downloadData = document.querySelector('.sub-result-item:nth-child(4) .sub-result-value')?.textContent.replace(/<[^>]*>/g, '') || '0 GB';
                     const totalData = document.querySelector('.sub-result-item:nth-child(5) .sub-result-value')?.textContent.replace(/<[^>]*>/g, '') || '0 GB';
                     const remainingData = document.querySelector('.sub-result-item:nth-child(6) .sub-result-value')?.textContent.replace(/<[^>]*>/g, '') || '0 GB';
                     const expiryDate = document.querySelector('.sub-result-item:nth-child(7) .sub-result-value')?.textContent.replace(/<[^>]*>/g, '') || '未知';
                     
-                    // 创建canvas元素
                     const canvas = document.createElement('canvas');
                     canvas.width = 640;
                     canvas.height = 400;
                     const ctx = canvas.getContext('2d');
                     
-                    // 创建背景
                     ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--card-bg-light').trim();
                     ctx.fillRect(0, 0, canvas.width, canvas.height);
                     
-                    // 设置文本样式
                     ctx.font = 'bold 24px Arial';
                     ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--text-color').trim();
                     ctx.textAlign = 'left';
                     
-                    // 绘制机场名称
                     ctx.fillText(airportName, 60, 60);
                     
-                    // 绘制主卡片
                     ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--card-bg').trim();
                     roundRect(ctx, 50, 80, canvas.width - 100, 280, 10);
                     ctx.fill();
                     
-                    // 添加边框
                     ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--border-color').trim();
                     ctx.lineWidth = 1;
                     roundRect(ctx, 50, 80, canvas.width - 100, 280, 10);
                     ctx.stroke();
                     
-                    // 绘制内容
                     ctx.font = '18px Arial';
                     const leftCol = 80;
                     const rightCol = canvas.width / 2 + 30;
                     let y = 130;
                     
-                    // 第一行
                     ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--text-color-light').trim();
                     ctx.fillText('机场', leftCol, y);
                     ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--text-color').trim();
                     ctx.fillText(subscriptionUrl, leftCol + 100, y);
                     
-                    // 数据行
                     y += 50;
                     
-                    // 左侧：上传流量
                     ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--text-color-light').trim();
                     ctx.fillText('上传流量', leftCol, y);
                     ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--text-color').trim();
                     ctx.fillText(uploadData, leftCol + 100, y);
                     
-                    // 右侧：下载流量
                     ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--text-color-light').trim();
                     ctx.fillText('下载流量', rightCol, y);
                     ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--text-color').trim();
@@ -1256,13 +1217,11 @@
                     
                     y += 50;
                     
-                    // 左侧：总计流量
                     ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--text-color-light').trim();
                     ctx.fillText('总计流量', leftCol, y);
                     ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--text-color').trim();
                     ctx.fillText(totalData, leftCol + 100, y);
                     
-                    // 右侧：剩余流量
                     ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--text-color-light').trim();
                     ctx.fillText('剩余流量', rightCol, y);
                     ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--text-color').trim();
@@ -1270,24 +1229,20 @@
                     
                     y += 50;
                     
-                    // 左侧：过期时间
                     ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--text-color-light').trim();
                     ctx.fillText('过期时间', leftCol, y);
                     ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--text-color').trim();
                     ctx.fillText(expiryDate, leftCol + 100, y);
                     
-                    // 底部时间戳
                     ctx.textAlign = 'center';
                     ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--text-color-light').trim();
                     ctx.font = '14px Arial';
                     const now = new Date();
                     ctx.fillText('生成时间: ' + now.toLocaleString(), canvas.width / 2, 380);
                     
-                    // 返回数据URL
                     return canvas.toDataURL('image/png');
                 }
                 
-                // 绘制圆角矩形
                 function roundRect(ctx, x, y, width, height, radius) {
                     ctx.beginPath();
                     ctx.moveTo(x + radius, y);
@@ -1302,20 +1257,16 @@
                     ctx.closePath();
                 }
                 
-                // 图片下载按钮事件
                 subDownloadImageBtn.addEventListener('click', async () => {
                     try {
                         subDownloadImageBtn.disabled = true;
                         subDownloadImageBtn.textContent = '生成中...';
                         
-                        // 生成图片
                         const imageUrl = await generateSubResultImage();
                         
-                        // 显示预览
                         subImagePreview.innerHTML = `<img src="${imageUrl}" alt="订阅信息">`;
                         subImagePreview.style.display = 'block';
                         
-                        // 创建下载链接
                         const airportName = document.querySelector('.sub-result-item:nth-child(1) .sub-result-value')?.textContent.replace(/<[^>]*>/g, '') || '未知';
                         const link = document.createElement('a');
                         link.href = imageUrl;
@@ -1338,10 +1289,8 @@
                     }
                 });
                 
-                // 订阅查询处理函数
                 async function processSubscription(inputUrl) {
                     try {
-                        // 模拟订阅查询API响应
                         const mockResponse = await simulateSubscriptionQuery(inputUrl);
                         return mockResponse;
                     } catch (error) {
@@ -1349,12 +1298,10 @@
                     }
                 }
                 
-                // 模拟查询函数 (本地处理，不发送实际网络请求)
                 async function simulateSubscriptionQuery(url) {
                     return new Promise((resolve, reject) => {
                         setTimeout(() => {
                             try {
-                                // 提取域名作为"机场名称"
                                 let airportName = '未知机场';
                                 try {
                                     const urlObj = new URL(url);
@@ -1363,13 +1310,11 @@
                                     airportName = url.split('/')[2] || '未知机场';
                                 }
                                 
-                                // 生成随机流量数据
                                 const upload = (Math.random() * 50).toFixed(2);
                                 const download = (Math.random() * 100).toFixed(2);
                                 const total = 500;
                                 const remaining = (total - upload - download).toFixed(2);
                                 
-                                // 生成随机过期时间 (30天内)
                                 const now = new Date();
                                 const expireDays = Math.floor(Math.random() * 30) + 1;
                                 const expireDate = new Date(now);
@@ -1390,18 +1335,16 @@
                             } catch (error) {
                                 reject(new Error('处理订阅数据失败'));
                             }
-                        }, 1500); // 模拟网络延迟
+                        }, 1500);
                     });
                 }
                 
-                // 提交查询
                 subscriptionForm.addEventListener('submit', async (e) => {
                     e.preventDefault();
                     const url = document.getElementById('subUrl').value;
                     
                     if (!url) return;
                     
-                    // 显示结果容器和加载动画
                     subResultContainer.classList.add('active');
                     subLoadingIndicator.style.display = 'flex';
                     subResultContent.style.display = 'none';
@@ -1412,14 +1355,11 @@
                     try {
                         const data = await processSubscription(url);
                         
-                        // 添加到历史记录
                         addToSubHistory(url, data);
                         
-                        // 隐藏加载动画，显示结果
                         subLoadingIndicator.style.display = 'none';
                         subResultContent.style.display = 'block';
                         
-                        // 解析数据
                         const lines = data.split('\n');
                         let uploadGB = 0;
                         let downloadGB = 0;
@@ -1427,14 +1367,12 @@
                         let remainingGB = 0;
                         let isExpired = false;
                         
-                        // 创建结果网格
                         lines.forEach(line => {
-                            if (!line.trim()) return; // 跳过空行
+                            if (!line.trim()) return;
                             
                             const [label, ...valueParts] = line.split(':');
                             let value = valueParts.join(':').trim();
                             
-                            // 提取数据用于图表
                             if (label === '上传流量') {
                                 const match = value.match(/([\d.]+) GB/);
                                 if (match) uploadGB = parseFloat(match[1]);
@@ -1451,7 +1389,6 @@
                                 isExpired = true;
                             }
                             
-                            // 为特定值添加状态标签
                             if (label === '剩余流量') {
                                 const match = value.match(/([\d.]+) GB/);
                                 if (match) {
@@ -1484,7 +1421,6 @@
                                 }
                             }
                             
-                            // 创建结果项
                             const resultItem = document.createElement('div');
                             resultItem.className = 'sub-result-item';
                             resultItem.innerHTML = `
@@ -1494,7 +1430,6 @@
                             subResultGrid.appendChild(resultItem);
                         });
                         
-                        // 更新进度条和数据卡片
                         if (totalGB > 0) {
                             const usedPercent = ((totalGB - remainingGB) / totalGB) * 100;
                             
@@ -1502,19 +1437,16 @@
                             subProgressFill.style.width = `${Math.min(100, usedPercent)}%`;
                             subProgressPercent.textContent = `${Math.round(usedPercent)}%`;
                             
-                            // 根据使用率改变进度条颜色
                             if (usedPercent > 90) {
                                 subProgressFill.style.background = '#ff4757';
                             } else if (usedPercent > 70) {
                                 subProgressFill.style.background = '#ffa502';
                             }
                             
-                            // 更新数据卡片
                             subUploadValue.textContent = `${uploadGB.toFixed(2)} GB`;
                             subDownloadValue.textContent = `${downloadGB.toFixed(2)} GB`;
                             subRemainingValue.textContent = `${remainingGB.toFixed(2)} GB`;
                             
-                            // 根据剩余流量设置颜色
                             if (remainingGB < 1) {
                                 subRemainingValue.style.color = '#ff4757';
                             } else if (remainingGB < 20) {
@@ -1540,7 +1472,6 @@
                 });
             });
             
-            // 增强激光指针效果，任意位置滑动
             document.addEventListener('mousemove', (e) => {
                 if (!isPressed) {
                     const sourceRect = laserSource.getBoundingClientRect();
@@ -1556,7 +1487,6 @@
                     laser.style.width = `${distance}px`;
                     laser.style.transform = `rotate(${angle}rad)`;
                     
-                    // 在鼠标移动时有小概率显示激光
                     if (Math.random() < 0.02) {
                         laser.style.opacity = '0.6';
                         setTimeout(() => {
@@ -1566,7 +1496,6 @@
                 }
             });
             
-            // 全页面激光跟踪
             document.addEventListener('mousedown', (e) => {
                 isPressed = true;
                 
@@ -1587,7 +1516,6 @@
                 document.addEventListener('mousemove', updateLaserPosition);
             });
             
-            // 移动设备支持
             document.addEventListener('touchstart', (e) => {
                 if (e.touches.length === 1) {
                     isPressed = true;
