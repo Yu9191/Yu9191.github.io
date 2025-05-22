@@ -56,6 +56,22 @@ function setupQxEnvironment() {
         }
         return obj;
     };
+
+    // Surge/Loon/Stash $httpClient 模拟
+    window.$httpClient = {
+        get: (options, cb) => {
+            const url = typeof options === 'string' ? options : options.url;
+            fetch(url)
+                .then(resp => resp.text().then(body => cb(null, {status: resp.status, headers: Object.fromEntries(resp.headers.entries())}, body)))
+                .catch(err => cb(err));
+        },
+        post: (options, cb) => {
+            const fetchOpts = typeof options === 'string' ? {url: options} : options;
+            fetch(fetchOpts.url, {method: 'POST', headers: fetchOpts.headers, body: fetchOpts.body})
+                .then(resp => resp.text().then(body => cb(null, {status: resp.status, headers: Object.fromEntries(resp.headers.entries())}, body)))
+                .catch(err => cb(err));
+        }
+    };
 }
 
 // 在代码运行工具中调用此函数来设置QX环境
