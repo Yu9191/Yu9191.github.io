@@ -627,7 +627,7 @@
                 display: none;
             }
             
-            /* 对话框样式 */
+            /* 对话框样式 - Mac风格 */
             .resize-pro-dialog {
                 position: fixed;
                 top: 50%;
@@ -635,46 +635,135 @@
                 transform: translate(-50%, -50%);
                 width: 90%;
                 max-width: 800px;
+                height: 80%;
+                max-height: 600px;
                 background: var(--card-bg);
                 border-radius: 12px;
                 box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
                 z-index: 1000;
                 overflow: hidden;
+                transition: all 0.3s ease;
+                resize: both;
+            }
+            
+            .resize-pro-dialog.fullscreen {
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                max-width: 100%;
+                max-height: 100%;
+                transform: none;
+                border-radius: 0;
             }
             
             .resize-pro-dialog-header {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                padding: 15px 20px;
+                padding: 12px 20px;
                 background: var(--card-bg-light);
                 border-bottom: 1px solid var(--border-color);
+                cursor: move;
+                user-select: none;
             }
             
             .resize-pro-dialog-header span {
-                font-size: 18px;
+                font-size: 16px;
                 font-weight: 600;
                 color: var(--text-color);
+                text-align: center;
+                flex: 1;
             }
             
-            .resize-pro-close-btn {
-                background: none;
-                border: none;
-                color: var(--text-color-light);
-                font-size: 24px;
-                cursor: pointer;
-                width: 30px;
-                height: 30px;
+            /* Mac风格窗口控制按钮 */
+            .resize-pro-window-controls {
                 display: flex;
-                align-items: center;
-                justify-content: center;
+                gap: 8px;
+                margin-right: 15px;
+            }
+            
+            .resize-pro-control {
+                width: 12px;
+                height: 12px;
                 border-radius: 50%;
+                cursor: pointer;
                 transition: all 0.2s;
             }
             
-            .resize-pro-close-btn:hover {
-                background: rgba(0, 0, 0, 0.1);
-                color: var(--text-color);
+            .resize-pro-close {
+                background-color: #ff5f57;
+            }
+            
+            .resize-pro-minimize {
+                background-color: #febc2e;
+            }
+            
+            .resize-pro-maximize {
+                background-color: #28c840;
+            }
+            
+            .resize-pro-control:hover {
+                filter: brightness(0.9);
+            }
+            
+            .resize-pro-close:hover::before,
+            .resize-pro-close:hover::after {
+                content: '';
+                position: absolute;
+                width: 8px;
+                height: 1px;
+                background: rgba(0, 0, 0, 0.5);
+                top: 6px;
+                left: 2px;
+            }
+            
+            .resize-pro-close:hover::before {
+                transform: rotate(45deg);
+            }
+            
+            .resize-pro-close:hover::after {
+                transform: rotate(-45deg);
+            }
+            
+            .resize-pro-maximize:hover::before {
+                content: '';
+                position: absolute;
+                width: 6px;
+                height: 6px;
+                border: 1px solid rgba(0, 0, 0, 0.5);
+                top: 2px;
+                left: 2px;
+                border-radius: 1px;
+            }
+            
+            .resize-pro-drag-handle {
+                flex: 1;
+                height: 100%;
+                cursor: move;
+            }
+            
+            /* 调整大小的手柄 */
+            .resize-pro-resize-handle {
+                position: absolute;
+                bottom: 0;
+                right: 0;
+                width: 20px;
+                height: 20px;
+                cursor: nwse-resize;
+                z-index: 1010;
+            }
+            
+            .resize-pro-resize-handle::before {
+                content: '';
+                position: absolute;
+                right: 4px;
+                bottom: 4px;
+                width: 12px;
+                height: 12px;
+                border-right: 2px solid var(--border-color);
+                border-bottom: 2px solid var(--border-color);
+                opacity: 0.8;
             }
             
             .resize-pro-dialog-content {
@@ -1258,9 +1347,15 @@
                             <!-- 图片编辑对话框 -->
                             <div class="resize-pro-dialog" id="resizeProDialog" style="display: none;">
                                 <div class="resize-pro-dialog-header">
+                                    <div class="resize-pro-window-controls">
+                                        <div class="resize-pro-control resize-pro-close" id="resizeProCloseBtn"></div>
+                                        <div class="resize-pro-control resize-pro-minimize"></div>
+                                        <div class="resize-pro-control resize-pro-maximize" id="resizeProMaximizeBtn"></div>
+                                    </div>
                                     <span>图像大小</span>
-                                    <button class="resize-pro-close-btn" id="resizeProCloseBtn">×</button>
+                                    <div class="resize-pro-drag-handle" id="resizeDragHandle"></div>
                                 </div>
+                                <div class="resize-pro-resize-handle" id="resizeProResizeHandle"></div>
                                 
                                 <div class="resize-pro-dialog-content">
                                     <div class="resize-pro-preview">
@@ -2353,6 +2448,9 @@
                              resizeProPreviewContainer.innerHTML = '';
                              resizeProPreviewContainer.appendChild(previewImg);
                              
+                             // 重置对话框位置和大小（如果之前有调整）
+                             resetDialogPosition();
+                             
                              // 显示对话框
                              resizeProDialog.style.display = 'block';
                          };
@@ -2364,7 +2462,117 @@
                  // 关闭对话框
                  function closeResizeDialog() {
                      resizeProDialog.style.display = 'none';
+                     // 退出全屏状态
+                     resizeProDialog.classList.remove('fullscreen');
                  }
+                 
+                 // 重置对话框位置和大小
+                 function resetDialogPosition() {
+                     resizeProDialog.style.top = '50%';
+                     resizeProDialog.style.left = '50%';
+                     resizeProDialog.style.transform = 'translate(-50%, -50%)';
+                     resizeProDialog.style.width = '90%';
+                     resizeProDialog.style.height = '80%';
+                     resizeProDialog.style.maxWidth = '800px';
+                     resizeProDialog.style.maxHeight = '600px';
+                 }
+                 
+                 // 切换全屏
+                 function toggleFullScreen() {
+                     resizeProDialog.classList.toggle('fullscreen');
+                 }
+                 
+                 // 拖拽功能
+                 function makeDraggable(element, handle) {
+                     let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+                     
+                     handle.addEventListener('mousedown', dragMouseDown);
+                     
+                     function dragMouseDown(e) {
+                         e.preventDefault();
+                         // 如果是全屏模式，不允许拖动
+                         if (element.classList.contains('fullscreen')) return;
+                         
+                         // 获取鼠标初始位置
+                         pos3 = e.clientX;
+                         pos4 = e.clientY;
+                         document.addEventListener('mouseup', closeDragElement);
+                         document.addEventListener('mousemove', elementDrag);
+                     }
+                     
+                     function elementDrag(e) {
+                         e.preventDefault();
+                         // 计算新位置
+                         pos1 = pos3 - e.clientX;
+                         pos2 = pos4 - e.clientY;
+                         pos3 = e.clientX;
+                         pos4 = e.clientY;
+                         
+                         // 移除默认的居中定位
+                         element.style.transform = 'none';
+                         
+                         // 设置元素新位置
+                         element.style.top = (element.offsetTop - pos2) + "px";
+                         element.style.left = (element.offsetLeft - pos1) + "px";
+                     }
+                     
+                     function closeDragElement() {
+                         document.removeEventListener('mouseup', closeDragElement);
+                         document.removeEventListener('mousemove', elementDrag);
+                     }
+                 }
+                 
+                 // 实现可调整大小功能
+                 function makeResizable(element, handle) {
+                     handle.addEventListener('mousedown', resizeMouseDown);
+                     
+                     function resizeMouseDown(e) {
+                         e.preventDefault();
+                         // 如果是全屏模式，不允许调整大小
+                         if (element.classList.contains('fullscreen')) return;
+                         
+                         // 移除默认的居中定位
+                         element.style.transform = 'none';
+                         
+                         document.addEventListener('mousemove', resizeMove);
+                         document.addEventListener('mouseup', resizeStop);
+                     }
+                     
+                     function resizeMove(e) {
+                         e.preventDefault();
+                         
+                         // 计算新尺寸（考虑边界）
+                         const newWidth = Math.max(400, e.clientX - element.getBoundingClientRect().left);
+                         const newHeight = Math.max(300, e.clientY - element.getBoundingClientRect().top);
+                         
+                         // 应用新尺寸
+                         element.style.width = newWidth + 'px';
+                         element.style.height = newHeight + 'px';
+                     }
+                     
+                     function resizeStop() {
+                         document.removeEventListener('mousemove', resizeMove);
+                         document.removeEventListener('mouseup', resizeStop);
+                     }
+                 }
+                 
+                 // 初始化交互功能
+                 document.addEventListener('DOMContentLoaded', function() {
+                     const dialog = document.getElementById('resizeProDialog');
+                     const dragHandle = document.getElementById('resizeDragHandle');
+                     const resizeHandle = document.getElementById('resizeProResizeHandle');
+                     const maximizeBtn = document.getElementById('resizeProMaximizeBtn');
+                     
+                     // 初始化拖拽
+                     makeDraggable(dialog, dragHandle);
+                     // 初始化调整大小
+                     makeResizable(dialog, resizeHandle);
+                     
+                     // 全屏按钮点击事件
+                     maximizeBtn.addEventListener('click', function() {
+                         toggleFullScreen();
+                     });
+                 });
                  
                  // 处理当前文件并进入下一个
                  function processCurrentFile() {
