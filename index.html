@@ -627,6 +627,17 @@
                 display: none;
             }
             
+            /* 对话框覆盖层 */
+            .resize-pro-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background-color: rgba(0, 0, 0, 0.7);
+                z-index: 9998;
+            }
+            
             /* 对话框样式 - Mac风格 */
             .resize-pro-dialog {
                 position: fixed;
@@ -640,21 +651,24 @@
                 background: var(--card-bg);
                 border-radius: 12px;
                 box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-                z-index: 1000;
+                z-index: 9999;
                 overflow: hidden;
                 transition: all 0.3s ease;
                 resize: both;
             }
             
             .resize-pro-dialog.fullscreen {
+                position: fixed;
                 top: 0;
                 left: 0;
-                width: 100%;
-                height: 100%;
-                max-width: 100%;
-                max-height: 100%;
+                width: 100vw;
+                height: 100vh;
+                max-width: none;
+                max-height: none;
                 transform: none;
                 border-radius: 0;
+                margin: 0;
+                padding: 0;
             }
             
             .resize-pro-dialog-header {
@@ -1345,6 +1359,7 @@
                             </div>
                             
                             <!-- 图片编辑对话框 -->
+                            <div class="resize-pro-overlay" id="resizeProOverlay" style="display: none;"></div>
                             <div class="resize-pro-dialog" id="resizeProDialog" style="display: none;">
                                 <div class="resize-pro-dialog-header">
                                     <div class="resize-pro-window-controls">
@@ -2451,8 +2466,12 @@
                              // 重置对话框位置和大小（如果之前有调整）
                              resetDialogPosition();
                              
-                             // 显示对话框
+                             // 显示覆盖层和对话框
+                             document.getElementById('resizeProOverlay').style.display = 'block';
                              resizeProDialog.style.display = 'block';
+                             
+                             // 把对话框移到body的直接子元素位置
+                             document.body.appendChild(resizeProDialog);
                          };
                          img.src = e.target.result;
                      };
@@ -2461,6 +2480,7 @@
                  
                  // 关闭对话框
                  function closeResizeDialog() {
+                     document.getElementById('resizeProOverlay').style.display = 'none';
                      resizeProDialog.style.display = 'none';
                      // 退出全屏状态
                      resizeProDialog.classList.remove('fullscreen');
@@ -2475,11 +2495,22 @@
                      resizeProDialog.style.height = '80%';
                      resizeProDialog.style.maxWidth = '800px';
                      resizeProDialog.style.maxHeight = '600px';
+                     
+                     // 确保全屏状态被清除
+                     resizeProDialog.classList.remove('fullscreen');
+                     document.body.style.overflow = '';
                  }
                  
                  // 切换全屏
                  function toggleFullScreen() {
                      resizeProDialog.classList.toggle('fullscreen');
+                     
+                     // 全屏时隐藏滚动条
+                     if (resizeProDialog.classList.contains('fullscreen')) {
+                         document.body.style.overflow = 'hidden';
+                     } else {
+                         document.body.style.overflow = '';
+                     }
                  }
                  
                  // 拖拽功能
