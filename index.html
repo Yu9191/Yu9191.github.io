@@ -631,6 +631,49 @@
                 color: var(--text-color);
             }
             
+            .resize-enhance-options {
+                margin: 15px 0;
+                padding-top: 10px;
+                border-top: 1px solid var(--border-color);
+            }
+            
+            .enhance-checkbox {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                margin-bottom: 10px;
+            }
+            
+            .enhance-checkbox label {
+                font-size: 14px;
+                color: var(--text-color);
+            }
+            
+            .enhance-slider {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                padding-left: 25px;
+            }
+            
+            .enhance-slider label {
+                font-size: 13px;
+                color: var(--text-color-light);
+                min-width: 70px;
+            }
+            
+            .enhance-slider input[type="range"] {
+                flex: 1;
+                max-width: 150px;
+            }
+            
+            .enhance-slider span {
+                font-size: 13px;
+                color: var(--text-color);
+                min-width: 15px;
+                text-align: center;
+            }
+            
             .resize-upload {
                 margin-top: 15px;
             }
@@ -933,6 +976,18 @@
                             <div class="resize-tg-option">
                                 <input type="checkbox" id="makeTgSticker">
                                 <label for="makeTgSticker">适配Telegram贴纸 (512x512)</label>
+                            </div>
+                            
+                            <div class="resize-enhance-options">
+                                <div class="enhance-checkbox">
+                                    <input type="checkbox" id="enhanceResolution">
+                                    <label for="enhanceResolution">增强清晰度</label>
+                                </div>
+                                <div class="enhance-slider" id="enhanceSliderContainer" style="display: none;">
+                                    <label for="enhanceLevel">增强强度:</label>
+                                    <input type="range" id="enhanceLevel" min="1" max="10" value="5">
+                                    <span id="enhanceLevelValue">5</span>
+                                </div>
                             </div>
                             
                             <div class="resize-upload">
@@ -1805,30 +1860,44 @@
             
             // 图片尺寸调整工具代码
             document.addEventListener('DOMContentLoaded', () => {
-                const resizeWidth = document.getElementById('resizeWidth');
-                const resizeHeight = document.getElementById('resizeHeight');
-                const maintainAspect = document.getElementById('maintainAspect');
-                const makeTgSticker = document.getElementById('makeTgSticker');
-                const resizeImageUpload = document.getElementById('resizeImageUpload');
-                const resizeImagesGrid = document.getElementById('resizeImagesGrid');
-                const resizeProgressContainer = document.querySelector('.resize-progress-container');
-                const resizeProgressFill = document.querySelector('.resize-progress-fill');
-                const resizeProgressCount = document.getElementById('resizeProgressCount');
-                const resizeTotalCount = document.getElementById('resizeTotalCount');
-                const downloadAllResizedBtn = document.getElementById('downloadAllResizedBtn');
-                const resizeActions = document.querySelector('.resize-actions');
+                                 const resizeWidth = document.getElementById('resizeWidth');
+                 const resizeHeight = document.getElementById('resizeHeight');
+                 const maintainAspect = document.getElementById('maintainAspect');
+                 const makeTgSticker = document.getElementById('makeTgSticker');
+                 const enhanceResolution = document.getElementById('enhanceResolution');
+                 const enhanceLevel = document.getElementById('enhanceLevel');
+                 const enhanceLevelValue = document.getElementById('enhanceLevelValue');
+                 const enhanceSliderContainer = document.getElementById('enhanceSliderContainer');
+                 const resizeImageUpload = document.getElementById('resizeImageUpload');
+                 const resizeImagesGrid = document.getElementById('resizeImagesGrid');
+                 const resizeProgressContainer = document.querySelector('.resize-progress-container');
+                 const resizeProgressFill = document.querySelector('.resize-progress-fill');
+                 const resizeProgressCount = document.getElementById('resizeProgressCount');
+                 const resizeTotalCount = document.getElementById('resizeTotalCount');
+                 const downloadAllResizedBtn = document.getElementById('downloadAllResizedBtn');
+                 const resizeActions = document.querySelector('.resize-actions');
                 
                 let originalAspectRatio = 1;
                 let processedImages = [];
                 
-                // 当选择了TG贴纸选项时自动设置为512x512
-                makeTgSticker.addEventListener('change', function() {
-                    if (this.checked) {
-                        resizeWidth.value = 512;
-                        resizeHeight.value = 512;
-                        maintainAspect.checked = true;
-                    }
-                });
+                                 // 当选择了TG贴纸选项时自动设置为512x512
+                 makeTgSticker.addEventListener('change', function() {
+                     if (this.checked) {
+                         resizeWidth.value = 512;
+                         resizeHeight.value = 512;
+                         maintainAspect.checked = true;
+                     }
+                 });
+                 
+                 // 增强清晰度选项控制
+                 enhanceResolution.addEventListener('change', function() {
+                     enhanceSliderContainer.style.display = this.checked ? 'flex' : 'none';
+                 });
+                 
+                 // 增强强度滑块
+                 enhanceLevel.addEventListener('input', function() {
+                     enhanceLevelValue.textContent = this.value;
+                 });
                 
                 // 保持宽高比
                 resizeWidth.addEventListener('input', function() {
@@ -1940,9 +2009,25 @@
                                     dy = 0;
                                 }
                                 
-                                ctx.drawImage(img, dx, dy, dWidth, dHeight);
-                                
-                                const dataUrl = canvas.toDataURL('image/png');
+                                                                 ctx.drawImage(img, dx, dy, dWidth, dHeight);
+                                 
+                                 // 如果启用了清晰度增强
+                                 if (enhanceResolution.checked) {
+                                     try {
+                                         // 获取增强强度
+                                         const strength = parseInt(enhanceLevel.value) / 10;
+                                         
+                                         // 应用锐化滤镜
+                                         applySharpening(ctx, targetWidth, targetHeight, strength);
+                                         
+                                         // 应用对比度增强
+                                         applyContrastEnhancement(ctx, targetWidth, targetHeight, strength * 0.5);
+                                     } catch (e) {
+                                         console.error('应用清晰度增强时出错:', e);
+                                     }
+                                 }
+                                 
+                                 const dataUrl = canvas.toDataURL('image/png');
                                 
                                 resolve({
                                     originalName: file.name,
@@ -2043,13 +2128,80 @@
                     // 生成zip并下载
                     const content = await zip.generateAsync({type: 'blob'});
                     
-                    const link = document.createElement('a');
-                    link.href = URL.createObjectURL(content);
-                    link.download = 'resized_images.zip';
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                });
+                                         const link = document.createElement('a');
+                     link.href = URL.createObjectURL(content);
+                     link.download = 'resized_images.zip';
+                     document.body.appendChild(link);
+                     link.click();
+                     document.body.removeChild(link);
+                 });
+                 
+                 // 应用锐化效果
+                 function applySharpening(ctx, width, height, strength) {
+                     const imageData = ctx.getImageData(0, 0, width, height);
+                     const data = imageData.data;
+                     const tempData = new Uint8ClampedArray(data);
+                     
+                     // 锐化卷积核
+                     const kernel = [
+                         0, -1 * strength, 0,
+                         -1 * strength, 1 + 4 * strength, -1 * strength,
+                         0, -1 * strength, 0
+                     ];
+                     
+                     // 应用卷积
+                     for (let y = 1; y < height - 1; y++) {
+                         for (let x = 1; x < width - 1; x++) {
+                             const idx = (y * width + x) * 4;
+                             
+                             for (let c = 0; c < 3; c++) { // RGB通道
+                                 let val = 0;
+                                 
+                                 // 应用3x3卷积
+                                 val += tempData[((y-1) * width + (x-1)) * 4 + c] * kernel[0];
+                                 val += tempData[((y-1) * width + x) * 4 + c] * kernel[1];
+                                 val += tempData[((y-1) * width + (x+1)) * 4 + c] * kernel[2];
+                                 val += tempData[(y * width + (x-1)) * 4 + c] * kernel[3];
+                                 val += tempData[(y * width + x) * 4 + c] * kernel[4];
+                                 val += tempData[(y * width + (x+1)) * 4 + c] * kernel[5];
+                                 val += tempData[((y+1) * width + (x-1)) * 4 + c] * kernel[6];
+                                 val += tempData[((y+1) * width + x) * 4 + c] * kernel[7];
+                                 val += tempData[((y+1) * width + (x+1)) * 4 + c] * kernel[8];
+                                 
+                                 data[idx + c] = Math.max(0, Math.min(255, val));
+                             }
+                         }
+                     }
+                     
+                     ctx.putImageData(imageData, 0, 0);
+                 }
+                 
+                 // 应用对比度增强
+                 function applyContrastEnhancement(ctx, width, height, strength) {
+                     const imageData = ctx.getImageData(0, 0, width, height);
+                     const data = imageData.data;
+                     
+                     // 计算平均亮度
+                     let avgLuminance = 0;
+                     for (let i = 0; i < data.length; i += 4) {
+                         const r = data[i];
+                         const g = data[i + 1];
+                         const b = data[i + 2];
+                         avgLuminance += (r * 0.299 + g * 0.587 + b * 0.114);
+                     }
+                     avgLuminance = avgLuminance / (width * height);
+                     
+                     // 应用对比度调整
+                     const factor = (259 * (strength * 100 + 255)) / (255 * (259 - strength * 100));
+                     
+                     for (let i = 0; i < data.length; i += 4) {
+                         for (let c = 0; c < 3; c++) {
+                             data[i + c] = Math.max(0, Math.min(255, factor * (data[i + c] - avgLuminance) + avgLuminance));
+                         }
+                     }
+                     
+                     ctx.putImageData(imageData, 0, 0);
+                 }
             });
             
             document.addEventListener('touchstart', (e) => {
