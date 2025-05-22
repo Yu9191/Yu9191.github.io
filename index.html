@@ -638,6 +638,14 @@
                 z-index: 9998;
             }
             
+            /* 确保对话框在body下时显示在最顶层 */
+            body > .resize-pro-overlay,
+            body > .resize-pro-dialog,
+            body > .mac-dialog-overlay,
+            body > .mac-dialog {
+                z-index: 9999;
+            }
+            
             /* 对话框样式 - Mac风格 */
             .resize-pro-dialog {
                 position: fixed;
@@ -1734,6 +1742,75 @@
                                 </div>
                             </div>
                         </div>
+                        
+                        <!-- Mac风格对话框 - 订阅结果 -->
+                        <div class="mac-dialog-overlay" id="subDialogOverlay" style="display: none;"></div>
+                        <div class="mac-dialog" id="subDialog" style="display: none;">
+                            <div class="mac-dialog-header">
+                                <div class="mac-window-controls">
+                                    <div class="mac-control mac-close" id="subCloseBtn"></div>
+                                    <div class="mac-control mac-minimize"></div>
+                                    <div class="mac-control mac-maximize" id="subMaximizeBtn"></div>
+                                </div>
+                                <span>订阅信息</span>
+                                <div class="mac-drag-handle" id="subDragHandle"></div>
+                            </div>
+                            <div class="mac-resize-handle" id="subResizeHandle"></div>
+                            
+                            <div class="mac-dialog-content">
+                                <div class="mac-preview" style="flex: 0.4;">
+                                    <div class="mac-preview-container">
+                                        <div class="sub-data-cards" id="subDataCards" style="display: none; width: 100%;">
+                                            <div class="sub-data-card">
+                                                <div class="sub-data-value" id="subUploadValue">--</div>
+                                                <div class="sub-data-label">上传流量</div>
+                                            </div>
+                                            <div class="sub-data-card">
+                                                <div class="sub-data-value" id="subDownloadValue">--</div>
+                                                <div class="sub-data-label">下载流量</div>
+                                            </div>
+                                            <div class="sub-data-card">
+                                                <div class="sub-data-value" id="subRemainingValue">--</div>
+                                                <div class="sub-data-label">剩余流量</div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="sub-progress-container" id="subProgressContainer" style="display: none; margin-top: 30px; width: 100%;">
+                                            <div class="sub-progress-header">
+                                                <div class="sub-progress-title">流量使用情况</div>
+                                                <div class="sub-progress-percent" id="subProgressPercent">0%</div>
+                                            </div>
+                                            <div class="sub-progress-bar">
+                                                <div class="sub-progress-fill" id="subProgressFill" style="width: 0%"></div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div id="subImagePreview" class="sub-image-preview" style="width: 100%; margin-top: 20px;"></div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mac-controls" style="max-width: 60%;">
+                                    <div id="subLoadingIndicator" style="display: flex; justify-content: center; align-items: center; height: 100%;">
+                                        <div class="sub-loading-spinner"></div>
+                                    </div>
+                                    
+                                    <div id="subResultContent" style="display: none; height: 100%;">
+                                        <div class="mac-file-info">
+                                            <div class="sub-result-grid" id="subResultGrid"></div>
+                                        </div>
+                                        
+                                        <div class="mac-dialog-buttons">
+                                            <button id="subCopyBtn" class="mac-btn mac-btn-cancel">
+                                                <i class="fa-solid fa-copy"></i> 复制
+                                            </button>
+                                            <button id="subDownloadImageBtn" class="mac-btn mac-btn-apply">
+                                                <i class="fa-solid fa-download"></i> 生成图片
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1932,6 +2009,7 @@
                 pixelDialog.style.display = 'block';
                 
                 // 把对话框移到body直接子元素位置
+                document.body.appendChild(pixelDialogOverlay);
                 document.body.appendChild(pixelDialog);
             }
             
@@ -2029,7 +2107,76 @@
                 pixelCtx.imageSmoothingEnabled = false;
                 pixelCtx.drawImage(pixelCanvas, 0, 0, width / pixelSize, height / pixelSize, 0, 0, width, height);
             
-                enhancePixelArt();
+                // 应用额外的处理选项
+                if (enhancePixel && enhancePixel.checked) {
+                    enhanceEdges();
+                }
+                
+                if (colorReduction && colorReduction.checked) {
+                    reduceColors();
+                } else {
+                    // 默认的颜色量化
+                    enhancePixelArt();
+                }
+            }
+            
+            // 增强边缘细节
+            function enhanceEdges() {
+                const width = pixelCanvas.width;
+                const height = pixelCanvas.height;
+                const imageData = pixelCtx.getImageData(0, 0, width, height);
+                const data = imageData.data;
+                const tempData = new Uint8ClampedArray(data);
+                
+                // 锐化卷积核
+                const kernel = [
+                    0, -1, 0,
+                    -1, 5, -1,
+                    0, -1, 0
+                ];
+                
+                // 应用卷积
+                for (let y = 1; y < height - 1; y++) {
+                    for (let x = 1; x < width - 1; x++) {
+                        const idx = (y * width + x) * 4;
+                        
+                        for (let c = 0; c < 3; c++) { // RGB通道
+                            let val = 0;
+                            
+                            // 应用3x3卷积
+                            val += tempData[((y-1) * width + (x-1)) * 4 + c] * kernel[0];
+                            val += tempData[((y-1) * width + x) * 4 + c] * kernel[1];
+                            val += tempData[((y-1) * width + (x+1)) * 4 + c] * kernel[2];
+                            val += tempData[(y * width + (x-1)) * 4 + c] * kernel[3];
+                            val += tempData[(y * width + x) * 4 + c] * kernel[4];
+                            val += tempData[(y * width + (x+1)) * 4 + c] * kernel[5];
+                            val += tempData[((y+1) * width + (x-1)) * 4 + c] * kernel[6];
+                            val += tempData[((y+1) * width + x) * 4 + c] * kernel[7];
+                            val += tempData[((y+1) * width + (x+1)) * 4 + c] * kernel[8];
+                            
+                            data[idx + c] = Math.max(0, Math.min(255, val));
+                        }
+                    }
+                }
+                
+                pixelCtx.putImageData(imageData, 0, 0);
+            }
+            
+            // 减少颜色数量
+            function reduceColors() {
+                const width = pixelCanvas.width;
+                const height = pixelCanvas.height;
+                const imageData = pixelCtx.getImageData(0, 0, width, height);
+                const data = imageData.data;
+                
+                for (let i = 0; i < data.length; i += 4) {
+                    // 更强的颜色量化，只保留16色
+                    data[i] = Math.round(data[i] / 64) * 64;     // R
+                    data[i + 1] = Math.round(data[i + 1] / 64) * 64; // G
+                    data[i + 2] = Math.round(data[i + 2] / 64) * 64; // B
+                }
+                
+                pixelCtx.putImageData(imageData, 0, 0);
             }
             
             function enhancePixelArt() {
@@ -2051,7 +2198,47 @@
                 link.download = 'pixel-art.png';
                 link.href = pixelCanvas.toDataURL('image/png');
                 link.click();
+                
+                // 添加到结果区域
+                addToPixelResults(pixelCanvas);
+                
+                // 关闭对话框
+                closePixelDialog();
             });
+            
+            // 将处理好的像素图添加到结果区域
+            function addToPixelResults(canvas) {
+                const dataUrl = canvas.toDataURL('image/png');
+                
+                const item = document.createElement('div');
+                item.className = 'resize-image-item';
+                
+                const img = document.createElement('img');
+                img.className = 'resize-image-preview';
+                img.src = dataUrl;
+                
+                const info = document.createElement('div');
+                info.className = 'resize-image-info';
+                info.textContent = `${canvas.width}x${canvas.height}`;
+                
+                const downloadBtn = document.createElement('div');
+                downloadBtn.className = 'resize-image-download';
+                downloadBtn.innerHTML = '<i class="fa-solid fa-download"></i>';
+                downloadBtn.addEventListener('click', () => {
+                    const link = document.createElement('a');
+                    link.href = dataUrl;
+                    link.download = `pixel-art-${canvas.width}x${canvas.height}.png`;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                });
+                
+                item.appendChild(img);
+                item.appendChild(info);
+                item.appendChild(downloadBtn);
+                
+                pixelResultsGrid.appendChild(item);
+            }
             
             const toolBtns = document.querySelectorAll('.tool-btn');
             const toolContents = document.querySelectorAll('.tool-content');
@@ -2094,6 +2281,7 @@
                 function showSubDialog() {
                     subDialogOverlay.style.display = 'block';
                     subDialog.style.display = 'block';
+                    document.body.appendChild(subDialogOverlay);
                     document.body.appendChild(subDialog);
                 }
                 
