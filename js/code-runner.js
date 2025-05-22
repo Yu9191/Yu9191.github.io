@@ -105,7 +105,7 @@ window.initCodeRunner = function() {
                     appendOutput(args.join(' '));
                     originalConsoleLog.apply(iframeWindow.console, arguments);
                 };
-            } else if (language === 'qx') {
+            } else if (language === 'qx' || language === 'surge') {
                 // 设置QX环境
                 if (window.setupQxEnvironment) {
                     window.setupQxEnvironment();
@@ -228,7 +228,7 @@ window.initCodeRunner = function() {
             if (language === 'html') {
                 // HTML示例代码
                 codeEditor.textContent = '<!DOCTYPE html>\n<html>\n<head>\n    <meta charset="UTF-8">\n    <title>HTML示例</title>\n    <style>\n        body {\n            font-family: Arial, sans-serif;\n            padding: 20px;\n        }\n        h1 {\n            color: #333;\n        }\n        .container {\n            border: 1px solid #ddd;\n            padding: 15px;\n            border-radius: 5px;\n        }\n    </style>\n</head>\n<body>\n    <h1>HTML示例页面</h1>\n    <div class="container">\n        <p>这是一个HTML示例。您可以编辑HTML代码并运行它。</p>\n        <button onclick="showMessage()">点击我</button>\n    </div>\n    \n    <script>\n        function showMessage() {\n            alert(\'你好！这是一个HTML示例。\');\n            console.log(\'按钮被点击了\');\n        }\n    </script>\n</body>\n</html>';
-            } else if (language === 'qx') {
+            } else if (language === 'qx' || language === 'surge') {
                 // 从外部文件加载QX脚本示例
                 fetch('./js/script-example.js')
                     .then(response => response.text())
