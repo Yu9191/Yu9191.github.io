@@ -9,6 +9,15 @@
     --glass-bg: rgba(255, 255, 255, 0.7);
     --glass-border: rgba(255, 255, 255, 0.2);
     --primary-color-rgb: 99, 102, 241;
+    --transition-duration: 0.3s;
+}
+
+/* 添加全局过渡效果 */
+* {
+    transition: background-color var(--transition-duration) ease,
+                color var(--transition-duration) ease,
+                border-color var(--transition-duration) ease,
+                box-shadow var(--transition-duration) ease;
 }
 
 :root[data-theme='dark'] {
@@ -78,5 +87,69 @@
 }
 
 .theme-toggle:hover {
+    transform: scale(1.1);
+}
+
+.global-toggles {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 15px;
+    z-index: 1001;
+}
+
+.ui-toggle {
+    width: 40px;
+    height: 40px;
+    background: var(--glass-bg);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.ui-toggle i {
+    color: var(--accent-color);
+    font-size: 1.2em;
+    transition: all 0.3s ease;
+}
+
+.ui-toggle:hover {
+    transform: scale(1.1) rotate(15deg);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
+
+/* 调整原有主题切换按钮的ID，因为现在有了全局的 */
+#themeToggleGlobal {
+    width: 40px;
+    height: 40px;
+    background: var(--glass-bg);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--glass-border);
+}
+
+#themeToggleGlobal i {
+    color: var(--primary-color);
+    font-size: 1.1em;
+    transition: 0.3s;
+}
+
+:root[data-theme='dark'] #themeToggleGlobal i {
+    color: #f59e0b;
+    transform: rotate(45deg);
+}
+
+#themeToggleGlobal:hover {
     transform: scale(1.1);
 } 
