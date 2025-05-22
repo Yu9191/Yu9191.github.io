@@ -10,6 +10,10 @@ body {
     perspective: 1000px;
 }
 
+body[data-theme='dark'] {
+    background: linear-gradient(135deg, #181c2a, #232946);
+}
+
 body::before {
     content: '';
     position: absolute;
@@ -98,16 +102,21 @@ body::after {
     }
 }
 
+.card, .img-box, .tag, .toggle, .contact li, .icon-box {
+    background: var(--glass-bg);
+    color: var(--text-color);
+    border: 1px solid var(--glass-border);
+    transition: background-color var(--transition-duration), color var(--transition-duration), border-color var(--transition-duration);
+}
+
 .card {
     position: relative;
     width: 380px;
-    background: var(--glass-bg);
     border-radius: 24px;
     box-shadow: var(--shadow);
     padding: 35px;
-    transition: transform 0.2s ease-out;
+    transition: transform 0.2s ease-out, background-color var(--transition-duration), color var(--transition-duration), border-color var(--transition-duration);
     backdrop-filter: blur(20px);
-    border: 1px solid var(--glass-border);
     margin: 0 auto;
     max-height: 80vh;
     overflow-y: auto;
@@ -117,6 +126,10 @@ body::after {
 
 .card.active {
     transform: translateY(-10px) scale(1.02);
+}
+
+.card.active .contact {
+    background: var(--glass-bg);
 }
 
 .user {
@@ -133,8 +146,6 @@ body::after {
     border-radius: 50%;
     overflow: hidden;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-    transition: all 0.3s ease;
-    border: 3px solid var(--glass-border);
     cursor: pointer;
 }
 
@@ -162,6 +173,7 @@ body::after {
     font-weight: 600;
     background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
@@ -180,12 +192,8 @@ body::after {
 
 .tag {
     padding: 6px 12px;
-    background: var(--glass-bg);
-    color: var(--primary-color);
     border-radius: 20px;
     font-size: 0.85em;
-    transition: all 0.3s ease;
-    border: 1px solid var(--glass-border);
     backdrop-filter: blur(10px);
 }
 
@@ -193,14 +201,13 @@ body::after {
     background: var(--primary-color);
     color: white;
     transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(99, 102, 241, 0.4);
+    box-shadow: 0 5px 15px rgba(var(--primary-color-rgb), 0.4);
 }
 
 .toggle {
     position: relative;
     width: 35px;
     height: 35px;
-    background: var(--glass-bg);
     border-radius: 50%;
     cursor: pointer;
     display: flex;
@@ -208,8 +215,6 @@ body::after {
     justify-content: center;
     align-items: center;
     gap: 5px;
-    transition: 0.5s;
-    border: 1px solid var(--glass-border);
 }
 
 .toggle span {
@@ -249,66 +254,72 @@ body::after {
     position: relative;
     display: flex;
     align-items: center;
-    gap: 15px;
-    padding: 18px;
-    border-radius: 16px;
-    background: var(--glass-bg);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    border: 1px solid var(--glass-border);
-    backdrop-filter: blur(10px);
+    gap: 20px;
+    padding: 20px;
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: pointer;
 }
 
-.contact li:hover {
-    background: var(--cir);
-    color: #fff;
-    transform: translateX(10px) scale(1.02);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-}
-
-.contact li a {
-    display: flex;
-    align-items: center;
-    gap: 15px;
+.contact li::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
+    height: 100%;
+    background: var(--primary-color);
+    opacity: 0;
+    transition: 0.5s;
+    z-index: -1;
+}
+
+.contact li:hover::before {
+    opacity: 0.1;
 }
 
 .icon-box {
-    position: relative;
     width: 45px;
     height: 45px;
-    background: #fff;
-    border-radius: 12px;
+    border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 1.3em;
-    color: var(--cir);
-    transition: 0.5s;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    font-size: 1.4em;
+    color: var(--primary-color);
 }
 
 .contact li:hover .icon-box {
-    background: #fff;
-    transform: scale(1.1) rotate(360deg);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    color: white;
+    background: var(--primary-color);
 }
 
 .link-content {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
+    flex: 1;
 }
 
 .link-content p {
     font-size: 1em;
+    color: var(--text-color);
     font-weight: 500;
 }
 
 .link-desc {
     font-size: 0.85em;
-    opacity: 0.8;
+    color: #6b7280;
+}
+
+:root[data-theme='dark'] .card, 
+:root[data-theme='dark'] .img-box, 
+:root[data-theme='dark'] .tag, 
+:root[data-theme='dark'] .toggle, 
+:root[data-theme='dark'] .contact li, 
+:root[data-theme='dark'] .icon-box {
+    background: var(--glass-bg);
+    color: var(--text-color);
+    border: 1px solid var(--glass-border);
 }
 
 html {
-    transition: all 0.3s ease;
+    scroll-behavior: smooth;
 } 

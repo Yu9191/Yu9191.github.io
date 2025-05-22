@@ -9,6 +9,8 @@
     --glass-bg: rgba(255, 255, 255, 0.7);
     --glass-border: rgba(255, 255, 255, 0.2);
     --primary-color-rgb: 99, 102, 241;
+    --secondary-color-rgb: 139, 92, 246;
+    --accent-color-rgb: 236, 72, 153;
     --transition-duration: 0.3s;
 }
 
@@ -31,6 +33,8 @@
     --glass-bg: rgba(30, 41, 59, 0.7);
     --glass-border: rgba(255, 255, 255, 0.1);
     --primary-color-rgb: 129, 140, 248;
+    --secondary-color-rgb: 167, 139, 250;
+    --accent-color-rgb: 244, 114, 182;
 }
 
 :root[data-theme='dark'] .content h1 {
@@ -62,44 +66,7 @@
     box-shadow: 0 0 10px 1px rgba(0, 255, 255, 0.7);
 }
 
-.theme-toggle {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    width: 35px;
-    height: 35px;
-    background: var(--glass-bg);
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    transition: 0.3s;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    border: 1px solid var(--glass-border);
-    z-index: 10;
-}
-
-.theme-toggle i {
-    color: var(--primary-color);
-    font-size: 1.1em;
-    transition: 0.3s;
-}
-
-.theme-toggle:hover {
-    transform: scale(1.1);
-}
-
-.global-toggles {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    display: flex;
-    gap: 15px;
-    z-index: 1001;
-}
-
-.ui-toggle {
+.theme-toggle, .ui-toggle, .tools-btn, .home-btn {
     width: 40px;
     height: 40px;
     background: var(--glass-bg);
@@ -111,17 +78,37 @@
     transition: all 0.3s ease;
     border: 1px solid var(--glass-border);
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    color: var(--primary-color);
 }
 
-.ui-toggle i {
-    color: var(--accent-color);
+.theme-toggle i, .ui-toggle i, .tools-btn i, .home-btn i {
     font-size: 1.2em;
     transition: all 0.3s ease;
 }
 
-.ui-toggle:hover {
+.theme-toggle:hover, .ui-toggle:hover, .tools-btn:hover, .home-btn:hover {
     transform: scale(1.1) rotate(15deg);
     box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
+
+:root[data-theme='dark'] .theme-toggle i,
+:root[data-theme='dark'] .ui-toggle i,
+:root[data-theme='dark'] .tools-btn i,
+:root[data-theme='dark'] .home-btn i {
+    color: var(--primary-color);
+}
+
+:root[data-theme='dark'] #themeToggleGlobal i {
+    color: #f59e0b;
+}
+
+.global-toggles {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 15px;
+    z-index: 1001;
 }
 
 /* 调整原有主题切换按钮的ID，因为现在有了全局的 */
@@ -143,11 +130,6 @@
     color: var(--primary-color);
     font-size: 1.1em;
     transition: 0.3s;
-}
-
-:root[data-theme='dark'] #themeToggleGlobal i {
-    color: #f59e0b;
-    transform: rotate(45deg);
 }
 
 #themeToggleGlobal:hover {

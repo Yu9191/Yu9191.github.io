@@ -9,20 +9,23 @@
     backdrop-filter: blur(10px);
     border: 1px solid var(--glass-border);
     z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .tool-item {
-    width: 50px;
-    height: 50px;
+    width: 45px;
+    height: 45px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 12px;
-    margin-bottom: 10px;
     cursor: pointer;
     transition: all 0.3s ease;
-    background: var(--bg-color);
+    background: var(--glass-bg);
     color: var(--text-color);
+    border: 1px solid var(--glass-border);
 }
 
 .tool-item:last-child {
@@ -30,7 +33,7 @@
 }
 
 .tool-item:hover {
-    transform: translateX(5px);
+    transform: scale(1.1) translateX(3px);
     background: var(--primary-color);
     color: white;
 }
@@ -38,21 +41,51 @@
 .tool-item.active {
     background: var(--primary-color);
     color: white;
+    box-shadow: 0 0 15px rgba(var(--primary-color-rgb), 0.5);
 }
 
 .tool-item i {
-    font-size: 1.5em;
+    font-size: 1.4em;
+}
+
+/* Dark theme specific styles */
+:root[data-theme='dark'] .futuristic-toolbox {
+    background: var(--glass-bg);
+    border-color: var(--glass-border);
+}
+
+:root[data-theme='dark'] .tool-item {
+    background: var(--glass-bg);
+    color: var(--text-color);
+    border-color: var(--glass-border);
+}
+
+:root[data-theme='dark'] .tool-item:hover {
+    background: var(--primary-color);
+    color: white;
+}
+
+:root[data-theme='dark'] .tool-item.active {
+    background: var(--primary-color);
+    color: white;
+    box-shadow: 0 0 15px rgba(var(--primary-color-rgb), 0.5);
 }
 
 @media (max-width: 768px) {
     .futuristic-toolbox {
-        left: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 15px;
+        top: auto;
+        flex-direction: row;
         padding: 10px;
+        width: auto;
     }
     
     .tool-item {
         width: 40px;
         height: 40px;
+        margin-bottom: 0;
     }
     
     .tool-item i {

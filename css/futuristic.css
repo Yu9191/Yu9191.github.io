@@ -1,11 +1,14 @@
 .futuristic-body {
     min-height: 100vh;
+    width: 100%;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     background: linear-gradient(135deg, var(--bg-color), var(--card-bg));
     position: relative;
     overflow: hidden;
+    padding: 20px;
 }
 
 .futuristic-body::before {
@@ -28,6 +31,7 @@
     background-size: 100% 100%, 60px 60px;
     animation: futuristicBg 20s linear infinite;
     opacity: 0.5;
+    z-index: -1;
 }
 
 @keyframes futuristicBg {
@@ -107,6 +111,7 @@
     transform: translate(-50%, -50%);
     width: 300px;
     height: 300px;
+    pointer-events: none;
 }
 
 .futuristic-ring {
@@ -158,6 +163,7 @@
     margin-bottom: 10px;
     background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     animation: textGlow 2s ease-in-out infinite;
 }
@@ -197,21 +203,27 @@
     justify-content: center;
     text-decoration: none;
     color: var(--text-color);
-    transition: all 0.3s ease;
     border: 1px solid var(--glass-border);
     backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
 }
 
 .futuristic-node:hover {
     transform: translateY(-10px) scale(1.05);
     box-shadow: 0 10px 30px rgba(var(--primary-color-rgb), 0.2);
+    background: var(--primary-color);
+    color: white;
+}
+
+.futuristic-node:hover i {
+    color: white;
 }
 
 .futuristic-node i {
     font-size: 2em;
     margin-bottom: 10px;
     color: var(--primary-color);
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, color 0.3s ease;
 }
 
 .futuristic-node:hover i {
@@ -257,6 +269,14 @@
         width: 100px;
         height: 100px;
     }
+
+    .futuristic-node i {
+        font-size: 1.8em;
+    }
+
+    .futuristic-node p {
+        font-size: 0.8em;
+    }
 }
 
 @media (max-width: 480px) {
@@ -275,20 +295,22 @@
     }
 
     .futuristic-node {
-        width: 90px;
-        height: 90px;
+        width: 80px;
+        height: 80px;
+        border-radius: 15px;
     }
 
     .futuristic-node i {
         font-size: 1.5em;
+        margin-bottom: 5px;
     }
 
     .futuristic-node p {
-        font-size: 0.8em;
+        font-size: 0.7em;
     }
 
     .futuristic-node span {
-        font-size: 0.7em;
+        font-size: 0.6em;
     }
 }
 
@@ -709,4 +731,36 @@
     .futuristic-m3u8-downloader {
         width: calc(100% - 40px);
     }
+}
+
+/* Dark theme specific styles for futuristic UI and tools */
+:root[data-theme='dark'] .futuristic-body {
+    background: linear-gradient(135deg, var(--bg-color), var(--card-bg));
+}
+
+:root[data-theme='dark'] .futuristic-avatar-container,
+:root[data-theme='dark'] .futuristic-node,
+:root[data-theme='dark'] .futuristic-m3u8-downloader,
+:root[data-theme='dark'] .futuristic-music-player,
+:root[data-theme='dark'] .futuristic-calculator,
+:root[data-theme='dark'] .futuristic-notes {
+    background: var(--glass-bg);
+    color: var(--text-color);
+    border-color: var(--glass-border);
+}
+
+:root[data-theme='dark'] .futuristic-node:hover {
+    background: var(--primary-color);
+    color: white;
+}
+
+:root[data-theme='dark'] .m3u8-input,
+:root[data-theme='dark'] .notes-content {
+    background: var(--bg-color);
+    color: var(--text-color);
+    border-color: var(--glass-border);
+}
+
+:root[data-theme='dark'] .m3u8-close:hover {
+    background-color: rgba(var(--text-color-rgb, 255,255,255), 0.1);
 } 
