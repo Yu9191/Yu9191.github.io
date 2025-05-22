@@ -1,0 +1,61 @@
+.futuristic-toolbox {
+    position: fixed;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--glass-bg);
+    border-radius: 15px;
+    padding: 15px;
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    z-index: 1000;
+}
+
+.tool-item {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: var(--bg-color);
+    color: var(--text-color);
+}
+
+.tool-item:last-child {
+    margin-bottom: 0;
+}
+
+.tool-item:hover {
+    transform: translateX(5px);
+    background: var(--primary-color);
+    color: white;
+}
+
+.tool-item.active {
+    background: var(--primary-color);
+    color: white;
+}
+
+.tool-item i {
+    font-size: 1.5em;
+}
+
+@media (max-width: 768px) {
+    .futuristic-toolbox {
+        left: 10px;
+        padding: 10px;
+    }
+    
+    .tool-item {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .tool-item i {
+        font-size: 1.2em;
+    }
+} 
