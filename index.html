@@ -16,6 +16,63 @@
             crossorigin="anonymous"
             referrerpolicy="no-referrer"
         />
+        <style>
+            .tools-bar {
+                display: flex;
+                justify-content: center;
+                gap: 10px;
+                margin: 15px 0;
+            }
+            
+            .tool-btn {
+                background: var(--card-bg);
+                color: var(--text-color);
+                border: 2px solid var(--border-color);
+                border-radius: 10px;
+                padding: 8px 15px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                display: flex;
+                align-items: center;
+                gap: 5px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+            
+            .tool-btn:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+            }
+            
+            .tool-btn.active {
+                background: var(--primary-color);
+                color: white;
+                border-color: var(--primary-color);
+            }
+            
+            .tool-content {
+                display: none;
+                transition: all 0.5s ease;
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            
+            .tool-content.active {
+                display: block;
+                opacity: 1;
+                transform: translateY(0);
+            }
+            
+            .about-section {
+                padding: 20px;
+                text-align: center;
+            }
+            
+            .about-section p {
+                margin: 15px 0;
+                line-height: 1.6;
+                color: var(--text-color);
+            }
+        </style>
     </head>
     <body>
         <div class="container">
@@ -82,38 +139,57 @@
                     </li>
                 </ul>
                 
-                <div class="pixel-art-container">
-                    <div class="pixel-art-header">
-                        <h3>像素风格转换器</h3>
+                <div class="tools-bar">
+                    <button class="tool-btn active" data-tool="about">
+                        <i class="fa-solid fa-user"></i> 关于我
+                    </button>
+                    <button class="tool-btn" data-tool="pixel-art">
+                        <i class="fa-solid fa-image"></i> 像素转换器
+                    </button>
+                </div>
+                
+                <div class="tool-content active" id="about-tool">
+                    <div class="about-section">
+                        <p>欢迎来到我的个人主页！我是Yu9191，一个热爱技术与创新的开发者。</p>
+                        <p>我专注于移动应用开发和脚本编写，喜欢探索新技术和解决复杂问题。</p>
+                        <p>通过上方的联系方式可以找到我，期待与您交流！</p>
                     </div>
-                    <div class="pixel-art-upload">
-                        <label for="imageUpload" class="upload-btn">
-                            <i class="fa-solid fa-upload"></i> 上传图片
-                        </label>
-                        <input type="file" id="imageUpload" accept="image/*" />
-                    </div>
-                    <div class="pixel-art-controls">
-                        <div class="slider-container">
-                            <label for="pixelSize">像素大小:</label>
-                            <input type="range" id="pixelSize" min="2" max="20" value="8" />
-                            <span id="pixelSizeValue">8</span>
+                </div>
+                
+                <div class="tool-content" id="pixel-art-tool">
+                    <div class="pixel-art-container">
+                        <div class="pixel-art-header">
+                            <h3>像素风格转换器</h3>
                         </div>
-                    </div>
-                    <div class="pixel-art-preview">
-                        <div class="preview-container">
-                            <div class="preview-original">
-                                <h4>原图</h4>
-                                <canvas id="originalCanvas"></canvas>
-                            </div>
-                            <div class="preview-pixel">
-                                <h4>像素风格</h4>
-                                <canvas id="pixelCanvas"></canvas>
+                        <div class="pixel-art-upload">
+                            <label for="imageUpload" class="upload-btn">
+                                <i class="fa-solid fa-upload"></i> 上传图片
+                            </label>
+                            <input type="file" id="imageUpload" accept="image/*" />
+                        </div>
+                        <div class="pixel-art-controls">
+                            <div class="slider-container">
+                                <label for="pixelSize">像素大小:</label>
+                                <input type="range" id="pixelSize" min="2" max="20" value="8" />
+                                <span id="pixelSizeValue">8</span>
                             </div>
                         </div>
-                        <div class="pixel-art-actions">
-                            <button id="downloadBtn" disabled>
-                                <i class="fa-solid fa-download"></i> 下载
-                            </button>
+                        <div class="pixel-art-preview">
+                            <div class="preview-container">
+                                <div class="preview-original">
+                                    <h4>原图</h4>
+                                    <canvas id="originalCanvas"></canvas>
+                                </div>
+                                <div class="preview-pixel">
+                                    <h4>像素风格</h4>
+                                    <canvas id="pixelCanvas"></canvas>
+                                </div>
+                            </div>
+                            <div class="pixel-art-actions">
+                                <button id="downloadBtn" disabled>
+                                    <i class="fa-solid fa-download"></i> 下载
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -369,6 +445,18 @@
                 link.download = 'pixel-art.png';
                 link.href = pixelCanvas.toDataURL('image/png');
                 link.click();
+            });
+            
+            const toolBtns = document.querySelectorAll('.tool-btn');
+            const toolContents = document.querySelectorAll('.tool-content');
+            toolBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const toolName = this.getAttribute('data-tool');
+                    toolBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    toolContents.forEach(content => content.classList.remove('active'));
+                    document.getElementById(`${toolName}-tool`).classList.add('active');
+                });
             });
         </script>
     </body>
