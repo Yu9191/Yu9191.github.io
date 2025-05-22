@@ -982,6 +982,21 @@
                 margin: 0;
             }
             
+            .resize-pro-link-row {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                margin: 15px 0 5px 0;
+                color: var(--primary-color);
+                cursor: pointer;
+                transition: all 0.2s;
+                padding: 5px 0;
+            }
+            
+            .resize-pro-link-row:hover {
+                opacity: 0.8;
+            }
+            
             .resize-pro-enhance-sliders {
                 margin: 10px 0 15px 25px;
             }
@@ -1180,22 +1195,95 @@
             
             /* 响应式调整 */
             @media (max-width: 768px) {
-                .resize-pro-dialog-content {
+                .resize-pro-dialog, .mac-dialog {
+                    width: 100vw !important;
+                    height: 100vh !important;
+                    max-width: none !important;
+                    max-height: none !important;
+                    top: 0 !important;
+                    left: 0 !important;
+                    transform: none !important;
+                    border-radius: 10px 10px 0 0;
+                }
+                
+                .resize-pro-dialog-content, .mac-dialog-content {
+                    flex-direction: column;
+                    height: calc(100% - 45px);
+                    overflow-y: auto;
+                }
+                
+                .resize-pro-window-controls, .mac-window-controls {
+                    margin-right: 10px;
+                }
+                
+                .resize-pro-preview, .mac-preview {
+                    border-right: none;
+                    border-bottom: 1px solid var(--border-color);
+                    height: 40vh;
+                    min-height: 200px;
+                }
+                
+                .resize-pro-controls, .mac-controls {
+                    width: 100% !important;
+                    max-width: none !important;
+                    padding: 15px;
+                }
+                
+                .resize-pro-info-row, .mac-info-row {
+                    margin-bottom: 15px;
+                }
+                
+                .resize-pro-info-label, .mac-info-label {
+                    width: 80px;
+                    font-size: 13px;
+                }
+                
+                .resize-pro-dimension-with-unit input,
+                .resize-pro-resolution-input input,
+                .mac-slider-control input {
+                    font-size: 13px;
+                    padding: 8px;
+                }
+                
+                .resize-pro-dialog-buttons, .mac-dialog-buttons {
+                    padding: 10px 0;
+                    position: sticky;
+                    bottom: 0;
+                    background: var(--card-bg);
+                }
+                
+                .resize-pro-btn, .mac-btn {
+                    padding: 10px 20px;
+                    font-size: 15px;
+                    min-width: 80px;
+                }
+                
+                .resize-images-grid, .pixel-results-grid {
+                    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+                }
+                
+                /* 隐藏调整大小手柄，在移动设备上不需要 */
+                .resize-pro-resize-handle, .mac-resize-handle {
+                    display: none;
+                }
+                
+                /* 优化Mac风格对话框的预览区域 */
+                .mac-preview-split {
                     flex-direction: column;
                 }
                 
-                .resize-pro-preview {
-                    border-right: none;
-                    border-bottom: 1px solid var(--border-color);
-                }
-                
-                .resize-pro-controls {
+                .mac-preview-original, .mac-preview-result {
                     width: 100%;
-                    max-width: none;
                 }
                 
-                .resize-images-grid {
-                    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+                /* 优化移动端上的订阅查询界面 */
+                .sub-result-grid {
+                    display: flex;
+                    flex-direction: column;
+                }
+                
+                .sub-result-item {
+                    margin-bottom: 15px;
                 }
             }
             
@@ -1315,29 +1403,78 @@
                             </label>
                             <input type="file" id="imageUpload" accept="image/*" />
                         </div>
-                        <div class="pixel-art-controls">
-                            <div class="slider-container">
-                                <label for="pixelSize">像素大小:</label>
-                                <input type="range" id="pixelSize" min="2" max="20" value="8" />
-                                <span id="pixelSizeValue">8</span>
+                        
+                        <!-- Mac风格对话框 - 像素编辑器 -->
+                        <div class="mac-dialog-overlay" id="pixelDialogOverlay" style="display: none;"></div>
+                        <div class="mac-dialog" id="pixelDialog" style="display: none;">
+                            <div class="mac-dialog-header">
+                                <div class="mac-window-controls">
+                                    <div class="mac-control mac-close" id="pixelCloseBtn"></div>
+                                    <div class="mac-control mac-minimize"></div>
+                                    <div class="mac-control mac-maximize" id="pixelMaximizeBtn"></div>
+                                </div>
+                                <span>像素风格转换</span>
+                                <div class="mac-drag-handle" id="pixelDragHandle"></div>
+                            </div>
+                            <div class="mac-resize-handle" id="pixelResizeHandle"></div>
+                            
+                            <div class="mac-dialog-content">
+                                <div class="mac-preview">
+                                    <div class="mac-preview-container">
+                                        <div class="mac-preview-split">
+                                            <div class="mac-preview-original">
+                                                <h4>原图</h4>
+                                                <canvas id="originalCanvas"></canvas>
+                                            </div>
+                                            <div class="mac-preview-result">
+                                                <h4>像素风格</h4>
+                                                <canvas id="pixelCanvas"></canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mac-controls">
+                                    <div class="mac-file-info">
+                                        <div class="mac-info-row">
+                                            <span class="mac-info-label">图像大小:</span>
+                                            <span class="mac-info-value" id="pixelFileSize">--</span>
+                                        </div>
+                                        
+                                        <div class="mac-info-row">
+                                            <span class="mac-info-label">像素大小:</span>
+                                            <div class="mac-slider-control">
+                                                <input type="range" id="pixelSize" min="2" max="20" value="8" />
+                                                <span id="pixelSizeValue">8</span>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="mac-separator"></div>
+                                        
+                                        <div class="mac-checkbox-row">
+                                            <input type="checkbox" id="enhancePixel" class="mac-checkbox">
+                                            <label for="enhancePixel">增强边缘细节</label>
+                                        </div>
+                                        
+                                        <div class="mac-checkbox-row">
+                                            <input type="checkbox" id="colorReduction" class="mac-checkbox">
+                                            <label for="colorReduction">减少颜色数量</label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mac-dialog-buttons">
+                                        <button id="pixelCancelBtn" class="mac-btn mac-btn-cancel">取消</button>
+                                        <button id="downloadBtn" class="mac-btn mac-btn-apply" disabled>
+                                            <i class="fa-solid fa-download"></i> 下载
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="pixel-art-preview">
-                            <div class="preview-container">
-                                <div class="preview-original">
-                                    <h4>原图</h4>
-                                    <canvas id="originalCanvas"></canvas>
-                                </div>
-                                <div class="preview-pixel">
-                                    <h4>像素风格</h4>
-                                    <canvas id="pixelCanvas"></canvas>
-                                </div>
-                            </div>
-                            <div class="pixel-art-actions">
-                                <button id="downloadBtn" disabled>
-                                    <i class="fa-solid fa-download"></i> 下载
-                                </button>
-                            </div>
+                        
+                        <div class="pixel-art-results">
+                            <h4>已处理的图像</h4>
+                            <div class="pixel-results-grid" id="pixelResultsGrid"></div>
                         </div>
                     </div>
                 </div>
@@ -1466,6 +1603,11 @@
                                                     <input type="checkbox" id="makeTgSticker" class="resize-pro-checkbox">
                                                     <label for="makeTgSticker">优化为Telegram贴纸</label>
                                                 </div>
+                                                
+                                                <div class="resize-pro-link-row" id="copyImageLink">
+                                                    <i class="fa-solid fa-link"></i>
+                                                    <span>复制图片链接</span>
+                                                </div>
                                             </div>
                                         </div>
                                         
@@ -1524,49 +1666,71 @@
                             <div class="sub-history-container" id="subHistoryContainer"></div>
                         </div>
                         
-                        <div class="sub-result-container" id="subResultContainer">
-                            <div class="sub-loading" id="subLoadingIndicator">
-                                <div class="sub-loading-spinner"></div>
+                        <!-- Mac风格对话框 - 订阅结果 -->
+                        <div class="mac-dialog-overlay" id="subDialogOverlay" style="display: none;"></div>
+                        <div class="mac-dialog" id="subDialog" style="display: none;">
+                            <div class="mac-dialog-header">
+                                <div class="mac-window-controls">
+                                    <div class="mac-control mac-close" id="subCloseBtn"></div>
+                                    <div class="mac-control mac-minimize"></div>
+                                    <div class="mac-control mac-maximize" id="subMaximizeBtn"></div>
+                                </div>
+                                <span>订阅信息</span>
+                                <div class="mac-drag-handle" id="subDragHandle"></div>
                             </div>
+                            <div class="mac-resize-handle" id="subResizeHandle"></div>
                             
-                            <div class="sub-result" id="subResultContent" style="display: none;">
-                                <div class="sub-copy-btn" id="subCopyBtn" aria-label="复制结果">
-                                    <i class="fa-solid fa-copy"></i>
-                                    <div class="sub-copy-tooltip" id="subCopyTooltip">订阅信息已复制到剪贴板</div>
+                            <div class="mac-dialog-content">
+                                <div class="mac-preview" style="flex: 0.4;">
+                                    <div class="mac-preview-container">
+                                        <div class="sub-data-cards" id="subDataCards" style="display: none; width: 100%;">
+                                            <div class="sub-data-card">
+                                                <div class="sub-data-value" id="subUploadValue">--</div>
+                                                <div class="sub-data-label">上传流量</div>
+                                            </div>
+                                            <div class="sub-data-card">
+                                                <div class="sub-data-value" id="subDownloadValue">--</div>
+                                                <div class="sub-data-label">下载流量</div>
+                                            </div>
+                                            <div class="sub-data-card">
+                                                <div class="sub-data-value" id="subRemainingValue">--</div>
+                                                <div class="sub-data-label">剩余流量</div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="sub-progress-container" id="subProgressContainer" style="display: none; margin-top: 30px; width: 100%;">
+                                            <div class="sub-progress-header">
+                                                <div class="sub-progress-title">流量使用情况</div>
+                                                <div class="sub-progress-percent" id="subProgressPercent">0%</div>
+                                            </div>
+                                            <div class="sub-progress-bar">
+                                                <div class="sub-progress-fill" id="subProgressFill" style="width: 0%"></div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div id="subImagePreview" class="sub-image-preview" style="width: 100%; margin-top: 20px;"></div>
+                                    </div>
                                 </div>
                                 
-                                <div class="sub-result-grid" id="subResultGrid"></div>
-                                
-                                <div class="sub-progress-container" id="subProgressContainer" style="display: none;">
-                                    <div class="sub-progress-header">
-                                        <div class="sub-progress-title">流量使用情况</div>
-                                        <div class="sub-progress-percent" id="subProgressPercent">0%</div>
+                                <div class="mac-controls" style="max-width: 60%;">
+                                    <div id="subLoadingIndicator" style="display: flex; justify-content: center; align-items: center; height: 100%;">
+                                        <div class="sub-loading-spinner"></div>
                                     </div>
-                                    <div class="sub-progress-bar">
-                                        <div class="sub-progress-fill" id="subProgressFill" style="width: 0%"></div>
+                                    
+                                    <div id="subResultContent" style="display: none; height: 100%;">
+                                        <div class="mac-file-info">
+                                            <div class="sub-result-grid" id="subResultGrid"></div>
+                                        </div>
+                                        
+                                        <div class="mac-dialog-buttons">
+                                            <button id="subCopyBtn" class="mac-btn mac-btn-cancel">
+                                                <i class="fa-solid fa-copy"></i> 复制
+                                            </button>
+                                            <button id="subDownloadImageBtn" class="mac-btn mac-btn-apply">
+                                                <i class="fa-solid fa-download"></i> 生成图片
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
-                                
-                                <div class="sub-data-cards" id="subDataCards" style="display: none;">
-                                    <div class="sub-data-card">
-                                        <div class="sub-data-value" id="subUploadValue">--</div>
-                                        <div class="sub-data-label">上传流量</div>
-                                    </div>
-                                    <div class="sub-data-card">
-                                        <div class="sub-data-value" id="subDownloadValue">--</div>
-                                        <div class="sub-data-label">下载流量</div>
-                                    </div>
-                                    <div class="sub-data-card">
-                                        <div class="sub-data-value" id="subRemainingValue">--</div>
-                                        <div class="sub-data-label">剩余流量</div>
-                                    </div>
-                                </div>
-                                
-                                <div id="subDownloadImageContainer" style="text-align: center; margin-top: 20px;">
-                                    <button id="subDownloadImageBtn" class="sub-download-btn">
-                                        <i class="fa-solid fa-download"></i> 生成并下载图片
-                                    </button>
-                                    <div id="subImagePreview" class="sub-image-preview"></div>
                                 </div>
                             </div>
                         </div>
@@ -1737,10 +1901,71 @@
             const originalCanvas = document.getElementById('originalCanvas');
             const pixelCanvas = document.getElementById('pixelCanvas');
             const downloadBtn = document.getElementById('downloadBtn');
+            const pixelDialog = document.getElementById('pixelDialog');
+            const pixelDialogOverlay = document.getElementById('pixelDialogOverlay');
+            const pixelCloseBtn = document.getElementById('pixelCloseBtn');
+            const pixelCancelBtn = document.getElementById('pixelCancelBtn');
+            const pixelMaximizeBtn = document.getElementById('pixelMaximizeBtn');
+            const pixelDragHandle = document.getElementById('pixelDragHandle');
+            const pixelResizeHandle = document.getElementById('pixelResizeHandle');
+            const enhancePixel = document.getElementById('enhancePixel');
+            const colorReduction = document.getElementById('colorReduction');
+            const pixelFileSize = document.getElementById('pixelFileSize');
+            const pixelResultsGrid = document.getElementById('pixelResultsGrid');
             
             let originalCtx = originalCanvas.getContext('2d');
             let pixelCtx = pixelCanvas.getContext('2d');
             let originalImage = null;
+            
+            // 显示像素编辑对话框
+            function showPixelDialog(image) {
+                // 计算图像大小
+                const fileSizeKB = Math.round(image.src.length / 1.33) / 1000;
+                if (fileSizeKB > 1024) {
+                    pixelFileSize.textContent = (fileSizeKB / 1024).toFixed(2) + ' MB';
+                } else {
+                    pixelFileSize.textContent = fileSizeKB.toFixed(2) + ' KB';
+                }
+                
+                // 显示对话框
+                pixelDialogOverlay.style.display = 'block';
+                pixelDialog.style.display = 'block';
+                
+                // 把对话框移到body直接子元素位置
+                document.body.appendChild(pixelDialog);
+            }
+            
+            // 关闭像素编辑对话框
+            function closePixelDialog() {
+                pixelDialogOverlay.style.display = 'none';
+                pixelDialog.style.display = 'none';
+                pixelDialog.classList.remove('fullscreen');
+                document.body.style.overflow = '';
+            }
+            
+            // 切换全屏
+            function togglePixelFullScreen() {
+                pixelDialog.classList.toggle('fullscreen');
+                
+                if (pixelDialog.classList.contains('fullscreen')) {
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    document.body.style.overflow = '';
+                }
+            }
+            
+            // 初始化拖拽和缩放功能
+            document.addEventListener('DOMContentLoaded', function() {
+                // 初始化拖拽
+                makeDraggable(pixelDialog, pixelDragHandle);
+                // 初始化调整大小
+                makeResizable(pixelDialog, pixelResizeHandle);
+                
+                // 绑定按钮事件
+                pixelCloseBtn.addEventListener('click', closePixelDialog);
+                pixelCancelBtn.addEventListener('click', closePixelDialog);
+                pixelMaximizeBtn.addEventListener('click', togglePixelFullScreen);
+            });
 
             pixelSize.addEventListener('input', function() {
                 pixelSizeValue.textContent = this.value;
@@ -1760,6 +1985,9 @@
                         drawOriginalImage();
                         pixelateImage(originalImage, parseInt(pixelSize.value));
                         downloadBtn.disabled = false;
+                        
+                        // 显示Mac风格对话框
+                        showPixelDialog(originalImage);
                     };
                     originalImage.src = event.target.result;
                 };
@@ -1840,14 +2068,12 @@
                 });
             });
             
-            document.addEventListener('DOMContentLoaded', () => {
+                            document.addEventListener('DOMContentLoaded', () => {
                 const subscriptionForm = document.getElementById('subscriptionForm');
-                const subResultContainer = document.getElementById('subResultContainer');
                 const subResultContent = document.getElementById('subResultContent');
                 const subResultGrid = document.getElementById('subResultGrid');
                 const subLoadingIndicator = document.getElementById('subLoadingIndicator');
                 const subCopyBtn = document.getElementById('subCopyBtn');
-                const subCopyTooltip = document.getElementById('subCopyTooltip');
                 const subProgressContainer = document.getElementById('subProgressContainer');
                 const subProgressFill = document.getElementById('subProgressFill');
                 const subProgressPercent = document.getElementById('subProgressPercent');
@@ -1857,6 +2083,45 @@
                 const subRemainingValue = document.getElementById('subRemainingValue');
                 const subDownloadImageBtn = document.getElementById('subDownloadImageBtn');
                 const subImagePreview = document.getElementById('subImagePreview');
+                const subDialog = document.getElementById('subDialog');
+                const subDialogOverlay = document.getElementById('subDialogOverlay');
+                const subCloseBtn = document.getElementById('subCloseBtn');
+                const subMaximizeBtn = document.getElementById('subMaximizeBtn');
+                const subDragHandle = document.getElementById('subDragHandle');
+                const subResizeHandle = document.getElementById('subResizeHandle');
+                
+                // 显示订阅查询对话框
+                function showSubDialog() {
+                    subDialogOverlay.style.display = 'block';
+                    subDialog.style.display = 'block';
+                    document.body.appendChild(subDialog);
+                }
+                
+                // 关闭订阅查询对话框
+                function closeSubDialog() {
+                    subDialogOverlay.style.display = 'none';
+                    subDialog.style.display = 'none';
+                    subDialog.classList.remove('fullscreen');
+                    document.body.style.overflow = '';
+                }
+                
+                // 切换全屏
+                function toggleSubFullScreen() {
+                    subDialog.classList.toggle('fullscreen');
+                    if (subDialog.classList.contains('fullscreen')) {
+                        document.body.style.overflow = 'hidden';
+                    } else {
+                        document.body.style.overflow = '';
+                    }
+                }
+                
+                // 初始化拖拽和缩放功能
+                makeDraggable(subDialog, subDragHandle);
+                makeResizable(subDialog, subResizeHandle);
+                
+                // 绑定按钮事件
+                subCloseBtn.addEventListener('click', closeSubDialog);
+                subMaximizeBtn.addEventListener('click', toggleSubFullScreen);
                 
                 let subQueryHistory = [];
                 try {
@@ -1959,11 +2224,15 @@
                     const copyText = async () => {
                         try {
                             await navigator.clipboard.writeText(textToCopy);
-                            subCopyTooltip.classList.add('visible');
+                            // 显示复制成功状态
+                            const originalText = subCopyBtn.innerHTML;
+                            subCopyBtn.innerHTML = '<i class="fa-solid fa-check"></i> 已复制';
+                            
                             setTimeout(() => {
-                                subCopyTooltip.classList.remove('visible');
+                                subCopyBtn.innerHTML = originalText;
                             }, 2000);
                         } catch (err) {
+                            // 回退方法
                             const textarea = document.createElement('textarea');
                             textarea.value = textToCopy;
                             textarea.style.position = 'fixed';
@@ -1973,9 +2242,12 @@
                             document.execCommand('copy');
                             document.body.removeChild(textarea);
                             
-                            subCopyTooltip.classList.add('visible');
+                            // 显示复制成功状态
+                            const originalText = subCopyBtn.innerHTML;
+                            subCopyBtn.innerHTML = '<i class="fa-solid fa-check"></i> 已复制';
+                            
                             setTimeout(() => {
-                                subCopyTooltip.classList.remove('visible');
+                                subCopyBtn.innerHTML = originalText;
                             }, 2000);
                         }
                     };
@@ -2167,12 +2439,16 @@
                     
                     if (!url) return;
                     
-                    subResultContainer.classList.add('active');
+                    // 显示对话框
+                    showSubDialog();
+                    
+                    // 重置UI状态
                     subLoadingIndicator.style.display = 'flex';
                     subResultContent.style.display = 'none';
                     subResultGrid.innerHTML = '';
                     subProgressContainer.style.display = 'none';
                     subDataCards.style.display = 'none';
+                    subImagePreview.innerHTML = '';
                     
                     try {
                         const data = await processSubscription(url);
