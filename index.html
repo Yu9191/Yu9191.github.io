@@ -736,6 +736,32 @@
                 height: 40vh;
                 max-height: none;
             }
+
+            /* ---- 整页代码运行器模式 ---- */
+            body.code-runner-only {
+                overflow: hidden;
+                background: var(--card-bg);
+            }
+            body.code-runner-only .card,
+            body.code-runner-only .floating-elements {
+                display: none !important;
+            }
+            body.code-runner-only #code-runner-tool {
+                position: static;
+                width: 100%;
+                max-width: none;
+                padding: 20px 5vw;
+            }
+            body.code-runner-only #code-runner-tool .code-editor,
+            body.code-runner-only #code-runner-tool .code-output {
+                height: 40vh;
+                max-height: none;
+            }
+            @media (min-width: 860px) {
+                body.code-runner-only #code-runner-tool {
+                    padding: 40px 12vw;
+                }
+            }
         </style>
     </head>
     <body>
@@ -820,9 +846,7 @@
                 
                 <div class="tool-content active" id="about-tool">
                     <div class="about-section">
-                        <p>欢迎来到我的个人主页！我是Yu9191，一个热爱技术与创新的开发者。</p>
-                        <p>我专注于移动应用开发和脚本编写，喜欢探索新技术和解决复杂问题。</p>
-                        <p>通过上方的联系方式可以找到我，期待与您交流！</p>
+                        <p>啥也不会</p>
                     </div>
                 </div>
                 
@@ -1323,14 +1347,11 @@ document.body.appendChild(div);
                     toolContents.forEach(content => content.classList.remove('active'));
                     document.getElementById(`${toolName}-tool`).classList.add('active');
 
-                    // 全屏处理
-                    const runner = document.getElementById('code-runner-tool');
+                    // 整页模式处理
                     if (toolName === 'code-runner') {
-                        runner.classList.add('fullscreen');
-                        document.body.classList.add('fullscreen-active');
+                        document.body.classList.add('code-runner-only');
                     } else {
-                        runner.classList.remove('fullscreen');
-                        document.body.classList.remove('fullscreen-active');
+                        document.body.classList.remove('code-runner-only');
                     }
                 });
             });
