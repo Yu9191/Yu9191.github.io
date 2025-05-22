@@ -136,9 +136,10 @@ window.initCodeRunner = function() {
                     originalConsoleError.apply(console, arguments);
                 };
                 
-                // 执行QX脚本
+                // 执行QX/Surge脚本（包裹为 async IIFE 支持 await）
                 appendOutput('正在模拟QX/Surge环境运行脚本...', 'output-info');
-                eval(code);
+                const wrappedCode = `(async () => {\n${code}\n})();`;
+                eval(wrappedCode);
                 
                 // 恢复控制台方法
                 console.log = originalConsoleLog;
