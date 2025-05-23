@@ -17,6 +17,14 @@
             referrerpolicy="no-referrer"
         />
         <style>
+            /* 确保页面可以正常滚动 */
+            html, body {
+                overflow-x: hidden;
+                overflow-y: auto;
+                height: auto;
+                min-height: 100vh;
+            }
+            
             /* CSS变量 */
             :root {
                 --primary-color: #6366f1;
@@ -55,7 +63,7 @@
             }
             
             [data-theme="dark"] .modern-header {
-                background: rgba(30, 30, 46, 0.95);
+                background: rgba(30, 30, 46, 0.3);
             }
             
             [data-theme="dark"] .contact-card,
@@ -126,6 +134,7 @@
                 background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
                 padding: 0;
                 overflow-x: hidden;
+                overflow-y: auto;
                 position: relative;
             }
             
@@ -141,7 +150,7 @@
             
             .modern-header {
                 padding: 40px 20px;
-                background: rgba(255, 255, 255, 0.95);
+                background: rgba(255, 255, 255, 0.3);
                 backdrop-filter: blur(20px);
                 box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
                 margin-bottom: 30px;
@@ -1984,6 +1993,11 @@
             
             /* 现代布局移动端响应式 */
             @media (max-width: 768px) {
+                .modern-container {
+                    min-height: auto;
+                    height: auto;
+                }
+                
                 .modern-header {
                     padding: 20px 15px;
                 }
@@ -2102,6 +2116,18 @@
                 
                 .tools-header p {
                     font-size: 1rem;
+                }
+                
+                /* 确保移动端可以滚动 */
+                body {
+                    overflow-y: auto !important;
+                    height: auto !important;
+                }
+                
+                .modern-container {
+                    overflow-y: auto !important;
+                    height: auto !important;
+                    max-height: none !important;
                 }
                 
                 /* 响应式调整 */
@@ -4493,7 +4519,7 @@
                     
                     // 确保全屏状态被清除
                     dialog.classList.remove('fullscreen');
-                    document.body.style.overflow = '';
+                    document.body.style.overflow = 'auto';
                 }
                 
                 // 切换全屏
@@ -4505,7 +4531,7 @@
                     if (dialog.classList.contains('fullscreen')) {
                         document.body.style.overflow = 'hidden';
                     } else {
-                        document.body.style.overflow = '';
+                        document.body.style.overflow = 'auto';
                     }
                 }
                 
@@ -5266,7 +5292,7 @@
                      
                      // 确保全屏状态被清除
                      resizeProDialog.classList.remove('fullscreen');
-                     document.body.style.overflow = '';
+                     document.body.style.overflow = 'auto';
                  }
                  
                  // 切换全屏
@@ -5277,7 +5303,7 @@
                      if (resizeProDialog.classList.contains('fullscreen')) {
                          document.body.style.overflow = 'hidden';
                      } else {
-                         document.body.style.overflow = '';
+                         document.body.style.overflow = 'auto';
                      }
                  }
                  
