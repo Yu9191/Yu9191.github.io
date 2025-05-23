@@ -120,7 +120,7 @@
             .img-box img:hover {
                 transform: translateY(-5px) scale(1.05);
                 box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
-                animation-duration: 3s;
+                animation: avatarRotateFast 3s linear infinite;
             }
             
             @keyframes avatarRotate {
@@ -129,6 +129,15 @@
                 }
                 100% {
                     transform: rotate(360deg);
+                }
+            }
+            
+            @keyframes avatarRotateFast {
+                0% {
+                    transform: translateY(-5px) scale(1.05) rotate(0deg);
+                }
+                100% {
+                    transform: translateY(-5px) scale(1.05) rotate(360deg);
                 }
             }
             
@@ -1813,11 +1822,10 @@
                 border: none;
                 box-shadow: none;
                 position: relative;
-                min-height: 100vh;
-                width: 100vw;
+                min-height: 200px;
+                width: 100%;
                 margin: 0;
-                left: 0;
-                top: 0;
+                display: none;
             }
             
             .sub-loading-overlay {
@@ -2045,12 +2053,7 @@
                 
                 /* 手机端全屏显示优化 */
                 .sub-result-section {
-                    min-height: 100vh;
-                    width: 100vw;
-                    margin: 0;
                     padding: 10px;
-                    position: relative;
-                    overflow-x: hidden;
                 }
                 
                 .subscription-container {
@@ -2162,10 +2165,6 @@
              
              /* 桌面端全屏显示优化 */
              @media (min-width: 769px) {
-                 .sub-result-section {
-                     padding: 40px;
-                 }
-                 
                  .subscription-container {
                      max-width: 1400px;
                      margin: 0 auto;
@@ -2201,7 +2200,7 @@
         <div class="container">
             <div class="card">
                 <div class="user">
-                    <div class="img-box" id="laserSource" style="text-align: center; margin-bottom: 20px;">
+                    <div class="img-box" id="laserSource">
                         <img src="https://m.360buyimg.com/i/jfs/t1/311854/8/2935/14637/682dda6eF77c789c1/9a4c5ed64ab9b33b.png" />
                         <div class="status-dot"></div>
                         <div class="laser-pointer" id="laser"></div>
@@ -2264,7 +2263,7 @@
                 
                 <div class="tools-bar">
                     <button class="tool-btn active" data-tool="about">
-                        <i class="fa-solid fa-user"></i> 王力宏
+                        <i class="fa-solid fa-user"></i> 王力宏2.0
                     </button>
                     <button class="tool-btn" data-tool="pixel-art">
                         <i class="fa-solid fa-image"></i> 像素转换器
@@ -2775,16 +2774,26 @@
                 if (!isPressed) return;
                 
                 const sourceRect = laserSource.getBoundingClientRect();
-                const sourceX = sourceRect.left + sourceRect.width / 2;
-                const sourceY = sourceRect.top + sourceRect.height / 2;
+                const imgElement = laserSource.querySelector('img');
+                const imgRect = imgElement.getBoundingClientRect();
+                
+                // 激光从头像边缘开始（圆形头像半径60px）
+                const sourceX = imgRect.left + imgRect.width / 2;
+                const sourceY = imgRect.top + imgRect.height / 2;
                 
                 const targetX = e.clientX || e.touches[0].clientX;
                 const targetY = e.clientY || e.touches[0].clientY;
                 
                 const angle = Math.atan2(targetY - sourceY, targetX - sourceX);
-                const distance = Math.sqrt(Math.pow(targetX - sourceX, 2) + Math.pow(targetY - sourceY, 2));
+                const distance = Math.sqrt(Math.pow(targetX - sourceX, 2) + Math.pow(targetY - sourceY, 2)) - 60; // 减去头像半径
                 
-                laser.style.width = `${distance}px`;
+                // 设置激光起始位置在头像边缘
+                const startX = 60 * Math.cos(angle);
+                const startY = 60 * Math.sin(angle);
+                
+                laser.style.left = `calc(50% + ${startX}px)`;
+                laser.style.top = `calc(50% + ${startY}px)`;
+                laser.style.width = `${Math.max(0, distance)}px`;
                 laser.style.transform = `rotate(${angle}rad)`;
                 laser.style.opacity = '1';
             }
@@ -3123,9 +3132,12 @@
                     subResultSection.style.left = '0';
                     subResultSection.style.right = '0';
                     subResultSection.style.bottom = '0';
+                    subResultSection.style.width = '100vw';
+                    subResultSection.style.height = '100vh';
                     subResultSection.style.zIndex = '10000';
                     subResultSection.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
                     subResultSection.style.overflow = 'auto';
+                    subResultSection.style.padding = '20px';
                     
                     // 添加返回按钮
                     if (!subResultSection.querySelector('.sub-back-btn')) {
@@ -3186,8 +3198,12 @@
                     subResultSection.style.left = '';
                     subResultSection.style.right = '';
                     subResultSection.style.bottom = '';
+                    subResultSection.style.width = '';
+                    subResultSection.style.height = '';
                     subResultSection.style.zIndex = '';
                     subResultSection.style.background = '';
+                    subResultSection.style.overflow = '';
+                    subResultSection.style.padding = '';
                     
                     subResultSection.style.display = 'none';
                     
