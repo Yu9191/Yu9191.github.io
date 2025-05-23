@@ -55,19 +55,20 @@
                 top: 50%;
                 left: 50%;
                 width: 0;
-                height: 2px;
-                background: linear-gradient(90deg, var(--laser-color) 0%, rgba(255, 0, 0, 0.8) 50%, rgba(255, 0, 0, 0.3) 100%);
+                height: 3px;
+                background: linear-gradient(90deg, #ff69b4 0%, #ff1493 50%, rgba(255, 105, 180, 0.3) 100%);
                 transform-origin: left center;
                 opacity: 0;
                 transition: opacity 0.2s;
                 pointer-events: none;
                 box-shadow: 
-                    0 0 3px var(--laser-color), 
-                    0 0 6px var(--laser-color), 
-                    0 0 12px var(--laser-color),
-                    0 0 18px rgba(255, 0, 0, 0.5);
+                    0 0 5px #ff69b4, 
+                    0 0 10px #ff69b4, 
+                    0 0 15px #ff69b4,
+                    0 0 20px rgba(255, 105, 180, 0.5);
                 z-index: 1000;
-                filter: blur(0.5px);
+                filter: blur(0.3px);
+                border-radius: 2px;
             }
             
             .laser-pointer::before {
@@ -75,56 +76,301 @@
                 position: absolute;
                 top: 50%;
                 left: 100%;
-                width: 8px;
-                height: 8px;
-                background: radial-gradient(circle, var(--laser-color) 30%, rgba(255, 0, 0, 0.6) 60%, transparent 100%);
+                width: 10px;
+                height: 10px;
+                background: radial-gradient(circle, #ff69b4 30%, rgba(255, 105, 180, 0.7) 60%, transparent 100%);
                 border-radius: 50%;
                 transform: translate(-50%, -50%);
-                box-shadow: 0 0 10px var(--laser-color), 0 0 20px rgba(255, 0, 0, 0.4);
-                animation: laserPulse 1s ease-in-out infinite alternate;
+                box-shadow: 0 0 12px #ff69b4, 0 0 24px rgba(255, 105, 180, 0.5);
+                animation: cuteLaserPulse 1.2s ease-in-out infinite alternate;
             }
             
-            @keyframes laserPulse {
+            @keyframes cuteLaserPulse {
                 0% {
                     opacity: 0.7;
                     transform: translate(-50%, -50%) scale(1);
+                    box-shadow: 0 0 12px #ff69b4, 0 0 24px rgba(255, 105, 180, 0.5);
                 }
                 100% {
                     opacity: 1;
-                    transform: translate(-50%, -50%) scale(1.2);
+                    transform: translate(-50%, -50%) scale(1.3);
+                    box-shadow: 0 0 16px #ff69b4, 0 0 32px rgba(255, 105, 180, 0.7);
                 }
             }
             
-            .img-box {
+
+            
+            /* 可爱头像容器样式 */
+            .cute-avatar-container {
                 position: relative;
                 overflow: visible;
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                padding: 20px 0;
+                padding: 30px 0;
                 background: transparent;
             }
             
-            .img-box img {
-                border: 4px solid var(--img-border);
+            .cute-avatar-wrapper {
+                position: relative;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 150px;
+                height: 150px;
+            }
+            
+            .cute-avatar-bg {
+                position: absolute;
+                width: 140px;
+                height: 140px;
+                background: linear-gradient(45deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
                 border-radius: 50%;
-                display: block;
-                margin: 0 auto;
-                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-                transition: transform 0.3s ease, box-shadow 0.3s ease;
+                z-index: 1;
+                animation: cuteGlow 3s ease-in-out infinite alternate;
+                box-shadow: 0 0 30px rgba(255, 154, 158, 0.4);
+            }
+            
+            .cute-avatar {
+                position: relative;
                 width: 120px;
                 height: 120px;
+                border-radius: 50%;
+                border: 4px solid rgba(255, 255, 255, 0.8);
                 object-fit: cover;
-                animation: avatarRotate 10s linear infinite;
+                z-index: 2;
+                transition: all 0.3s ease;
+                animation: cuteFloat 4s ease-in-out infinite;
+                box-shadow: 0 8px 25px rgba(255, 192, 203, 0.3);
+                background: linear-gradient(45deg, #ffb3ba, #ffdfba, #ffffba, #baffc9, #bae1ff);
             }
             
-            .img-box img:hover {
-                transform: translateY(-5px) scale(1.05);
-                box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
-                animation: avatarRotateFast 3s linear infinite;
+            .cute-avatar:hover {
+                transform: scale(1.1) rotate(5deg);
+                box-shadow: 0 15px 40px rgba(255, 192, 203, 0.5);
+                animation: cuteBounceFast 1.5s ease-in-out infinite;
             }
             
-            @keyframes avatarRotate {
+            .cute-sparkles {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+                z-index: 3;
+                pointer-events: none;
+            }
+            
+            .sparkle {
+                position: absolute;
+                font-size: 1.2rem;
+                animation: sparkleFloat 3s ease-in-out infinite;
+                opacity: 0.8;
+            }
+            
+            .sparkle:nth-child(1) {
+                top: 10px;
+                right: 20px;
+                animation-delay: 0s;
+            }
+            
+            .sparkle:nth-child(2) {
+                top: 30px;
+                left: 15px;
+                animation-delay: 0.7s;
+            }
+            
+            .sparkle:nth-child(3) {
+                bottom: 25px;
+                right: 15px;
+                animation-delay: 1.4s;
+            }
+            
+            .sparkle:nth-child(4) {
+                bottom: 10px;
+                left: 25px;
+                animation-delay: 2.1s;
+            }
+            
+            .cute-heart {
+                position: absolute;
+                top: -10px;
+                right: -5px;
+                font-size: 1.5rem;
+                z-index: 4;
+                animation: heartBeat 2s ease-in-out infinite;
+                filter: drop-shadow(0 2px 4px rgba(255, 192, 203, 0.5));
+            }
+            
+            @keyframes cuteGlow {
+                0% {
+                    box-shadow: 0 0 30px rgba(255, 154, 158, 0.4);
+                    transform: scale(1);
+                }
+                100% {
+                    box-shadow: 0 0 50px rgba(255, 154, 158, 0.6);
+                    transform: scale(1.05);
+                }
+            }
+            
+            @keyframes cuteFloat {
+                0%, 100% {
+                    transform: translateY(0) rotate(0deg);
+                }
+                50% {
+                    transform: translateY(-10px) rotate(2deg);
+                }
+            }
+            
+            @keyframes cuteBounceFast {
+                0%, 100% {
+                    transform: scale(1.1) rotate(5deg) translateY(0);
+                }
+                50% {
+                    transform: scale(1.1) rotate(5deg) translateY(-8px);
+                }
+            }
+            
+            @keyframes sparkleFloat {
+                0%, 100% {
+                    transform: translateY(0) scale(1) rotate(0deg);
+                    opacity: 0.8;
+                }
+                50% {
+                    transform: translateY(-15px) scale(1.2) rotate(180deg);
+                    opacity: 1;
+                }
+            }
+            
+            @keyframes heartBeat {
+                0%, 100% {
+                    transform: scale(1);
+                }
+                50% {
+                    transform: scale(1.2);
+                }
+            }
+            
+            /* 可爱内容区域样式 */
+            .cute-content {
+                text-align: center;
+                padding: 20px;
+                background: linear-gradient(135deg, rgba(255, 182, 193, 0.1) 0%, rgba(255, 218, 185, 0.1) 100%);
+                border-radius: 20px;
+                margin: 20px 0;
+                position: relative;
+                overflow: hidden;
+            }
+            
+            .cute-content::before {
+                content: '';
+                position: absolute;
+                top: -50%;
+                left: -50%;
+                width: 200%;
+                height: 200%;
+                background: radial-gradient(circle, rgba(255, 192, 203, 0.1) 0%, transparent 70%);
+                animation: cuteBackgroundMove 8s linear infinite;
+                z-index: 1;
+            }
+            
+            .cute-content > * {
+                position: relative;
+                z-index: 2;
+            }
+            
+            .cute-greeting {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+                margin-bottom: 15px;
+            }
+            
+            .cute-wave {
+                font-size: 1.5rem;
+                display: inline-block;
+                animation: wave 2s ease-in-out infinite;
+            }
+            
+            .cute-greeting h2 {
+                color: #ff69b4;
+                font-size: 1.3rem;
+                margin: 0;
+                font-weight: 600;
+                text-shadow: 0 2px 4px rgba(255, 105, 180, 0.3);
+            }
+            
+            .cute-content h1 {
+                color: #ff1493;
+                font-size: 1.5rem;
+                margin: 15px 0;
+                font-weight: 700;
+                background: linear-gradient(45deg, #ff69b4, #ff1493, #da70d6);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                text-shadow: 0 2px 8px rgba(255, 20, 147, 0.3);
+            }
+            
+            .cute-description {
+                margin: 20px 0;
+            }
+            
+            .cute-description p {
+                color: #ff69b4;
+                font-size: 1rem;
+                margin: 8px 0;
+                line-height: 1.6;
+                font-weight: 500;
+                text-shadow: 0 1px 2px rgba(255, 105, 180, 0.2);
+            }
+            
+            .cute-tags {
+                display: flex;
+                justify-content: center;
+                gap: 12px;
+                margin-top: 20px;
+                flex-wrap: wrap;
+            }
+            
+            .cute-tag {
+                background: linear-gradient(45deg, #ffb6c1, #ffc0cb);
+                color: #d63384;
+                padding: 8px 16px;
+                border-radius: 20px;
+                font-size: 0.9rem;
+                font-weight: 600;
+                border: 2px solid rgba(255, 182, 193, 0.5);
+                box-shadow: 0 4px 15px rgba(255, 182, 193, 0.3);
+                transition: all 0.3s ease;
+                cursor: pointer;
+                position: relative;
+                overflow: hidden;
+            }
+            
+            .cute-tag::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+                transition: left 0.5s ease;
+            }
+            
+            .cute-tag:hover {
+                transform: translateY(-3px) scale(1.05);
+                box-shadow: 0 8px 25px rgba(255, 182, 193, 0.5);
+                background: linear-gradient(45deg, #ffc0cb, #ffb6c1);
+            }
+            
+            .cute-tag:hover::before {
+                left: 100%;
+            }
+            
+            @keyframes cuteBackgroundMove {
                 0% {
                     transform: rotate(0deg);
                 }
@@ -133,12 +379,15 @@
                 }
             }
             
-            @keyframes avatarRotateFast {
-                0% {
-                    transform: translateY(-5px) scale(1.05) rotate(0deg);
+            @keyframes wave {
+                0%, 100% {
+                    transform: rotate(0deg);
                 }
-                100% {
-                    transform: translateY(-5px) scale(1.05) rotate(360deg);
+                25% {
+                    transform: rotate(20deg);
+                }
+                75% {
+                    transform: rotate(-20deg);
                 }
             }
             
@@ -1416,8 +1665,62 @@
                 box-shadow: 0 3px 8px rgba(var(--primary-color-rgb), 0.3);
             }
             
-            /* 响应式调整 */
+            /* 移动端可爱风格优化 */
             @media (max-width: 768px) {
+                .cute-avatar-container {
+                    padding: 20px 0;
+                }
+                
+                .cute-avatar-wrapper {
+                    width: 120px;
+                    height: 120px;
+                }
+                
+                .cute-avatar-bg {
+                    width: 110px;
+                    height: 110px;
+                }
+                
+                .cute-avatar {
+                    width: 90px;
+                    height: 90px;
+                }
+                
+                .cute-content {
+                    padding: 15px;
+                    margin: 15px 0;
+                }
+                
+                .cute-content h1 {
+                    font-size: 1.2rem;
+                }
+                
+                .cute-greeting h2 {
+                    font-size: 1.1rem;
+                }
+                
+                .cute-description p {
+                    font-size: 0.9rem;
+                }
+                
+                .cute-tags {
+                    gap: 8px;
+                }
+                
+                .cute-tag {
+                    padding: 6px 12px;
+                    font-size: 0.8rem;
+                }
+                
+                .sparkle {
+                    font-size: 1rem;
+                }
+                
+                .cute-heart {
+                    font-size: 1.2rem;
+                }
+                
+                /* 响应式调整 */
                 .resize-pro-dialog, .mac-dialog, .sub-dialog {
                     width: 100vw !important;
                     height: 100vh !important;
@@ -2396,17 +2699,35 @@
         <div class="container">
             <div class="card">
                 <div class="user">
-                    <div class="img-box" id="laserSource">
-                        <img src="https://m.360buyimg.com/i/jfs/t1/311854/8/2935/14637/682dda6eF77c789c1/9a4c5ed64ab9b33b.png" />
+                    <div class="cute-avatar-container" id="laserSource">
+                        <div class="cute-avatar-wrapper">
+                            <div class="cute-avatar-bg"></div>
+                            <img class="cute-avatar" src="https://i.imgur.com/placeholder-cute-avatar.png" alt="可爱头像" />
+                            <div class="cute-sparkles">
+                                <span class="sparkle">✨</span>
+                                <span class="sparkle">💫</span>
+                                <span class="sparkle">⭐</span>
+                                <span class="sparkle">🌟</span>
+                            </div>
+                            <div class="cute-heart">💗</div>
+                        </div>
                         <div class="laser-pointer" id="laser"></div>
                     </div>
-                    <div class="content">
-                        <h2>爱是人生中不可或缺的吗？</h2>
-                        <h1>Is love essential in life?</h1>
-                        <div class="tags">
-                            <span class="tag">#帅</span>
-                            <span class="tag">#大</span>
-                            <span class="tag">#粗</span>
+                    <div class="cute-content">
+                        <div class="cute-greeting">
+                            <span class="cute-wave">👋</span>
+                            <h2>こんにちは~ (◕‿◕)♡</h2>
+                        </div>
+                        <h1>一个热爱技术的可爱女孩 ฅʕ•̫͡•ʔฅ</h1>
+                        <div class="cute-description">
+                            <p>✨ 喜欢编程、设计和一切美好的事物</p>
+                            <p>🌸 用代码创造温暖的世界</p>
+                        </div>
+                        <div class="cute-tags">
+                            <span class="cute-tag">🎀 可爱</span>
+                            <span class="cute-tag">💻 技术宅</span>
+                            <span class="cute-tag">🌟 创意满满</span>
+                            <span class="cute-tag">💕 治愈系</span>
                         </div>
                     </div>
                     <div class="toggle">
@@ -2458,7 +2779,7 @@
                 
                 <div class="tools-bar">
                     <button class="tool-btn active" data-tool="about">
-                        <i class="fa-solid fa-user"></i> 王力宏3.0
+                        <i class="fa-solid fa-user"></i> 王力宏4.0
                     </button>
                     <button class="tool-btn" data-tool="pixel-art">
                         <i class="fa-solid fa-image"></i> 像素转换器
@@ -2986,12 +3307,12 @@
                 if (!isPressed) return;
                 
                 const sourceRect = laserSource.getBoundingClientRect();
-                const imgElement = laserSource.querySelector('img');
-                const imgRect = imgElement.getBoundingClientRect();
+                const cuteAvatar = laserSource.querySelector('.cute-avatar');
+                const avatarRect = cuteAvatar.getBoundingClientRect();
                 
-                // 激光从头像边缘开始（圆形头像半径60px）
-                const sourceX = imgRect.left + imgRect.width / 2;
-                const sourceY = imgRect.top + imgRect.height / 2;
+                // 激光从可爱头像边缘开始（圆形头像半径60px）
+                const sourceX = avatarRect.left + avatarRect.width / 2;
+                const sourceY = avatarRect.top + avatarRect.height / 2;
                 
                 const targetX = e.clientX || e.touches[0].clientX;
                 const targetY = e.clientY || e.touches[0].clientY;
@@ -3926,9 +4247,12 @@
             
             document.addEventListener('mousemove', (e) => {
                 if (!isPressed) {
-                    const sourceRect = laserSource.getBoundingClientRect();
-                    const sourceX = sourceRect.left + sourceRect.width / 2;
-                    const sourceY = sourceRect.top + sourceRect.height / 2;
+                    const cuteAvatar = laserSource.querySelector('.cute-avatar');
+                    if (!cuteAvatar) return;
+                    
+                    const avatarRect = cuteAvatar.getBoundingClientRect();
+                    const sourceX = avatarRect.left + avatarRect.width / 2;
+                    const sourceY = avatarRect.top + avatarRect.height / 2;
                     
                     const targetX = e.clientX;
                     const targetY = e.clientY;
@@ -3951,9 +4275,12 @@
             document.addEventListener('mousedown', (e) => {
                 isPressed = true;
                 
-                const sourceRect = laserSource.getBoundingClientRect();
-                const sourceX = sourceRect.left + sourceRect.width / 2;
-                const sourceY = sourceRect.top + sourceRect.height / 2;
+                const cuteAvatar = laserSource.querySelector('.cute-avatar');
+                if (!cuteAvatar) return;
+                
+                const avatarRect = cuteAvatar.getBoundingClientRect();
+                const sourceX = avatarRect.left + avatarRect.width / 2;
+                const sourceY = avatarRect.top + avatarRect.height / 2;
                 
                 const targetX = e.clientX;
                 const targetY = e.clientY;
