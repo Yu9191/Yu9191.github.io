@@ -102,6 +102,7 @@
                 justify-content: center;
                 align-items: center;
                 padding: 20px 0;
+                background: transparent;
             }
             
             .img-box img {
@@ -343,18 +344,171 @@
                 margin-top: 5px;
             }
             
-            /* 结果容器 */
-            .sub-result-container {
-                margin-top: 30px;
-                opacity: 0;
-                max-height: 0;
-                overflow: hidden;
-                transition: all 0.5s ease;
+            /* 订阅查询对话框样式 */
+            .sub-dialog-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background-color: rgba(0, 0, 0, 0.7);
+                z-index: 9998;
+                display: none;
             }
             
-            .sub-result-container.active {
-                opacity: 1;
-                max-height: 1000px;
+            .sub-dialog {
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 90%;
+                max-width: 900px;
+                height: 80%;
+                max-height: 700px;
+                background: var(--card-bg);
+                border-radius: 12px;
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+                z-index: 9999;
+                overflow: hidden;
+                transition: all 0.3s ease;
+                resize: both;
+                display: none;
+            }
+            
+            .sub-dialog.fullscreen {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                max-width: none;
+                max-height: none;
+                transform: none;
+                border-radius: 0;
+                margin: 0;
+                padding: 0;
+            }
+            
+            .sub-dialog-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 12px 20px;
+                background: var(--card-bg-light);
+                border-bottom: 1px solid var(--border-color);
+                cursor: move;
+                user-select: none;
+            }
+            
+            .sub-dialog-header span {
+                font-size: 16px;
+                font-weight: 600;
+                color: var(--text-color);
+                text-align: center;
+                flex: 1;
+            }
+            
+            .sub-window-controls {
+                display: flex;
+                gap: 8px;
+                margin-right: 15px;
+            }
+            
+            .sub-control {
+                width: 12px;
+                height: 12px;
+                border-radius: 50%;
+                cursor: pointer;
+                transition: all 0.2s;
+                position: relative;
+            }
+            
+            .sub-close {
+                background-color: #ff5f57;
+            }
+            
+            .sub-minimize {
+                background-color: #febc2e;
+            }
+            
+            .sub-maximize {
+                background-color: #28c840;
+            }
+            
+            .sub-control:hover {
+                filter: brightness(0.9);
+            }
+            
+            .sub-close:hover::before,
+            .sub-close:hover::after {
+                content: '';
+                position: absolute;
+                width: 8px;
+                height: 1px;
+                background: rgba(0, 0, 0, 0.5);
+                top: 6px;
+                left: 2px;
+            }
+            
+            .sub-close:hover::before {
+                transform: rotate(45deg);
+            }
+            
+            .sub-close:hover::after {
+                transform: rotate(-45deg);
+            }
+            
+            .sub-maximize:hover::before {
+                content: '';
+                position: absolute;
+                width: 6px;
+                height: 6px;
+                border: 1px solid rgba(0, 0, 0, 0.5);
+                top: 2px;
+                left: 2px;
+                border-radius: 1px;
+            }
+            
+            .sub-drag-handle {
+                flex: 1;
+                height: 100%;
+                cursor: move;
+            }
+            
+            .sub-resize-handle {
+                position: absolute;
+                bottom: 0;
+                right: 0;
+                width: 20px;
+                height: 20px;
+                cursor: nwse-resize;
+                z-index: 1010;
+            }
+            
+            .sub-resize-handle::before {
+                content: '';
+                position: absolute;
+                right: 4px;
+                bottom: 4px;
+                width: 12px;
+                height: 12px;
+                border-right: 2px solid var(--border-color);
+                border-bottom: 2px solid var(--border-color);
+                opacity: 0.8;
+            }
+            
+            .sub-dialog-content {
+                display: flex;
+                flex-direction: row;
+                height: calc(100% - 45px);
+                overflow: hidden;
+            }
+            
+            .sub-dialog-main {
+                flex: 1;
+                padding: 20px;
+                overflow-y: auto;
+                background: var(--card-bg);
             }
             
             /* 加载指示器 */
@@ -1264,7 +1418,7 @@
             
             /* 响应式调整 */
             @media (max-width: 768px) {
-                .resize-pro-dialog, .mac-dialog {
+                .resize-pro-dialog, .mac-dialog, .sub-dialog {
                     width: 100vw !important;
                     height: 100vh !important;
                     max-width: none !important;
@@ -1275,13 +1429,13 @@
                     border-radius: 10px 10px 0 0;
                 }
                 
-                .resize-pro-dialog-content, .mac-dialog-content {
+                .resize-pro-dialog-content, .mac-dialog-content, .sub-dialog-content {
                     flex-direction: column;
                     height: calc(100% - 45px);
                     overflow-y: auto;
                 }
                 
-                .resize-pro-window-controls, .mac-window-controls {
+                .resize-pro-window-controls, .mac-window-controls, .sub-window-controls {
                     margin-right: 10px;
                 }
                 
@@ -1292,7 +1446,7 @@
                     min-height: 200px;
                 }
                 
-                .resize-pro-controls, .mac-controls {
+                .resize-pro-controls, .mac-controls, .sub-dialog-main {
                     width: 100% !important;
                     max-width: none !important;
                     padding: 15px;
@@ -1332,7 +1486,7 @@
                 }
                 
                 /* 隐藏调整大小手柄，在移动设备上不需要 */
-                .resize-pro-resize-handle, .mac-resize-handle {
+                .resize-pro-resize-handle, .mac-resize-handle, .sub-resize-handle {
                     display: none;
                 }
                 
@@ -1353,6 +1507,79 @@
                 
                 .sub-result-item {
                     margin-bottom: 15px;
+                }
+                
+                .sub-result-layout {
+                    grid-template-columns: 1fr;
+                    gap: 20px;
+                }
+                
+                .sub-info-panel, .sub-stats-panel {
+                    padding: 20px 15px;
+                    margin-bottom: 20px;
+                    border-radius: 15px;
+                    min-height: auto;
+                }
+                
+                .sub-basic-info h5, .sub-data-overview h5, .sub-progress-section h5 {
+                    font-size: 1.2rem;
+                    margin-bottom: 15px;
+                }
+                
+                .sub-data-card {
+                    padding: 15px;
+                    border-radius: 12px;
+                }
+                
+                .sub-data-icon {
+                    width: 50px;
+                    height: 50px;
+                    margin-right: 15px;
+                    font-size: 1.3rem;
+                }
+                
+                .sub-data-value {
+                    font-size: 1.4rem;
+                }
+                
+                .sub-data-label {
+                    font-size: 0.9rem;
+                }
+                
+                .sub-loading-overlay {
+                    height: 40vh;
+                    margin: 10px 0;
+                    border-radius: 15px;
+                }
+                
+                .sub-image-section {
+                    padding: 20px 15px;
+                    margin-top: 20px;
+                    border-radius: 15px;
+                }
+                
+                .sub-result-item {
+                    padding: 12px 0;
+                    border-bottom: 1px solid rgba(var(--border-color-rgb, 224, 224, 224), 0.3);
+                }
+                
+                .sub-result-item:last-child {
+                    border-bottom: none;
+                }
+                
+                .sub-result-label {
+                    font-size: 0.9rem;
+                    margin-bottom: 5px;
+                    font-weight: 600;
+                    color: var(--text-color-light);
+                }
+                
+                .sub-result-value {
+                    font-size: 1rem;
+                    font-weight: 600;
+                    color: var(--text-color);
+                    word-break: break-all;
+                    line-height: 1.4;
                 }
             }
             
@@ -1816,16 +2043,15 @@
             }
             
             .sub-result-section {
-                background: transparent;
-                border-radius: 0;
+                background: var(--card-bg);
+                border-radius: 10px;
                 padding: 20px;
-                border: none;
-                box-shadow: none;
+                border: 1px solid var(--border-color);
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
                 position: relative;
                 min-height: 200px;
                 width: 100%;
                 margin: 0;
-                display: none;
             }
             
             .sub-loading-overlay {
@@ -2163,37 +2389,7 @@
                  }
              }
              
-             /* 桌面端全屏显示优化 */
-             @media (min-width: 769px) {
-                 .subscription-container {
-                     max-width: 1400px;
-                     margin: 0 auto;
-                     padding: 0;
-                 }
-                 
-                 .sub-result-layout {
-                     gap: 50px;
-                 }
-                 
-                 .sub-info-panel, .sub-stats-panel {
-                     min-height: 500px;
-                     padding: 40px;
-                 }
-                 
-                 .sub-result-header {
-                     padding: 30px;
-                     margin-bottom: 50px;
-                 }
-                 
-                 .sub-result-header h4 {
-                     font-size: 2.5rem;
-                 }
-                 
-                 .sub-action-btn {
-                     padding: 15px 25px;
-                     font-size: 1rem;
-                 }
-             }
+
         </style>
     </head>
     <body>
@@ -2202,7 +2398,6 @@
                 <div class="user">
                     <div class="img-box" id="laserSource">
                         <img src="https://m.360buyimg.com/i/jfs/t1/311854/8/2935/14637/682dda6eF77c789c1/9a4c5ed64ab9b33b.png" />
-                        <div class="status-dot"></div>
                         <div class="laser-pointer" id="laser"></div>
                     </div>
                     <div class="content">
@@ -2263,7 +2458,7 @@
                 
                 <div class="tools-bar">
                     <button class="tool-btn active" data-tool="about">
-                        <i class="fa-solid fa-user"></i> 王力宏2.0
+                        <i class="fa-solid fa-user"></i> 王力宏3.0
                     </button>
                     <button class="tool-btn" data-tool="pixel-art">
                         <i class="fa-solid fa-image"></i> 像素转换器
@@ -2569,85 +2764,102 @@
                             </div>
                         </div>
                         
-                        <div class="sub-result-section" id="subResultSection" style="display: none;">
-                            <div class="sub-loading-overlay" id="subLoadingOverlay">
-                                <div class="sub-loading-spinner"></div>
-                                <p>正在查询订阅信息...</p>
-                            </div>
-                            
-                            <div class="sub-result-content" id="subResultContent" style="display: none;">
-                                <div class="sub-result-header">
-                                    <h4>订阅信息详情</h4>
-                                    <div class="sub-result-actions">
-                                        <button id="subCopyBtn" class="sub-action-btn sub-btn-copy">
-                                            <i class="fa-solid fa-copy"></i> 复制信息
-                                        </button>
-                                        <button id="subDownloadImageBtn" class="sub-action-btn sub-btn-download">
-                                            <i class="fa-solid fa-download"></i> 生成图片
-                                        </button>
-                                    </div>
+                        <!-- 订阅查询对话框 -->
+                        <div class="sub-dialog-overlay" id="subDialogOverlay"></div>
+                        <div class="sub-dialog" id="subDialog">
+                            <div class="sub-dialog-header">
+                                <div class="sub-window-controls">
+                                    <div class="sub-control sub-close" id="subCloseBtn"></div>
+                                    <div class="sub-control sub-minimize"></div>
+                                    <div class="sub-control sub-maximize" id="subMaximizeBtn"></div>
                                 </div>
-                                
-                                <div class="sub-result-layout">
-                                    <div class="sub-info-panel">
-                                        <div class="sub-basic-info">
-                                            <h5>基本信息</h5>
-                                            <div class="sub-result-grid" id="subResultGrid"></div>
-                                        </div>
+                                <span>订阅信息详情</span>
+                                <div class="sub-drag-handle" id="subDragHandle"></div>
+                            </div>
+                            <div class="sub-resize-handle" id="subResizeHandle"></div>
+                            
+                            <div class="sub-dialog-content">
+                                <div class="sub-dialog-main">
+                                    <div class="sub-loading-overlay" id="subLoadingOverlay" style="display: none;">
+                                        <div class="sub-loading-spinner"></div>
+                                        <p>正在查询订阅信息...</p>
                                     </div>
                                     
-                                    <div class="sub-stats-panel">
-                                        <div class="sub-data-overview">
-                                            <h5>流量概况</h5>
-                                            <div class="sub-data-cards" id="subDataCards" style="display: none;">
-                                                <div class="sub-data-card">
-                                                    <div class="sub-data-icon">
-                                                        <i class="fa-solid fa-arrow-up"></i>
-                                                    </div>
-                                                    <div class="sub-data-info">
-                                                        <div class="sub-data-value" id="subUploadValue">--</div>
-                                                        <div class="sub-data-label">上传流量</div>
+                                    <div class="sub-result-content" id="subResultContent" style="display: none;">
+                                        <div class="sub-result-header">
+                                            <h4>订阅信息详情</h4>
+                                            <div class="sub-result-actions">
+                                                <button id="subCopyBtn" class="sub-action-btn sub-btn-copy">
+                                                    <i class="fa-solid fa-copy"></i> 复制信息
+                                                </button>
+                                                <button id="subDownloadImageBtn" class="sub-action-btn sub-btn-download">
+                                                    <i class="fa-solid fa-download"></i> 生成图片
+                                                </button>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="sub-result-layout">
+                                            <div class="sub-info-panel">
+                                                <div class="sub-basic-info">
+                                                    <h5>基本信息</h5>
+                                                    <div class="sub-result-grid" id="subResultGrid"></div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="sub-stats-panel">
+                                                <div class="sub-data-overview">
+                                                    <h5>流量概况</h5>
+                                                    <div class="sub-data-cards" id="subDataCards" style="display: none;">
+                                                        <div class="sub-data-card">
+                                                            <div class="sub-data-icon">
+                                                                <i class="fa-solid fa-arrow-up"></i>
+                                                            </div>
+                                                            <div class="sub-data-info">
+                                                                <div class="sub-data-value" id="subUploadValue">--</div>
+                                                                <div class="sub-data-label">上传流量</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="sub-data-card">
+                                                            <div class="sub-data-icon">
+                                                                <i class="fa-solid fa-arrow-down"></i>
+                                                            </div>
+                                                            <div class="sub-data-info">
+                                                                <div class="sub-data-value" id="subDownloadValue">--</div>
+                                                                <div class="sub-data-label">下载流量</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="sub-data-card">
+                                                            <div class="sub-data-icon">
+                                                                <i class="fa-solid fa-database"></i>
+                                                            </div>
+                                                            <div class="sub-data-info">
+                                                                <div class="sub-data-value" id="subRemainingValue">--</div>
+                                                                <div class="sub-data-label">剩余流量</div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="sub-data-card">
-                                                    <div class="sub-data-icon">
-                                                        <i class="fa-solid fa-arrow-down"></i>
-                                                    </div>
-                                                    <div class="sub-data-info">
-                                                        <div class="sub-data-value" id="subDownloadValue">--</div>
-                                                        <div class="sub-data-label">下载流量</div>
-                                                    </div>
-                                                </div>
-                                                <div class="sub-data-card">
-                                                    <div class="sub-data-icon">
-                                                        <i class="fa-solid fa-database"></i>
-                                                    </div>
-                                                    <div class="sub-data-info">
-                                                        <div class="sub-data-value" id="subRemainingValue">--</div>
-                                                        <div class="sub-data-label">剩余流量</div>
+                                                
+                                                <div class="sub-progress-section">
+                                                    <h5>使用情况</h5>
+                                                    <div class="sub-progress-container" id="subProgressContainer" style="display: none;">
+                                                        <div class="sub-progress-header">
+                                                            <span class="sub-progress-title">流量使用率</span>
+                                                            <span class="sub-progress-percent" id="subProgressPercent">0%</span>
+                                                        </div>
+                                                        <div class="sub-progress-bar">
+                                                            <div class="sub-progress-fill" id="subProgressFill" style="width: 0%"></div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         
-                                        <div class="sub-progress-section">
-                                            <h5>使用情况</h5>
-                                            <div class="sub-progress-container" id="subProgressContainer" style="display: none;">
-                                                <div class="sub-progress-header">
-                                                    <span class="sub-progress-title">流量使用率</span>
-                                                    <span class="sub-progress-percent" id="subProgressPercent">0%</span>
-                                                </div>
-                                                <div class="sub-progress-bar">
-                                                    <div class="sub-progress-fill" id="subProgressFill" style="width: 0%"></div>
-                                                </div>
-                                            </div>
+                                        <div class="sub-image-section" id="subImagePreview" style="display: none;">
+                                            <h5>生成的图片</h5>
+                                            <div class="sub-image-container"></div>
                                         </div>
                                     </div>
-                                </div>
-                                
-                                <div class="sub-image-section" id="subImagePreview" style="display: none;">
-                                    <h5>生成的图片</h5>
-                                    <div class="sub-image-container"></div>
                                 </div>
                             </div>
                         </div>
@@ -3113,101 +3325,118 @@
                 const subImagePreview = document.getElementById('subImagePreview');
                 const subLoadingOverlay = document.getElementById('subLoadingOverlay');
                 
-                // 显示订阅查询结果区域
-                function showSubResult() {
-                    const subResultSection = document.getElementById('subResultSection');
-                    const container = document.querySelector('.container');
-                    const card = document.querySelector('.card');
+                // 显示订阅查询对话框
+                function showSubDialog() {
+                    document.getElementById('subDialogOverlay').style.display = 'block';
+                    document.getElementById('subDialog').style.display = 'block';
                     
-                    subResultSection.style.display = 'block';
+                    // 移动对话框到body
+                    const dialog = document.getElementById('subDialog');
+                    document.body.appendChild(dialog);
                     
-                    // 桌面端和移动端都进入全屏模式
-                    // 隐藏其他内容
-                    if (container) container.style.display = 'none';
-                    if (card) card.style.display = 'none';
-                    
-                    // 结果区域全屏显示
-                    subResultSection.style.position = 'fixed';
-                    subResultSection.style.top = '0';
-                    subResultSection.style.left = '0';
-                    subResultSection.style.right = '0';
-                    subResultSection.style.bottom = '0';
-                    subResultSection.style.width = '100vw';
-                    subResultSection.style.height = '100vh';
-                    subResultSection.style.zIndex = '10000';
-                    subResultSection.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
-                    subResultSection.style.overflow = 'auto';
-                    subResultSection.style.padding = '20px';
-                    
-                    // 添加返回按钮
-                    if (!subResultSection.querySelector('.sub-back-btn')) {
-                        const backBtn = document.createElement('button');
-                        backBtn.innerHTML = '<i class="fa-solid fa-arrow-left"></i> 返回';
-                        backBtn.className = 'sub-back-btn';
-                        backBtn.style.cssText = `
-                            position: fixed;
-                            top: 20px;
-                            left: 20px;
-                            z-index: 10001;
-                            background: rgba(255, 255, 255, 0.9);
-                            border: none;
-                            border-radius: 20px;
-                            padding: 12px 20px;
-                            font-size: 14px;
-                            font-weight: 600;
-                            color: #333;
-                            cursor: pointer;
-                            backdrop-filter: blur(10px);
-                            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-                            transition: all 0.3s ease;
-                        `;
-                        backBtn.addEventListener('click', hideSubResult);
-                        backBtn.addEventListener('mouseenter', function() {
-                            this.style.transform = 'translateY(-2px)';
-                            this.style.boxShadow = '0 6px 20px rgba(0, 0, 0, 0.15)';
-                        });
-                        backBtn.addEventListener('mouseleave', function() {
-                            this.style.transform = 'translateY(0)';
-                            this.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.1)';
-                        });
-                        subResultSection.appendChild(backBtn);
-                    }
-                    
-                    console.log('订阅查询结果区域已显示');
+                    console.log('订阅查询对话框已显示');
                 }
                 
-                // 隐藏订阅查询结果区域
-                function hideSubResult() {
-                    const subResultSection = document.getElementById('subResultSection');
-                    const container = document.querySelector('.container');
-                    const card = document.querySelector('.card');
+                // 隐藏订阅查询对话框
+                function hideSubDialog() {
+                    document.getElementById('subDialogOverlay').style.display = 'none';
+                    document.getElementById('subDialog').style.display = 'none';
                     
-                    // 移除返回按钮
-                    const backBtn = subResultSection.querySelector('.sub-back-btn');
-                    if (backBtn) {
-                        backBtn.remove();
+                    // 退出全屏状态
+                    document.getElementById('subDialog').classList.remove('fullscreen');
+                    
+                    console.log('订阅查询对话框已隐藏');
+                }
+                
+                // 重置对话框位置和大小
+                function resetSubDialogPosition() {
+                    const dialog = document.getElementById('subDialog');
+                    dialog.style.top = '50%';
+                    dialog.style.left = '50%';
+                    dialog.style.transform = 'translate(-50%, -50%)';
+                    dialog.style.width = '90%';
+                    dialog.style.height = '80%';
+                    dialog.style.maxWidth = '900px';
+                    dialog.style.maxHeight = '700px';
+                    
+                    // 确保全屏状态被清除
+                    dialog.classList.remove('fullscreen');
+                    document.body.style.overflow = '';
+                }
+                
+                // 切换全屏
+                function toggleSubFullScreen() {
+                    const dialog = document.getElementById('subDialog');
+                    dialog.classList.toggle('fullscreen');
+                    
+                    // 全屏时隐藏滚动条
+                    if (dialog.classList.contains('fullscreen')) {
+                        document.body.style.overflow = 'hidden';
+                    } else {
+                        document.body.style.overflow = '';
+                    }
+                }
+                
+                // 对话框拖拽功能
+                function makeSubDialogDraggable(element, handle) {
+                    let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+                    
+                    handle.addEventListener('mousedown', dragMouseDown);
+                    
+                    function dragMouseDown(e) {
+                        e.preventDefault();
+                        if (element.classList.contains('fullscreen')) return;
+                        
+                        pos3 = e.clientX;
+                        pos4 = e.clientY;
+                        document.addEventListener('mouseup', closeDragElement);
+                        document.addEventListener('mousemove', elementDrag);
                     }
                     
-                    // 恢复其他内容显示
-                    if (container) container.style.display = '';
-                    if (card) card.style.display = '';
+                    function elementDrag(e) {
+                        e.preventDefault();
+                        pos1 = pos3 - e.clientX;
+                        pos2 = pos4 - e.clientY;
+                        pos3 = e.clientX;
+                        pos4 = e.clientY;
+                        
+                        element.style.transform = 'none';
+                        element.style.top = (element.offsetTop - pos2) + "px";
+                        element.style.left = (element.offsetLeft - pos1) + "px";
+                    }
                     
-                    // 重置结果区域样式
-                    subResultSection.style.position = '';
-                    subResultSection.style.top = '';
-                    subResultSection.style.left = '';
-                    subResultSection.style.right = '';
-                    subResultSection.style.bottom = '';
-                    subResultSection.style.width = '';
-                    subResultSection.style.height = '';
-                    subResultSection.style.zIndex = '';
-                    subResultSection.style.background = '';
-                    subResultSection.style.overflow = '';
-                    subResultSection.style.padding = '';
+                    function closeDragElement() {
+                        document.removeEventListener('mouseup', closeDragElement);
+                        document.removeEventListener('mousemove', elementDrag);
+                    }
+                }
+                
+                // 对话框可调整大小功能
+                function makeSubDialogResizable(element, handle) {
+                    handle.addEventListener('mousedown', resizeMouseDown);
                     
-                    subResultSection.style.display = 'none';
+                    function resizeMouseDown(e) {
+                        e.preventDefault();
+                        if (element.classList.contains('fullscreen')) return;
+                        
+                        element.style.transform = 'none';
+                        document.addEventListener('mousemove', resizeMove);
+                        document.addEventListener('mouseup', resizeStop);
+                    }
                     
-                    console.log('订阅查询结果区域已隐藏');
+                    function resizeMove(e) {
+                        e.preventDefault();
+                        const newWidth = Math.max(500, e.clientX - element.getBoundingClientRect().left);
+                        const newHeight = Math.max(400, e.clientY - element.getBoundingClientRect().top);
+                        
+                        element.style.width = newWidth + 'px';
+                        element.style.height = newHeight + 'px';
+                    }
+                    
+                    function resizeStop() {
+                        document.removeEventListener('mousemove', resizeMove);
+                        document.removeEventListener('mouseup', resizeStop);
+                    }
                 }
                 
                 let subQueryHistory = [];
@@ -3306,6 +3535,24 @@
                 });
                 
                 updateSubHistoryUI();
+                
+                // 初始化对话框交互功能
+                const subDialog = document.getElementById('subDialog');
+                const subDragHandle = document.getElementById('subDragHandle');
+                const subResizeHandle = document.getElementById('subResizeHandle');
+                const subCloseBtn = document.getElementById('subCloseBtn');
+                const subMaximizeBtn = document.getElementById('subMaximizeBtn');
+                
+                // 初始化拖拽和调整大小
+                makeSubDialogDraggable(subDialog, subDragHandle);
+                makeSubDialogResizable(subDialog, subResizeHandle);
+                
+                // 绑定关闭和最大化按钮
+                subCloseBtn.addEventListener('click', hideSubDialog);
+                subMaximizeBtn.addEventListener('click', toggleSubFullScreen);
+                
+                // 点击覆盖层关闭对话框
+                document.getElementById('subDialogOverlay').addEventListener('click', hideSubDialog);
                 
                 subCopyBtn.addEventListener('click', () => {
                     const textToCopy = Array.from(subResultGrid.querySelectorAll('.sub-result-item'))
@@ -3543,8 +3790,8 @@
                             return;
                         }
                         
-                        // 显示结果区域
-                        showSubResult();
+                        // 显示对话框
+                        showSubDialog();
                         
                         // 重置UI状态
                         subLoadingOverlay.style.display = 'flex';
