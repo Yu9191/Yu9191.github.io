@@ -55,33 +55,81 @@
                 top: 50%;
                 left: 50%;
                 width: 0;
-                height: 3px;
-                background: var(--laser-color);
+                height: 2px;
+                background: linear-gradient(90deg, var(--laser-color) 0%, rgba(255, 0, 0, 0.8) 50%, rgba(255, 0, 0, 0.3) 100%);
                 transform-origin: left center;
                 opacity: 0;
                 transition: opacity 0.2s;
                 pointer-events: none;
-                box-shadow: 0 0 5px var(--laser-color), 0 0 10px var(--laser-color);
+                box-shadow: 
+                    0 0 3px var(--laser-color), 
+                    0 0 6px var(--laser-color), 
+                    0 0 12px var(--laser-color),
+                    0 0 18px rgba(255, 0, 0, 0.5);
                 z-index: 1000;
+                filter: blur(0.5px);
+            }
+            
+            .laser-pointer::before {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 100%;
+                width: 8px;
+                height: 8px;
+                background: radial-gradient(circle, var(--laser-color) 30%, rgba(255, 0, 0, 0.6) 60%, transparent 100%);
+                border-radius: 50%;
+                transform: translate(-50%, -50%);
+                box-shadow: 0 0 10px var(--laser-color), 0 0 20px rgba(255, 0, 0, 0.4);
+                animation: laserPulse 1s ease-in-out infinite alternate;
+            }
+            
+            @keyframes laserPulse {
+                0% {
+                    opacity: 0.7;
+                    transform: translate(-50%, -50%) scale(1);
+                }
+                100% {
+                    opacity: 1;
+                    transform: translate(-50%, -50%) scale(1.2);
+                }
             }
             
             .img-box {
                 position: relative;
                 overflow: visible;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 20px 0;
             }
             
             .img-box img {
-                border: 2px solid var(--img-border);
-                border-radius: 12px;
+                border: 4px solid var(--img-border);
+                border-radius: 50%;
                 display: block;
                 margin: 0 auto;
-                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
                 transition: transform 0.3s ease, box-shadow 0.3s ease;
+                width: 120px;
+                height: 120px;
+                object-fit: cover;
+                animation: avatarRotate 10s linear infinite;
             }
             
             .img-box img:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+                transform: translateY(-5px) scale(1.05);
+                box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+                animation-duration: 3s;
+            }
+            
+            @keyframes avatarRotate {
+                0% {
+                    transform: rotate(0deg);
+                }
+                100% {
+                    transform: rotate(360deg);
+                }
             }
             
             .tools-bar {
@@ -1761,14 +1809,15 @@
             .sub-result-section {
                 background: transparent;
                 border-radius: 0;
-                padding: 0;
+                padding: 20px;
                 border: none;
                 box-shadow: none;
                 position: relative;
                 min-height: 100vh;
                 width: 100vw;
-                margin: 0 -20px;
-                padding: 20px;
+                margin: 0;
+                left: 0;
+                top: 0;
             }
             
             .sub-loading-overlay {
@@ -1998,7 +2047,7 @@
                 .sub-result-section {
                     min-height: 100vh;
                     width: 100vw;
-                    margin: 0 -20px;
+                    margin: 0;
                     padding: 10px;
                     position: relative;
                     overflow-x: hidden;
@@ -2106,10 +2155,46 @@
                     font-size: 1rem;
                     font-weight: 600;
                     color: var(--text-color);
-                    word-break: break-all;
-                    line-height: 1.4;
-                }
-            }
+                                         word-break: break-all;
+                     line-height: 1.4;
+                 }
+             }
+             
+             /* 桌面端全屏显示优化 */
+             @media (min-width: 769px) {
+                 .sub-result-section {
+                     padding: 40px;
+                 }
+                 
+                 .subscription-container {
+                     max-width: 1400px;
+                     margin: 0 auto;
+                     padding: 0;
+                 }
+                 
+                 .sub-result-layout {
+                     gap: 50px;
+                 }
+                 
+                 .sub-info-panel, .sub-stats-panel {
+                     min-height: 500px;
+                     padding: 40px;
+                 }
+                 
+                 .sub-result-header {
+                     padding: 30px;
+                     margin-bottom: 50px;
+                 }
+                 
+                 .sub-result-header h4 {
+                     font-size: 2.5rem;
+                 }
+                 
+                 .sub-action-btn {
+                     padding: 15px 25px;
+                     font-size: 1rem;
+                 }
+             }
         </style>
     </head>
     <body>
@@ -3027,22 +3112,23 @@
                     
                     subResultSection.style.display = 'block';
                     
-                    // 在移动设备上进入全屏模式
-                    if (window.innerWidth <= 768) {
-                        // 隐藏其他内容
-                        if (container) container.style.display = 'none';
-                        if (card) card.style.display = 'none';
-                        
-                        // 结果区域全屏显示
-                        subResultSection.style.position = 'fixed';
-                        subResultSection.style.top = '0';
-                        subResultSection.style.left = '0';
-                        subResultSection.style.right = '0';
-                        subResultSection.style.bottom = '0';
-                        subResultSection.style.zIndex = '10000';
-                        subResultSection.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
-                        
-                        // 添加返回按钮
+                    // 桌面端和移动端都进入全屏模式
+                    // 隐藏其他内容
+                    if (container) container.style.display = 'none';
+                    if (card) card.style.display = 'none';
+                    
+                    // 结果区域全屏显示
+                    subResultSection.style.position = 'fixed';
+                    subResultSection.style.top = '0';
+                    subResultSection.style.left = '0';
+                    subResultSection.style.right = '0';
+                    subResultSection.style.bottom = '0';
+                    subResultSection.style.zIndex = '10000';
+                    subResultSection.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+                    subResultSection.style.overflow = 'auto';
+                    
+                    // 添加返回按钮
+                    if (!subResultSection.querySelector('.sub-back-btn')) {
                         const backBtn = document.createElement('button');
                         backBtn.innerHTML = '<i class="fa-solid fa-arrow-left"></i> 返回';
                         backBtn.className = 'sub-back-btn';
@@ -3054,7 +3140,7 @@
                             background: rgba(255, 255, 255, 0.9);
                             border: none;
                             border-radius: 20px;
-                            padding: 10px 20px;
+                            padding: 12px 20px;
                             font-size: 14px;
                             font-weight: 600;
                             color: #333;
@@ -3064,10 +3150,15 @@
                             transition: all 0.3s ease;
                         `;
                         backBtn.addEventListener('click', hideSubResult);
+                        backBtn.addEventListener('mouseenter', function() {
+                            this.style.transform = 'translateY(-2px)';
+                            this.style.boxShadow = '0 6px 20px rgba(0, 0, 0, 0.15)';
+                        });
+                        backBtn.addEventListener('mouseleave', function() {
+                            this.style.transform = 'translateY(0)';
+                            this.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.1)';
+                        });
                         subResultSection.appendChild(backBtn);
-                    } else {
-                        // 桌面端滚动到结果区域
-                        subResultSection.scrollIntoView({ behavior: 'smooth' });
                     }
                     
                     console.log('订阅查询结果区域已显示');
