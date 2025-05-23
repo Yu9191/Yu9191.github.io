@@ -1306,7 +1306,659 @@
                 }
             }
             
-            /* 代码运行工具样式（已移除，不再生效） */
+            /* 重新设计的像素转换器样式 */
+            .pixel-art-container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 20px;
+            }
+            
+            .pixel-art-header {
+                text-align: center;
+                margin-bottom: 30px;
+            }
+            
+            .pixel-art-header h3 {
+                font-size: 1.8rem;
+                color: var(--text-color);
+                margin-bottom: 8px;
+            }
+            
+            .pixel-art-header p {
+                color: var(--text-color-light);
+                font-size: 1rem;
+            }
+            
+            .pixel-upload-section {
+                margin-bottom: 30px;
+            }
+            
+            .pixel-upload-box {
+                border: 2px dashed var(--border-color);
+                border-radius: 15px;
+                padding: 40px 20px;
+                text-align: center;
+                background: var(--card-bg-light);
+                transition: all 0.3s ease;
+            }
+            
+            .pixel-upload-box:hover {
+                border-color: var(--primary-color);
+                background: rgba(var(--primary-color-rgb), 0.05);
+            }
+            
+            .pixel-upload-btn {
+                display: inline-flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+                background: var(--primary-color);
+                color: white;
+                padding: 20px 30px;
+                border-radius: 12px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                box-shadow: 0 4px 15px rgba(var(--primary-color-rgb), 0.3);
+            }
+            
+            .pixel-upload-btn:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 6px 20px rgba(var(--primary-color-rgb), 0.4);
+            }
+            
+            .pixel-upload-btn i {
+                font-size: 2rem;
+            }
+            
+            .pixel-upload-btn span {
+                font-size: 1.1rem;
+                font-weight: 600;
+            }
+            
+            .pixel-upload-btn p {
+                font-size: 0.9rem;
+                opacity: 0.8;
+                margin: 0;
+            }
+            
+            .pixel-editor-section {
+                background: var(--card-bg);
+                border-radius: 15px;
+                padding: 25px;
+                margin-bottom: 30px;
+                border: 1px solid var(--border-color);
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            }
+            
+            .pixel-editor-grid {
+                display: grid;
+                grid-template-columns: 2fr 1fr;
+                gap: 30px;
+                align-items: start;
+            }
+            
+            .pixel-canvas-container {
+                display: flex;
+                gap: 20px;
+                justify-content: center;
+                align-items: start;
+            }
+            
+            .pixel-canvas-wrapper {
+                text-align: center;
+                background: var(--card-bg-light);
+                border-radius: 12px;
+                padding: 20px;
+                border: 1px solid var(--border-color);
+            }
+            
+            .pixel-canvas-wrapper h4 {
+                margin: 0 0 15px 0;
+                color: var(--text-color);
+                font-size: 1.1rem;
+            }
+            
+            .pixel-canvas-wrapper canvas {
+                border: 1px solid var(--border-color);
+                border-radius: 8px;
+                background: white;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            }
+            
+            .pixel-control-panel {
+                background: var(--card-bg-light);
+                border-radius: 12px;
+                padding: 20px;
+                border: 1px solid var(--border-color);
+            }
+            
+            .pixel-control-panel h4 {
+                margin: 0 0 20px 0;
+                color: var(--text-color);
+                font-size: 1.2rem;
+                text-align: center;
+            }
+            
+            .pixel-control-group {
+                margin-bottom: 20px;
+            }
+            
+            .pixel-control-group label {
+                display: block;
+                margin-bottom: 8px;
+                color: var(--text-color);
+                font-weight: 500;
+                font-size: 0.95rem;
+            }
+            
+            .pixel-control-group input[type="range"] {
+                width: 100%;
+                height: 6px;
+                border-radius: 3px;
+                background: var(--border-color);
+                outline: none;
+                -webkit-appearance: none;
+            }
+            
+            .pixel-control-group input[type="range"]::-webkit-slider-thumb {
+                -webkit-appearance: none;
+                appearance: none;
+                width: 18px;
+                height: 18px;
+                border-radius: 50%;
+                background: var(--primary-color);
+                cursor: pointer;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            }
+            
+            .pixel-info-item {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 8px 0;
+            }
+            
+            .pixel-info-label {
+                color: var(--text-color-light);
+                font-size: 0.9rem;
+            }
+            
+            .pixel-info-value {
+                color: var(--text-color);
+                font-weight: 500;
+            }
+            
+            .pixel-checkbox-group {
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+            }
+            
+            .pixel-checkbox-label {
+                display: flex;
+                align-items: center;
+                cursor: pointer;
+                position: relative;
+                padding-left: 30px;
+                color: var(--text-color);
+                font-size: 0.95rem;
+            }
+            
+            .pixel-checkbox-label input[type="checkbox"] {
+                position: absolute;
+                opacity: 0;
+                cursor: pointer;
+            }
+            
+            .pixel-checkmark {
+                position: absolute;
+                top: 2px;
+                left: 0;
+                height: 18px;
+                width: 18px;
+                background-color: var(--card-bg);
+                border: 2px solid var(--border-color);
+                border-radius: 4px;
+                transition: all 0.3s ease;
+            }
+            
+            .pixel-checkbox-label input:checked ~ .pixel-checkmark {
+                background-color: var(--primary-color);
+                border-color: var(--primary-color);
+            }
+            
+            .pixel-checkmark:after {
+                content: "";
+                position: absolute;
+                display: none;
+                left: 5px;
+                top: 2px;
+                width: 4px;
+                height: 8px;
+                border: solid white;
+                border-width: 0 2px 2px 0;
+                transform: rotate(45deg);
+            }
+            
+            .pixel-checkbox-label input:checked ~ .pixel-checkmark:after {
+                display: block;
+            }
+            
+            .pixel-action-buttons {
+                display: flex;
+                gap: 10px;
+                margin-top: 25px;
+            }
+            
+            .pixel-btn {
+                flex: 1;
+                padding: 12px 16px;
+                border: none;
+                border-radius: 8px;
+                font-size: 0.95rem;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+            }
+            
+            .pixel-btn-primary {
+                background: var(--primary-color);
+                color: white;
+            }
+            
+            .pixel-btn-primary:hover:not(:disabled) {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(var(--primary-color-rgb), 0.3);
+            }
+            
+            .pixel-btn-primary:disabled {
+                background: var(--border-color);
+                color: var(--text-color-light);
+                cursor: not-allowed;
+            }
+            
+            .pixel-btn-secondary {
+                background: var(--card-bg);
+                color: var(--text-color);
+                border: 1px solid var(--border-color);
+            }
+            
+            .pixel-btn-secondary:hover {
+                background: var(--card-bg-hover);
+                transform: translateY(-1px);
+            }
+            
+            .pixel-results-section {
+                background: var(--card-bg);
+                border-radius: 15px;
+                padding: 25px;
+                border: 1px solid var(--border-color);
+            }
+            
+            .pixel-results-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+            
+            .pixel-results-header h4 {
+                margin: 0;
+                color: var(--text-color);
+                font-size: 1.3rem;
+            }
+            
+            .pixel-clear-btn {
+                background: #ff4757;
+                color: white;
+                border: none;
+                border-radius: 8px;
+                padding: 8px 15px;
+                font-size: 0.9rem;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                display: flex;
+                align-items: center;
+                gap: 6px;
+            }
+            
+            .pixel-clear-btn:hover {
+                background: #ff3838;
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(255, 71, 87, 0.3);
+            }
+            
+            /* 重新设计的订阅查询样式 */
+            .subscription-container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 20px;
+            }
+            
+            .subscription-header {
+                text-align: center;
+                margin-bottom: 30px;
+            }
+            
+            .subscription-header h3 {
+                font-size: 1.8rem;
+                color: var(--text-color);
+                margin-bottom: 8px;
+            }
+            
+            .subscription-header p {
+                color: var(--text-color-light);
+                font-size: 1rem;
+            }
+            
+            .sub-query-section {
+                background: var(--card-bg);
+                border-radius: 15px;
+                padding: 25px;
+                margin-bottom: 30px;
+                border: 1px solid var(--border-color);
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            }
+            
+            .sub-input-wrapper {
+                position: relative;
+                display: flex;
+                align-items: center;
+                margin-bottom: 20px;
+                background: var(--card-bg-light);
+                border-radius: 12px;
+                padding: 5px;
+                border: 2px solid var(--border-color);
+                transition: all 0.3s ease;
+            }
+            
+            .sub-input-wrapper:focus-within {
+                border-color: var(--primary-color);
+                box-shadow: 0 0 0 3px rgba(var(--primary-color-rgb), 0.1);
+            }
+            
+            .sub-input-icon {
+                padding: 0 15px;
+                color: var(--text-color-light);
+                font-size: 1.1rem;
+            }
+            
+            .sub-input-wrapper input {
+                flex: 1;
+                background: transparent;
+                border: none;
+                padding: 15px 10px;
+                font-size: 1rem;
+                color: var(--text-color);
+                outline: none;
+            }
+            
+            .sub-submit-btn {
+                background: var(--primary-color);
+                color: white;
+                border: none;
+                border-radius: 8px;
+                padding: 12px 20px;
+                font-size: 1rem;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                box-shadow: 0 2px 8px rgba(var(--primary-color-rgb), 0.3);
+            }
+            
+            .sub-submit-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(var(--primary-color-rgb), 0.4);
+            }
+            
+            .sub-history-section {
+                margin-top: 20px;
+            }
+            
+            .sub-history-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 15px;
+            }
+            
+            .sub-history-header h4 {
+                margin: 0;
+                color: var(--text-color);
+                font-size: 1.1rem;
+            }
+            
+            .sub-clear-history-btn {
+                background: #ff4757;
+                color: white;
+                border: none;
+                border-radius: 6px;
+                padding: 6px 12px;
+                font-size: 0.85rem;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                display: flex;
+                align-items: center;
+                gap: 5px;
+            }
+            
+            .sub-clear-history-btn:hover {
+                background: #ff3838;
+                transform: translateY(-1px);
+            }
+            
+            .sub-result-section {
+                background: var(--card-bg);
+                border-radius: 15px;
+                padding: 25px;
+                border: 1px solid var(--border-color);
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+                position: relative;
+                min-height: 200px;
+            }
+            
+            .sub-loading-overlay {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                height: 200px;
+                color: var(--text-color-light);
+            }
+            
+            .sub-loading-overlay p {
+                margin-top: 15px;
+                font-size: 1rem;
+            }
+            
+            .sub-result-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 25px;
+                padding-bottom: 15px;
+                border-bottom: 1px solid var(--border-color);
+            }
+            
+            .sub-result-header h4 {
+                margin: 0;
+                color: var(--text-color);
+                font-size: 1.4rem;
+            }
+            
+            .sub-result-actions {
+                display: flex;
+                gap: 10px;
+            }
+            
+            .sub-action-btn {
+                padding: 10px 16px;
+                border: none;
+                border-radius: 8px;
+                font-size: 0.9rem;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                display: flex;
+                align-items: center;
+                gap: 6px;
+            }
+            
+            .sub-btn-copy {
+                background: var(--card-bg-light);
+                color: var(--text-color);
+                border: 1px solid var(--border-color);
+            }
+            
+            .sub-btn-copy:hover {
+                background: var(--card-bg-hover);
+                transform: translateY(-1px);
+            }
+            
+            .sub-btn-download {
+                background: var(--primary-color);
+                color: white;
+            }
+            
+            .sub-btn-download:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(var(--primary-color-rgb), 0.3);
+            }
+            
+            .sub-result-layout {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 30px;
+                margin-bottom: 25px;
+            }
+            
+            .sub-info-panel, .sub-stats-panel {
+                background: var(--card-bg-light);
+                border-radius: 12px;
+                padding: 20px;
+                border: 1px solid var(--border-color);
+            }
+            
+            .sub-basic-info h5, .sub-data-overview h5, .sub-progress-section h5 {
+                margin: 0 0 15px 0;
+                color: var(--text-color);
+                font-size: 1.1rem;
+                font-weight: 600;
+            }
+            
+            .sub-data-cards {
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+                margin-bottom: 20px;
+            }
+            
+            .sub-data-card {
+                display: flex;
+                align-items: center;
+                background: var(--card-bg);
+                border-radius: 10px;
+                padding: 15px;
+                border: 1px solid var(--border-color);
+                transition: all 0.3s ease;
+            }
+            
+            .sub-data-card:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            }
+            
+            .sub-data-icon {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                background: rgba(var(--primary-color-rgb), 0.1);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-right: 15px;
+                color: var(--primary-color);
+                font-size: 1.1rem;
+            }
+            
+            .sub-data-info {
+                flex: 1;
+            }
+            
+            .sub-data-value {
+                font-size: 1.3rem;
+                font-weight: 700;
+                color: var(--text-color);
+                margin-bottom: 3px;
+            }
+            
+            .sub-data-label {
+                font-size: 0.9rem;
+                color: var(--text-color-light);
+            }
+            
+            .sub-image-section {
+                background: var(--card-bg-light);
+                border-radius: 12px;
+                padding: 20px;
+                border: 1px solid var(--border-color);
+                text-align: center;
+            }
+            
+            .sub-image-section h5 {
+                margin: 0 0 15px 0;
+                color: var(--text-color);
+                font-size: 1.1rem;
+            }
+            
+            .sub-image-container img {
+                max-width: 100%;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            }
+            
+            /* 响应式调整 */
+            @media (max-width: 768px) {
+                .pixel-editor-grid, .sub-result-layout {
+                    grid-template-columns: 1fr;
+                    gap: 20px;
+                }
+                
+                .pixel-canvas-container {
+                    flex-direction: column;
+                    align-items: center;
+                }
+                
+                .pixel-canvas-wrapper {
+                    width: 100%;
+                    max-width: 300px;
+                }
+                
+                .sub-input-wrapper {
+                    flex-direction: column;
+                    align-items: stretch;
+                }
+                
+                .sub-submit-btn {
+                    margin-top: 10px;
+                    justify-content: center;
+                }
+                
+                .sub-result-actions {
+                    flex-direction: column;
+                }
+                
+                .sub-data-cards {
+                    gap: 10px;
+                }
+            }
         </style>
     </head>
     <body>
@@ -1404,84 +2056,88 @@
                     <div class="pixel-art-container">
                         <div class="pixel-art-header">
                             <h3>像素风格转换器</h3>
-                        </div>
-                        <div class="pixel-art-upload">
-                            <label for="imageUpload" class="upload-btn">
-                                <i class="fa-solid fa-upload"></i> 上传图片
-                            </label>
-                            <input type="file" id="imageUpload" accept="image/*" />
+                            <p>将普通图片转换为像素艺术风格</p>
                         </div>
                         
-                        <!-- Mac风格对话框 - 像素编辑器 -->
-                        <div class="mac-dialog-overlay" id="pixelDialogOverlay" style="display: none;"></div>
-                        <div class="mac-dialog" id="pixelDialog" style="display: none;">
-                            <div class="mac-dialog-header">
-                                <div class="mac-window-controls">
-                                    <div class="mac-control mac-close" id="pixelCloseBtn"></div>
-                                    <div class="mac-control mac-minimize"></div>
-                                    <div class="mac-control mac-maximize" id="pixelMaximizeBtn"></div>
-                                </div>
-                                <span>像素风格转换</span>
-                                <div class="mac-drag-handle" id="pixelDragHandle"></div>
+                        <div class="pixel-upload-section">
+                            <div class="pixel-upload-box">
+                                <label for="imageUpload" class="pixel-upload-btn">
+                                    <i class="fa-solid fa-image"></i>
+                                    <span>选择图片</span>
+                                    <p>支持 JPG、PNG 格式</p>
+                                </label>
+                                <input type="file" id="imageUpload" accept="image/*" />
                             </div>
-                            <div class="mac-resize-handle" id="pixelResizeHandle"></div>
-                            
-                            <div class="mac-dialog-content">
-                                <div class="mac-preview">
-                                    <div class="mac-preview-container">
-                                        <div class="mac-preview-split">
-                                            <div class="mac-preview-original">
-                                                <h4>原图</h4>
-                                                <canvas id="originalCanvas"></canvas>
-                                            </div>
-                                            <div class="mac-preview-result">
-                                                <h4>像素风格</h4>
-                                                <canvas id="pixelCanvas"></canvas>
-                                            </div>
+                        </div>
+                        
+                        <div class="pixel-editor-section" id="pixelEditorSection" style="display: none;">
+                            <div class="pixel-editor-grid">
+                                <div class="pixel-preview-area">
+                                    <div class="pixel-canvas-container">
+                                        <div class="pixel-canvas-wrapper">
+                                            <h4>原图</h4>
+                                            <canvas id="originalCanvas"></canvas>
+                                        </div>
+                                        <div class="pixel-canvas-wrapper">
+                                            <h4>像素风格</h4>
+                                            <canvas id="pixelCanvas"></canvas>
                                         </div>
                                     </div>
                                 </div>
                                 
-                                <div class="mac-controls">
-                                    <div class="mac-file-info">
-                                        <div class="mac-info-row">
-                                            <span class="mac-info-label">图像大小:</span>
-                                            <span class="mac-info-value" id="pixelFileSize">--</span>
-                                        </div>
+                                <div class="pixel-controls-area">
+                                    <div class="pixel-control-panel">
+                                        <h4>调整参数</h4>
                                         
-                                        <div class="mac-info-row">
-                                            <span class="mac-info-label">像素大小:</span>
-                                            <div class="mac-slider-control">
-                                                <input type="range" id="pixelSize" min="2" max="20" value="8" />
-                                                <span id="pixelSizeValue">8</span>
+                                        <div class="pixel-control-group">
+                                            <label>图像信息</label>
+                                            <div class="pixel-info-item">
+                                                <span class="pixel-info-label">文件大小:</span>
+                                                <span class="pixel-info-value" id="pixelFileSize">--</span>
                                             </div>
                                         </div>
                                         
-                                        <div class="mac-separator"></div>
-                                        
-                                        <div class="mac-checkbox-row">
-                                            <input type="checkbox" id="enhancePixel" class="mac-checkbox">
-                                            <label for="enhancePixel">增强边缘细节</label>
+                                        <div class="pixel-control-group">
+                                            <label for="pixelSize">像素大小: <span id="pixelSizeValue">8</span></label>
+                                            <input type="range" id="pixelSize" min="2" max="20" value="8" />
                                         </div>
                                         
-                                        <div class="mac-checkbox-row">
-                                            <input type="checkbox" id="colorReduction" class="mac-checkbox">
-                                            <label for="colorReduction">减少颜色数量</label>
+                                        <div class="pixel-control-group">
+                                            <label>增强选项</label>
+                                            <div class="pixel-checkbox-group">
+                                                <label class="pixel-checkbox-label">
+                                                    <input type="checkbox" id="enhancePixel">
+                                                    <span class="pixel-checkmark"></span>
+                                                    增强边缘细节
+                                                </label>
+                                                <label class="pixel-checkbox-label">
+                                                    <input type="checkbox" id="colorReduction">
+                                                    <span class="pixel-checkmark"></span>
+                                                    减少颜色数量
+                                                </label>
+                                            </div>
                                         </div>
-                                    </div>
-                                    
-                                    <div class="mac-dialog-buttons">
-                                        <button id="pixelCancelBtn" class="mac-btn mac-btn-cancel">取消</button>
-                                        <button id="downloadBtn" class="mac-btn mac-btn-apply" disabled>
-                                            <i class="fa-solid fa-download"></i> 下载
-                                        </button>
+                                        
+                                        <div class="pixel-action-buttons">
+                                            <button id="pixelResetBtn" class="pixel-btn pixel-btn-secondary">
+                                                <i class="fa-solid fa-undo"></i> 重置
+                                            </button>
+                                            <button id="downloadBtn" class="pixel-btn pixel-btn-primary" disabled>
+                                                <i class="fa-solid fa-download"></i> 下载
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         
-                        <div class="pixel-art-results">
-                            <h4>已处理的图像</h4>
+                        <div class="pixel-results-section">
+                            <div class="pixel-results-header">
+                                <h4>处理结果</h4>
+                                <button id="clearPixelResults" class="pixel-clear-btn" style="display: none;">
+                                    <i class="fa-solid fa-trash"></i> 清空
+                                </button>
+                            </div>
                             <div class="pixel-results-grid" id="pixelResultsGrid"></div>
                         </div>
                     </div>
@@ -1654,91 +2310,109 @@
                             <p>查询您的订阅信息、流量使用和到期时间</p>
                         </div>
                         
-                        <form id="subscriptionForm" onsubmit="return false;">
-                            <div class="sub-input-wrapper">
-                                <div class="sub-input-icon">
-                                    <i class="fa-solid fa-link"></i>
+                        <div class="sub-query-section">
+                            <form id="subscriptionForm" onsubmit="return false;">
+                                <div class="sub-input-wrapper">
+                                    <div class="sub-input-icon">
+                                        <i class="fa-solid fa-link"></i>
+                                    </div>
+                                    <input type="text" id="subUrl" placeholder="请输入订阅链接..." required>
+                                    <button type="button" id="subSubmitBtn" class="sub-submit-btn">
+                                        <i class="fa-solid fa-search"></i> 查询
+                                    </button>
                                 </div>
-                                <input type="text" id="subUrl" placeholder="请输入订阅链接..." required>
+                            </form>
+                            
+                            <div class="sub-history-section" id="subHistorySection">
+                                <div class="sub-history-header">
+                                    <h4>查询历史</h4>
+                                    <button id="clearSubHistoryBtn" class="sub-clear-history-btn">
+                                        <i class="fa-solid fa-trash"></i> 清空
+                                    </button>
+                                </div>
+                                <div class="sub-history-container" id="subHistoryContainer"></div>
                             </div>
-                            <button type="button" id="subSubmitBtn">
-                                查询订阅信息
-                            </button>
-                        </form>
-                        
-                        <div class="sub-history-section" id="subHistorySection">
-                            <div class="sub-history-header">
-                                <h3>查询历史</h3>
-                                <button id="clearSubHistoryBtn" class="sub-clear-history-btn">清除</button>
-                            </div>
-                            <div class="sub-history-container" id="subHistoryContainer"></div>
                         </div>
                         
-                        <!-- Mac风格对话框 - 订阅结果 -->
-                        <div class="mac-dialog-overlay" id="subDialogOverlay" style="display: none;"></div>
-                        <div class="mac-dialog" id="subDialog" style="display: none;">
-                            <div class="mac-dialog-header">
-                                <div class="mac-window-controls">
-                                    <div class="mac-control mac-close" id="subCloseBtn"></div>
-                                    <div class="mac-control mac-minimize"></div>
-                                    <div class="mac-control mac-maximize" id="subMaximizeBtn"></div>
-                                </div>
-                                <span>订阅信息</span>
-                                <div class="mac-drag-handle" id="subDragHandle"></div>
+                        <div class="sub-result-section" id="subResultSection" style="display: none;">
+                            <div class="sub-loading-overlay" id="subLoadingOverlay">
+                                <div class="sub-loading-spinner"></div>
+                                <p>正在查询订阅信息...</p>
                             </div>
-                            <div class="mac-resize-handle" id="subResizeHandle"></div>
                             
-                            <div class="mac-dialog-content">
-                                <div class="mac-preview" style="flex: 0.4;">
-                                    <div class="mac-preview-container">
-                                        <div class="sub-data-cards" id="subDataCards" style="display: none; width: 100%;">
-                                            <div class="sub-data-card">
-                                                <div class="sub-data-value" id="subUploadValue">--</div>
-                                                <div class="sub-data-label">上传流量</div>
-                                            </div>
-                                            <div class="sub-data-card">
-                                                <div class="sub-data-value" id="subDownloadValue">--</div>
-                                                <div class="sub-data-label">下载流量</div>
-                                            </div>
-                                            <div class="sub-data-card">
-                                                <div class="sub-data-value" id="subRemainingValue">--</div>
-                                                <div class="sub-data-label">剩余流量</div>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="sub-progress-container" id="subProgressContainer" style="display: none; margin-top: 30px; width: 100%;">
-                                            <div class="sub-progress-header">
-                                                <div class="sub-progress-title">流量使用情况</div>
-                                                <div class="sub-progress-percent" id="subProgressPercent">0%</div>
-                                            </div>
-                                            <div class="sub-progress-bar">
-                                                <div class="sub-progress-fill" id="subProgressFill" style="width: 0%"></div>
-                                            </div>
-                                        </div>
-                                        
-                                        <div id="subImagePreview" class="sub-image-preview" style="width: 100%; margin-top: 20px;"></div>
+                            <div class="sub-result-content" id="subResultContent" style="display: none;">
+                                <div class="sub-result-header">
+                                    <h4>订阅信息详情</h4>
+                                    <div class="sub-result-actions">
+                                        <button id="subCopyBtn" class="sub-action-btn sub-btn-copy">
+                                            <i class="fa-solid fa-copy"></i> 复制信息
+                                        </button>
+                                        <button id="subDownloadImageBtn" class="sub-action-btn sub-btn-download">
+                                            <i class="fa-solid fa-download"></i> 生成图片
+                                        </button>
                                     </div>
                                 </div>
                                 
-                                <div class="mac-controls" style="max-width: 60%;">
-                                    <div id="subLoadingIndicator" style="display: flex; justify-content: center; align-items: center; height: 100%;">
-                                        <div class="sub-loading-spinner"></div>
-                                    </div>
-                                    
-                                    <div id="subResultContent" style="display: none; height: 100%;">
-                                        <div class="mac-file-info">
+                                <div class="sub-result-layout">
+                                    <div class="sub-info-panel">
+                                        <div class="sub-basic-info">
+                                            <h5>基本信息</h5>
                                             <div class="sub-result-grid" id="subResultGrid"></div>
                                         </div>
+                                    </div>
+                                    
+                                    <div class="sub-stats-panel">
+                                        <div class="sub-data-overview">
+                                            <h5>流量概况</h5>
+                                            <div class="sub-data-cards" id="subDataCards" style="display: none;">
+                                                <div class="sub-data-card">
+                                                    <div class="sub-data-icon">
+                                                        <i class="fa-solid fa-arrow-up"></i>
+                                                    </div>
+                                                    <div class="sub-data-info">
+                                                        <div class="sub-data-value" id="subUploadValue">--</div>
+                                                        <div class="sub-data-label">上传流量</div>
+                                                    </div>
+                                                </div>
+                                                <div class="sub-data-card">
+                                                    <div class="sub-data-icon">
+                                                        <i class="fa-solid fa-arrow-down"></i>
+                                                    </div>
+                                                    <div class="sub-data-info">
+                                                        <div class="sub-data-value" id="subDownloadValue">--</div>
+                                                        <div class="sub-data-label">下载流量</div>
+                                                    </div>
+                                                </div>
+                                                <div class="sub-data-card">
+                                                    <div class="sub-data-icon">
+                                                        <i class="fa-solid fa-database"></i>
+                                                    </div>
+                                                    <div class="sub-data-info">
+                                                        <div class="sub-data-value" id="subRemainingValue">--</div>
+                                                        <div class="sub-data-label">剩余流量</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                         
-                                        <div class="mac-dialog-buttons">
-                                            <button id="subCopyBtn" class="mac-btn mac-btn-cancel">
-                                                <i class="fa-solid fa-copy"></i> 复制
-                                            </button>
-                                            <button id="subDownloadImageBtn" class="mac-btn mac-btn-apply">
-                                                <i class="fa-solid fa-download"></i> 生成图片
-                                            </button>
+                                        <div class="sub-progress-section">
+                                            <h5>使用情况</h5>
+                                            <div class="sub-progress-container" id="subProgressContainer" style="display: none;">
+                                                <div class="sub-progress-header">
+                                                    <span class="sub-progress-title">流量使用率</span>
+                                                    <span class="sub-progress-percent" id="subProgressPercent">0%</span>
+                                                </div>
+                                                <div class="sub-progress-bar">
+                                                    <div class="sub-progress-fill" id="subProgressFill" style="width: 0%"></div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
+                                </div>
+                                
+                                <div class="sub-image-section" id="subImagePreview" style="display: none;">
+                                    <h5>生成的图片</h5>
+                                    <div class="sub-image-container"></div>
                                 </div>
                             </div>
                         </div>
@@ -1909,87 +2583,52 @@
             const originalCanvas = document.getElementById('originalCanvas');
             const pixelCanvas = document.getElementById('pixelCanvas');
             const downloadBtn = document.getElementById('downloadBtn');
-            const pixelDialog = document.getElementById('pixelDialog');
-            const pixelDialogOverlay = document.getElementById('pixelDialogOverlay');
-            const pixelCloseBtn = document.getElementById('pixelCloseBtn');
-            const pixelCancelBtn = document.getElementById('pixelCancelBtn');
-            const pixelMaximizeBtn = document.getElementById('pixelMaximizeBtn');
-            const pixelDragHandle = document.getElementById('pixelDragHandle');
-            const pixelResizeHandle = document.getElementById('pixelResizeHandle');
+            const pixelEditorSection = document.getElementById('pixelEditorSection');
+            const pixelResetBtn = document.getElementById('pixelResetBtn');
             const enhancePixel = document.getElementById('enhancePixel');
             const colorReduction = document.getElementById('colorReduction');
             const pixelFileSize = document.getElementById('pixelFileSize');
             const pixelResultsGrid = document.getElementById('pixelResultsGrid');
+            const clearPixelResults = document.getElementById('clearPixelResults');
             
             let originalCtx = originalCanvas.getContext('2d');
             let pixelCtx = pixelCanvas.getContext('2d');
             let originalImage = null;
             
-            // 显示像素编辑对话框
-            function showPixelDialog(image) {
-                // 计算图像大小
-                const fileSizeKB = Math.round(image.src.length / 1.33) / 1000;
-                if (fileSizeKB > 1024) {
-                    pixelFileSize.textContent = (fileSizeKB / 1024).toFixed(2) + ' MB';
+            // 显示像素编辑器
+            function showPixelEditor(image) {
+                // 计算图像大小（根据文件对象）
+                if (image.fileSize) {
+                    const fileSizeKB = image.fileSize / 1024;
+                    if (fileSizeKB > 1024) {
+                        pixelFileSize.textContent = (fileSizeKB / 1024).toFixed(2) + ' MB';
+                    } else {
+                        pixelFileSize.textContent = fileSizeKB.toFixed(2) + ' KB';
+                    }
                 } else {
-                    pixelFileSize.textContent = fileSizeKB.toFixed(2) + ' KB';
+                    pixelFileSize.textContent = '未知';
                 }
                 
-                // 显示对话框
-                pixelDialogOverlay.style.display = 'block';
-                pixelDialog.style.display = 'block';
+                // 显示编辑器区域
+                pixelEditorSection.style.display = 'block';
                 
-                // 把对话框移到body直接子元素位置
-                document.body.appendChild(pixelDialogOverlay);
-                document.body.appendChild(pixelDialog);
-                
-                // 确保对话框显示在最顶层
-                pixelDialog.style.zIndex = '9999';
-                pixelDialogOverlay.style.zIndex = '9998';
+                // 滚动到编辑器区域
+                pixelEditorSection.scrollIntoView({ behavior: 'smooth' });
             }
             
-            // 关闭像素编辑对话框
-            function closePixelDialog() {
-                pixelDialogOverlay.style.display = 'none';
-                pixelDialog.style.display = 'none';
-                pixelDialog.classList.remove('fullscreen');
-                document.body.style.overflow = '';
-            }
-            
-            // 切换全屏
-            function togglePixelFullScreen() {
-                pixelDialog.classList.toggle('fullscreen');
-                
-                if (pixelDialog.classList.contains('fullscreen')) {
-                    document.body.style.overflow = 'hidden';
-                } else {
-                    document.body.style.overflow = '';
+            // 重置功能
+            function resetPixelEditor() {
+                if (originalImage) {
+                    drawOriginalImage();
+                    pixelateImage(originalImage, parseInt(pixelSize.value));
                 }
             }
             
-            // 初始化拖拽和缩放功能
-            document.addEventListener('DOMContentLoaded', function() {
-                // 初始化拖拽
-                const pixelDialog = document.getElementById('pixelDialog');
-                const pixelDragHandle = document.getElementById('pixelDragHandle');
-                const pixelResizeHandle = document.getElementById('pixelResizeHandle');
-                const pixelCloseBtn = document.getElementById('pixelCloseBtn');
-                const pixelCancelBtn = document.getElementById('pixelCancelBtn');
-                const pixelMaximizeBtn = document.getElementById('pixelMaximizeBtn');
-                
-                if (pixelDialog && pixelDragHandle) {
-                    makeDraggable(pixelDialog, pixelDragHandle);
-                }
-                // 初始化调整大小
-                if (pixelDialog && pixelResizeHandle) {
-                    makeResizable(pixelDialog, pixelResizeHandle);
-                }
-                
-                // 绑定按钮事件
-                if (pixelCloseBtn) pixelCloseBtn.addEventListener('click', closePixelDialog);
-                if (pixelCancelBtn) pixelCancelBtn.addEventListener('click', closePixelDialog);
-                if (pixelMaximizeBtn) pixelMaximizeBtn.addEventListener('click', togglePixelFullScreen);
-            });
+            // 清空结果
+            function clearResults() {
+                pixelResultsGrid.innerHTML = '';
+                clearPixelResults.style.display = 'none';
+            }
 
             pixelSize.addEventListener('input', function() {
                 pixelSizeValue.textContent = this.value;
@@ -2005,13 +2644,14 @@
                 const reader = new FileReader();
                 reader.onload = function(event) {
                     originalImage = new Image();
+                    originalImage.fileSize = file.size; // 保存文件大小
                     originalImage.onload = function() {
                         drawOriginalImage();
                         pixelateImage(originalImage, parseInt(pixelSize.value));
                         downloadBtn.disabled = false;
                         
-                        // 显示Mac风格对话框
-                        showPixelDialog(originalImage);
+                        // 显示编辑器
+                        showPixelEditor(originalImage);
                     };
                     originalImage.src = event.target.result;
                 };
@@ -2147,10 +2787,17 @@
                 
                 // 添加到结果区域
                 addToPixelResults(pixelCanvas);
-                
-                // 关闭对话框
-                closePixelDialog();
             });
+            
+            // 重置按钮事件
+            if (pixelResetBtn) {
+                pixelResetBtn.addEventListener('click', resetPixelEditor);
+            }
+            
+            // 清空结果按钮事件
+            if (clearPixelResults) {
+                clearPixelResults.addEventListener('click', clearResults);
+            }
             
             // 将处理好的像素图添加到结果区域
             function addToPixelResults(canvas) {
@@ -2184,6 +2831,9 @@
                 item.appendChild(downloadBtn);
                 
                 pixelResultsGrid.appendChild(item);
+                
+                // 显示清空按钮
+                clearPixelResults.style.display = 'block';
             }
             
             const toolBtns = document.querySelectorAll('.tool-btn');
@@ -2216,54 +2866,26 @@
                 const subRemainingValue = document.getElementById('subRemainingValue');
                 const subDownloadImageBtn = document.getElementById('subDownloadImageBtn');
                 const subImagePreview = document.getElementById('subImagePreview');
-                const subDialog = document.getElementById('subDialog');
-                const subDialogOverlay = document.getElementById('subDialogOverlay');
-                const subCloseBtn = document.getElementById('subCloseBtn');
-                const subMaximizeBtn = document.getElementById('subMaximizeBtn');
-                const subDragHandle = document.getElementById('subDragHandle');
-                const subResizeHandle = document.getElementById('subResizeHandle');
+                const subLoadingOverlay = document.getElementById('subLoadingOverlay');
                 
-                // 显示订阅查询对话框
-                function showSubDialog() {
-                    subDialogOverlay.style.display = 'block';
-                    subDialog.style.display = 'block';
+                // 显示订阅查询结果区域
+                function showSubResult() {
+                    const subResultSection = document.getElementById('subResultSection');
+                    subResultSection.style.display = 'block';
                     
-                    // 确保对话框显示在最顶层
-                    document.body.appendChild(subDialogOverlay);
-                    document.body.appendChild(subDialog);
-                    subDialog.style.zIndex = '9999';
-                    subDialogOverlay.style.zIndex = '9998';
+                    // 滚动到结果区域
+                    subResultSection.scrollIntoView({ behavior: 'smooth' });
                     
-                    console.log('订阅查询对话框已显示');
+                    console.log('订阅查询结果区域已显示');
                 }
                 
-                // 关闭订阅查询对话框
-                function closeSubDialog() {
-                    subDialogOverlay.style.display = 'none';
-                    subDialog.style.display = 'none';
-                    subDialog.classList.remove('fullscreen');
-                    document.body.style.overflow = '';
+                // 隐藏订阅查询结果区域
+                function hideSubResult() {
+                    const subResultSection = document.getElementById('subResultSection');
+                    subResultSection.style.display = 'none';
                     
-                    console.log('订阅查询对话框已关闭');
+                    console.log('订阅查询结果区域已隐藏');
                 }
-                
-                // 切换全屏
-                function toggleSubFullScreen() {
-                    subDialog.classList.toggle('fullscreen');
-                    if (subDialog.classList.contains('fullscreen')) {
-                        document.body.style.overflow = 'hidden';
-                    } else {
-                        document.body.style.overflow = '';
-                    }
-                }
-                
-                // 初始化拖拽和缩放功能
-                makeDraggable(subDialog, subDragHandle);
-                makeResizable(subDialog, subResizeHandle);
-                
-                // 绑定按钮事件
-                subCloseBtn.addEventListener('click', closeSubDialog);
-                subMaximizeBtn.addEventListener('click', toggleSubFullScreen);
                 
                 let subQueryHistory = [];
                 try {
@@ -2504,11 +3126,11 @@
                 subDownloadImageBtn.addEventListener('click', async () => {
                     try {
                         subDownloadImageBtn.disabled = true;
-                        subDownloadImageBtn.textContent = '生成中...';
+                        subDownloadImageBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 生成中...';
                         
                         const imageUrl = await generateSubResultImage();
                         
-                        subImagePreview.innerHTML = `<img src="${imageUrl}" alt="订阅信息">`;
+                        subImagePreview.querySelector('.sub-image-container').innerHTML = `<img src="${imageUrl}" alt="订阅信息">`;
                         subImagePreview.style.display = 'block';
                         
                         const airportName = document.querySelector('.sub-result-item:nth-child(1) .sub-result-value')?.textContent.replace(/<[^>]*>/g, '') || '未知';
@@ -2519,17 +3141,20 @@
                         link.click();
                         document.body.removeChild(link);
                         
-                        subDownloadImageBtn.textContent = '已下载';
+                        subDownloadImageBtn.innerHTML = '<i class="fa-solid fa-check"></i> 已下载';
                         setTimeout(() => {
                             subDownloadImageBtn.innerHTML = `
-                                <i class="fa-solid fa-download"></i> 重新下载图片
+                                <i class="fa-solid fa-download"></i> 重新生成图片
                             `;
                             subDownloadImageBtn.disabled = false;
                         }, 2000);
                     } catch (error) {
                         console.error('生成图片失败:', error);
-                        subDownloadImageBtn.textContent = '生成失败，请重试';
-                        subDownloadImageBtn.disabled = false;
+                        subDownloadImageBtn.innerHTML = '<i class="fa-solid fa-exclamation-triangle"></i> 生成失败';
+                        setTimeout(() => {
+                            subDownloadImageBtn.innerHTML = '<i class="fa-solid fa-download"></i> 生成图片';
+                            subDownloadImageBtn.disabled = false;
+                        }, 2000);
                     }
                 });
                 
@@ -2595,23 +3220,23 @@
                             return;
                         }
                         
-                        // 显示对话框
-                        showSubDialog();
+                        // 显示结果区域
+                        showSubResult();
                         
                         // 重置UI状态
-                        subLoadingIndicator.style.display = 'flex';
+                        subLoadingOverlay.style.display = 'flex';
                         subResultContent.style.display = 'none';
                         subResultGrid.innerHTML = '';
                         subProgressContainer.style.display = 'none';
                         subDataCards.style.display = 'none';
-                        subImagePreview.innerHTML = '';
+                        subImagePreview.style.display = 'none';
                         
                         try {
                             const data = await processSubscription(url);
                             
                             addToSubHistory(url, data);
                             
-                            subLoadingIndicator.style.display = 'none';
+                            subLoadingOverlay.style.display = 'none';
                             subResultContent.style.display = 'block';
                             
                             const lines = data.split('\n');
@@ -2713,7 +3338,7 @@
                             }
                             
                         } catch (error) {
-                            subLoadingIndicator.style.display = 'none';
+                            subLoadingOverlay.style.display = 'none';
                             subResultContent.style.display = 'block';
                             
                             subResultGrid.innerHTML = `
