@@ -126,6 +126,17 @@
                 background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
                 padding: 0;
                 overflow-x: hidden;
+                position: relative;
+            }
+            
+            .floating-elements {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+                z-index: 1;
             }
             
             .modern-header {
@@ -348,6 +359,26 @@
                 max-width: 1200px;
                 margin: 0 auto;
                 padding: 0 20px 40px 20px;
+            }
+            
+            .tool-content {
+                display: none;
+                background: rgba(255, 255, 255, 0.9);
+                border-radius: 20px;
+                padding: 30px;
+                margin: 20px 0;
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            }
+            
+            .tool-content.active {
+                display: block;
+            }
+            
+            [data-theme="dark"] .tool-content {
+                background: rgba(30, 30, 46, 0.9);
+                border: 1px solid rgba(51, 51, 66, 0.3);
             }
             
             .modern-about-section {
@@ -1986,6 +2017,10 @@
                     order: 2;
                 }
                 
+                .cute-avatar-container {
+                    order: 1;
+                }
+                
                 .profile-info h1 {
                     font-size: 1.2rem;
                 }
@@ -3594,6 +3629,390 @@
                         </div>
                     </div>
                 </div>
+                
+                <div class="tool-content" id="pixel-art-tool">
+                    <div class="pixel-art-container">
+                        <div class="pixel-art-header">
+                            <h3>像素风格转换器</h3>
+                            <p>将普通图片转换为像素艺术风格</p>
+                        </div>
+                        
+                        <div class="pixel-upload-section">
+                            <div class="pixel-upload-box">
+                                <label for="imageUpload" class="pixel-upload-btn">
+                                    <i class="fa-solid fa-image"></i>
+                                    <span>选择图片</span>
+                                    <p>支持 JPG、PNG 格式</p>
+                                </label>
+                                <input type="file" id="imageUpload" accept="image/*" />
+                            </div>
+                        </div>
+                        
+                        <div class="pixel-editor-section" id="pixelEditorSection" style="display: none;">
+                            <div class="pixel-editor-grid">
+                                <div class="pixel-preview-area">
+                                    <div class="pixel-canvas-container">
+                                        <div class="pixel-canvas-wrapper">
+                                            <h4>原图</h4>
+                                            <canvas id="originalCanvas"></canvas>
+                                        </div>
+                                        <div class="pixel-canvas-wrapper">
+                                            <h4>像素风格</h4>
+                                            <canvas id="pixelCanvas"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="pixel-controls-area">
+                                    <div class="pixel-control-panel">
+                                        <h4>调整参数</h4>
+                                        
+                                        <div class="pixel-control-group">
+                                            <label>图像信息</label>
+                                            <div class="pixel-info-item">
+                                                <span class="pixel-info-label">文件大小:</span>
+                                                <span class="pixel-info-value" id="pixelFileSize">--</span>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="pixel-control-group">
+                                            <label for="pixelSize">像素大小: <span id="pixelSizeValue">8</span></label>
+                                            <input type="range" id="pixelSize" min="2" max="20" value="8" />
+                                        </div>
+                                        
+                                        <div class="pixel-control-group">
+                                            <label>增强选项</label>
+                                            <div class="pixel-checkbox-group">
+                                                <label class="pixel-checkbox-label">
+                                                    <input type="checkbox" id="enhancePixel">
+                                                    <span class="pixel-checkmark"></span>
+                                                    增强边缘细节
+                                                </label>
+                                                <label class="pixel-checkbox-label">
+                                                    <input type="checkbox" id="colorReduction">
+                                                    <span class="pixel-checkmark"></span>
+                                                    减少颜色数量
+                                                </label>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="pixel-action-buttons">
+                                            <button id="pixelResetBtn" class="pixel-btn pixel-btn-secondary">
+                                                <i class="fa-solid fa-undo"></i> 重置
+                                            </button>
+                                            <button id="downloadBtn" class="pixel-btn pixel-btn-primary" disabled>
+                                                <i class="fa-solid fa-download"></i> 下载
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="pixel-results-section">
+                            <div class="pixel-results-header">
+                                <h4>处理结果</h4>
+                                <button id="clearPixelResults" class="pixel-clear-btn" style="display: none;">
+                                    <i class="fa-solid fa-trash"></i> 清空
+                                </button>
+                            </div>
+                            <div class="pixel-results-grid" id="pixelResultsGrid"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tool-content" id="resize-image-tool">
+                    <div class="resize-image-container">
+                        <div class="resize-image-header">
+                            <h3>专业图像调整工具</h3>
+                            <p>高级图像尺寸与清晰度调整</p>
+                        </div>
+                        
+                        <div class="resize-pro-ui">
+                            <div class="resize-pro-upload-container">
+                                <label for="resizeImageUpload" class="resize-pro-upload-btn">
+                                    <i class="fa-solid fa-image"></i> 选择图片
+                                </label>
+                                <input type="file" id="resizeImageUpload" accept="image/png" multiple>
+                                <p class="resize-pro-upload-hint">支持PNG格式，可多选</p>
+                            </div>
+                            
+                            <!-- 图片编辑对话框 -->
+                            <div class="resize-pro-overlay" id="resizeProOverlay" style="display: none;"></div>
+                            <div class="resize-pro-dialog" id="resizeProDialog" style="display: none;">
+                                <div class="resize-pro-dialog-header">
+                                    <div class="resize-pro-window-controls">
+                                        <div class="resize-pro-control resize-pro-close" id="resizeProCloseBtn"></div>
+                                        <div class="resize-pro-control resize-pro-minimize"></div>
+                                        <div class="resize-pro-control resize-pro-maximize" id="resizeProMaximizeBtn"></div>
+                                    </div>
+                                    <span>图像大小</span>
+                                    <div class="resize-pro-drag-handle" id="resizeDragHandle"></div>
+                                </div>
+                                <div class="resize-pro-resize-handle" id="resizeProResizeHandle"></div>
+                                
+                                <div class="resize-pro-dialog-content">
+                                    <div class="resize-pro-preview">
+                                        <div class="resize-pro-preview-container" id="resizeProPreviewContainer">
+                                            <div class="resize-pro-preview-placeholder">
+                                                <i class="fa-solid fa-image"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="resize-pro-controls">
+                                        <div class="resize-pro-file-info">
+                                            <div class="resize-pro-info-row">
+                                                <span class="resize-pro-info-label">图像大小:</span>
+                                                <span class="resize-pro-info-value" id="resizeProFileSize">--</span>
+                                            </div>
+                                            
+                                            <div class="resize-pro-info-row">
+                                                <span class="resize-pro-info-label">尺寸:</span>
+                                                <div class="resize-pro-dimensions-input">
+                                                    <div class="resize-pro-dimension-with-unit">
+                                                        <input type="number" id="resizeWidth" min="1" max="4000" value="512">
+                                                        <span>像素</span>
+                                                    </div>
+                                                    <span class="resize-pro-dimension-separator">×</span>
+                                                    <div class="resize-pro-dimension-with-unit">
+                                                        <input type="number" id="resizeHeight" min="1" max="4000" value="512">
+                                                        <span>像素</span>
+                                                    </div>
+                                                    <div class="resize-pro-lock-aspect">
+                                                        <input type="checkbox" id="maintainAspect" checked>
+                                                        <label for="maintainAspect"><i class="fa-solid fa-link"></i></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="resize-pro-info-row">
+                                                <span class="resize-pro-info-label">调整为:</span>
+                                                <div class="resize-pro-select-wrapper">
+                                                    <select id="resizePreset">
+                                                        <option value="custom">自定义尺寸</option>
+                                                        <option value="tg-sticker">Telegram贴纸 (512×512)</option>
+                                                        <option value="ig-post">Instagram方形 (1080×1080)</option>
+                                                        <option value="discord">Discord表情 (128×128)</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="resize-pro-info-row">
+                                                <span class="resize-pro-info-label">分辨率(R):</span>
+                                                <div class="resize-pro-resolution-input">
+                                                    <input type="number" id="resizeDpi" min="1" max="600" value="72">
+                                                    <div class="resize-pro-select-wrapper resize-pro-dpi-unit">
+                                                        <select id="resizeDpiUnit">
+                                                            <option value="ppi">像素/英寸</option>
+                                                            <option value="ppc">像素/厘米</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="resize-pro-info-row">
+                                                <span class="resize-pro-info-label">重新采样(S):</span>
+                                                <div class="resize-pro-select-wrapper">
+                                                    <select id="resizeSampling">
+                                                        <option value="auto">自动</option>
+                                                        <option value="bicubic">双三次</option>
+                                                        <option value="bilinear">双线性</option>
+                                                        <option value="lanczos">Lanczos</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="resize-pro-separator"></div>
+                                            
+                                            <div class="resize-pro-enhance-options">
+                                                <div class="resize-pro-checkbox-row">
+                                                    <input type="checkbox" id="enhanceResolution" class="resize-pro-checkbox">
+                                                    <label for="enhanceResolution">增强清晰度</label>
+                                                </div>
+                                                
+                                                <div class="resize-pro-enhance-sliders" id="enhanceSliderContainer" style="display: none;">
+                                                    <div class="resize-pro-slider-row">
+                                                        <label for="enhanceLevel">增强强度:</label>
+                                                        <div class="resize-pro-slider-control">
+                                                            <input type="range" id="enhanceLevel" min="1" max="10" value="5">
+                                                            <span id="enhanceLevelValue">5</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="resize-pro-checkbox-row">
+                                                    <input type="checkbox" id="makeTgSticker" class="resize-pro-checkbox">
+                                                    <label for="makeTgSticker">优化为Telegram贴纸</label>
+                                                </div>
+                                                
+                                                <div class="resize-pro-link-row" id="copyImageLink">
+                                                    <i class="fa-solid fa-link"></i>
+                                                    <span>复制图片链接</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="resize-pro-dialog-buttons">
+                                            <button id="resizeProCancelBtn" class="resize-pro-btn resize-pro-btn-cancel">取消</button>
+                                            <button id="resizeProApplyBtn" class="resize-pro-btn resize-pro-btn-apply">确定</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="resize-progress-container" style="display:none;">
+                                <div class="resize-progress-text">处理中 (<span id="resizeProgressCount">0</span>/<span id="resizeTotalCount">0</span>)</div>
+                                <div class="resize-progress-bar">
+                                    <div class="resize-progress-fill" style="width: 0%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="resize-pro-results">
+                                <div class="resize-pro-results-header">
+                                    <h4>已处理的图像</h4>
+                                    <button id="downloadAllResizedBtn" class="resize-pro-btn resize-pro-btn-download" style="display:none;">
+                                        <i class="fa-solid fa-download"></i> 下载全部
+                                    </button>
+                                </div>
+                                <div class="resize-images-grid" id="resizeImagesGrid"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tool-content" id="subscription-tool">
+                    <div class="subscription-container">
+                        <div class="subscription-header">
+                            <h3>订阅查询系统</h3>
+                            <p>查询您的订阅信息、流量使用和到期时间</p>
+                        </div>
+                        
+                        <div class="sub-query-section">
+                            <form id="subscriptionForm" onsubmit="return false;">
+                                <div class="sub-input-wrapper">
+                                    <div class="sub-input-icon">
+                                        <i class="fa-solid fa-link"></i>
+                                    </div>
+                                    <input type="text" id="subUrl" placeholder="请输入订阅链接..." required>
+                                    <button type="button" id="subSubmitBtn" class="sub-submit-btn">
+                                        <i class="fa-solid fa-search"></i> 查询
+                                    </button>
+                                </div>
+                            </form>
+                            
+                            <div class="sub-history-section" id="subHistorySection">
+                                <div class="sub-history-header">
+                                    <h4>查询历史</h4>
+                                    <button id="clearSubHistoryBtn" class="sub-clear-history-btn">
+                                        <i class="fa-solid fa-trash"></i> 清空
+                                    </button>
+                                </div>
+                                <div class="sub-history-container" id="subHistoryContainer"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- 订阅查询对话框 -->
+                        <div class="sub-dialog-overlay" id="subDialogOverlay"></div>
+                        <div class="sub-dialog" id="subDialog">
+                            <div class="sub-dialog-header">
+                                <div class="sub-window-controls">
+                                    <div class="sub-control sub-close" id="subCloseBtn"></div>
+                                    <div class="sub-control sub-minimize"></div>
+                                    <div class="sub-control sub-maximize" id="subMaximizeBtn"></div>
+                                </div>
+                                <span>订阅信息详情</span>
+                                <div class="sub-drag-handle" id="subDragHandle"></div>
+                            </div>
+                            <div class="sub-resize-handle" id="subResizeHandle"></div>
+                            
+                            <div class="sub-dialog-content">
+                                <div class="sub-dialog-main">
+                                    <div class="sub-loading-overlay" id="subLoadingOverlay" style="display: none;">
+                                        <div class="sub-loading-spinner"></div>
+                                        <p>正在查询订阅信息...</p>
+                                    </div>
+                                    
+                                    <div class="sub-result-content" id="subResultContent" style="display: none;">
+                                        <div class="sub-result-header">
+                                            <h4>订阅信息详情</h4>
+                                            <div class="sub-result-actions">
+                                                <button id="subCopyBtn" class="sub-action-btn sub-btn-copy">
+                                                    <i class="fa-solid fa-copy"></i> 复制信息
+                                                </button>
+                                                <button id="subDownloadImageBtn" class="sub-action-btn sub-btn-download">
+                                                    <i class="fa-solid fa-download"></i> 生成图片
+                                                </button>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="sub-result-layout">
+                                            <div class="sub-info-panel">
+                                                <div class="sub-basic-info">
+                                                    <h5>基本信息</h5>
+                                                    <div class="sub-result-grid" id="subResultGrid"></div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="sub-stats-panel">
+                                                <div class="sub-data-overview">
+                                                    <h5>流量概况</h5>
+                                                    <div class="sub-data-cards" id="subDataCards" style="display: none;">
+                                                        <div class="sub-data-card">
+                                                            <div class="sub-data-icon">
+                                                                <i class="fa-solid fa-arrow-up"></i>
+                                                            </div>
+                                                            <div class="sub-data-info">
+                                                                <div class="sub-data-value" id="subUploadValue">--</div>
+                                                                <div class="sub-data-label">上传流量</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="sub-data-card">
+                                                            <div class="sub-data-icon">
+                                                                <i class="fa-solid fa-arrow-down"></i>
+                                                            </div>
+                                                            <div class="sub-data-info">
+                                                                <div class="sub-data-value" id="subDownloadValue">--</div>
+                                                                <div class="sub-data-label">下载流量</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="sub-data-card">
+                                                            <div class="sub-data-icon">
+                                                                <i class="fa-solid fa-database"></i>
+                                                            </div>
+                                                            <div class="sub-data-info">
+                                                                <div class="sub-data-value" id="subRemainingValue">--</div>
+                                                                <div class="sub-data-label">剩余流量</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="sub-progress-section">
+                                                    <h5>使用情况</h5>
+                                                    <div class="sub-progress-container" id="subProgressContainer" style="display: none;">
+                                                        <div class="sub-progress-header">
+                                                            <span class="sub-progress-title">流量使用率</span>
+                                                            <span class="sub-progress-percent" id="subProgressPercent">0%</span>
+                                                        </div>
+                                                        <div class="sub-progress-bar">
+                                                            <div class="sub-progress-fill" id="subProgressFill" style="width: 0%"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="sub-image-section" id="subImagePreview" style="display: none;">
+                                            <h5>生成的图片</h5>
+                                            <div class="sub-image-container"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </main>
             
             <div class="floating-elements">
@@ -3647,7 +4066,7 @@
             });
 
             function createBubbles() {
-                const container = document.querySelector('.container');
+                const container = document.querySelector('.modern-container');
                 const bubbleCount = 10;
                 
                 const bubblesContainer = document.createElement('div');
